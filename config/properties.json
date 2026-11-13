@@ -1,0 +1,105 @@
+{
+  "chain": "Aurelian Collection",
+  "reporting_currency": "USD",
+  "fiscal_year_start_month": 1,
+  "brands": [
+    {"brand_id": "RSV", "name": "Aurelian Reserve", "positioning": "Ultra-luxury city and heritage hotels"},
+    {"brand_id": "RST", "name": "Aurelian Resorts", "positioning": "Luxury destination resorts with waterparks"}
+  ],
+  "properties": [
+    {
+      "property_id": "P001", "name": "Aurelian Reserve Lake Como", "short": "Lake Como", "brand_id": "RSV",
+      "region": "Europe", "country": "IT", "city": "Como", "currency": "EUR", "timezone": "Europe/Rome",
+      "pms": "staysuite", "source_code": "SS-COMO", "erp_code": "1001",
+      "rooms": {"DLX": 48, "PRM": 32, "STE": 22, "VIL": 8},
+      "base_adr_usd": 820, "base_occ": 0.70, "season": "north_summer", "trend": 0.05, "cost_factor": 1.0,
+      "restaurants": [
+        {"code": "COM-R1", "name": "Il Lago", "type": "fine", "seats": 64, "tables": 22, "capture": 0.20, "local": 34},
+        {"code": "COM-R2", "name": "Terrazza Giardino", "type": "allday", "seats": 90, "tables": 30, "capture": 0.42, "local": 18}
+      ],
+      "stores": [{"code": "COM-S1", "name": "Aurelian Boutique Como", "traffic": 0.9}],
+      "spa": {"code": "COM-SPA", "name": "Aurelian Spa Lake Como", "therapists": 7, "capture": 0.050, "local": 6}
+    },
+    {
+      "property_id": "P002", "name": "Aurelian Reserve London", "short": "London", "brand_id": "RSV",
+      "region": "Europe", "country": "GB", "city": "London", "currency": "GBP", "timezone": "Europe/London",
+      "pms": "innkeeper", "source_code": "IK-LON", "erp_code": "1002",
+      "rooms": {"DLX": 70, "PRM": 44, "STE": 22, "VIL": 4},
+      "base_adr_usd": 760, "base_occ": 0.72, "season": "city_eu", "trend": 0.02, "cost_factor": 1.32,
+      "restaurants": [
+        {"code": "LON-R1", "name": "The Mayfair Room", "type": "fine", "seats": 70, "tables": 24, "capture": 0.16, "local": 58},
+        {"code": "LON-R2", "name": "Aurelian Brasserie", "type": "allday", "seats": 110, "tables": 36, "capture": 0.36, "local": 46}
+      ],
+      "stores": [{"code": "LON-S1", "name": "Aurelian Boutique London", "traffic": 0.8}],
+      "spa": {"code": "LON-SPA", "name": "Aurelian Spa London", "therapists": 6, "capture": 0.040, "local": 12}
+    },
+    {
+      "property_id": "P003", "name": "Aurelian Resort Dubai Palm", "short": "Dubai Palm", "brand_id": "RST",
+      "region": "Middle East", "country": "AE", "city": "Dubai", "currency": "AED", "timezone": "Asia/Dubai",
+      "pms": "staysuite", "source_code": "SS-DXB", "erp_code": "2001",
+      "rooms": {"DLX": 170, "PRM": 96, "STE": 42, "VIL": 12},
+      "base_adr_usd": 540, "base_occ": 0.74, "season": "gulf", "trend": 0.06, "cost_factor": 0.95,
+      "restaurants": [
+        {"code": "DXB-R1", "name": "Saffron & Sea", "type": "fine", "seats": 90, "tables": 30, "capture": 0.10, "local": 40},
+        {"code": "DXB-R2", "name": "Palm Pavilion", "type": "allday", "seats": 180, "tables": 56, "capture": 0.26, "local": 22},
+        {"code": "DXB-R3", "name": "Lagoon Grill", "type": "pool", "seats": 120, "tables": 40, "capture": 0.13, "local": 30}
+      ],
+      "stores": [
+        {"code": "DXB-S1", "name": "Aurelian Boutique Dubai", "traffic": 1.3},
+        {"code": "DXB-S2", "name": "Splash Shop Dubai", "traffic": 1.1, "park": true}
+      ],
+      "spa": {"code": "DXB-SPA", "name": "Aurelian Spa Dubai", "therapists": 11, "capture": 0.042, "local": 10},
+      "waterpark": {"code": "DXB-WP", "name": "Aurelian Aquaventure Dubai", "capacity": 1650, "day_visitors": 1150, "guest_capture": 0.34}
+    },
+    {
+      "property_id": "P004", "name": "Aurelian Reserve Doha", "short": "Doha", "brand_id": "RSV",
+      "region": "Middle East", "country": "QA", "city": "Doha", "currency": "QAR", "timezone": "Asia/Qatar",
+      "pms": "innkeeper", "source_code": "IK-DOH", "erp_code": "2002",
+      "rooms": {"DLX": 96, "PRM": 52, "STE": 26, "VIL": 6},
+      "base_adr_usd": 470, "base_occ": 0.62, "season": "gulf", "trend": 0.03, "cost_factor": 1.0,
+      "restaurants": [
+        {"code": "DOH-R1", "name": "Pearl Majlis", "type": "fine", "seats": 76, "tables": 26, "capture": 0.15, "local": 36},
+        {"code": "DOH-R2", "name": "Corniche Kitchen", "type": "allday", "seats": 120, "tables": 38, "capture": 0.38, "local": 20}
+      ],
+      "stores": [{"code": "DOH-S1", "name": "Aurelian Boutique Doha", "traffic": 0.7}],
+      "spa": {"code": "DOH-SPA", "name": "Aurelian Spa Doha", "therapists": 10, "capture": 0.030, "local": 5}
+    },
+    {
+      "property_id": "P005", "name": "Aurelian Resort Phuket", "short": "Phuket", "brand_id": "RST",
+      "region": "Asia Pacific", "country": "TH", "city": "Phuket", "currency": "THB", "timezone": "Asia/Bangkok",
+      "pms": "staysuite", "source_code": "SS-HKT", "erp_code": "3001",
+      "rooms": {"DLX": 130, "PRM": 80, "STE": 34, "VIL": 16},
+      "base_adr_usd": 390, "base_occ": 0.71, "season": "tropical", "trend": 0.05, "cost_factor": 0.78,
+      "restaurants": [
+        {"code": "HKT-R1", "name": "Andaman Table", "type": "fine", "seats": 80, "tables": 28, "capture": 0.11, "local": 26},
+        {"code": "HKT-R2", "name": "Coconut Grove", "type": "allday", "seats": 160, "tables": 50, "capture": 0.28, "local": 14},
+        {"code": "HKT-R3", "name": "Tide Pool Bar & Grill", "type": "pool", "seats": 100, "tables": 34, "capture": 0.14, "local": 22}
+      ],
+      "stores": [
+        {"code": "HKT-S1", "name": "Aurelian Boutique Phuket", "traffic": 1.0},
+        {"code": "HKT-S2", "name": "Splash Shop Phuket", "traffic": 0.8, "park": true}
+      ],
+      "spa": {"code": "HKT-SPA", "name": "Aurelian Spa Phuket", "therapists": 10, "capture": 0.052, "local": 8},
+      "waterpark": {"code": "HKT-WP", "name": "Aurelian Lagoon Park Phuket", "capacity": 1000, "day_visitors": 640, "guest_capture": 0.36}
+    },
+    {
+      "property_id": "P006", "name": "Aurelian Reserve Singapore", "short": "Singapore", "brand_id": "RSV",
+      "region": "Asia Pacific", "country": "SG", "city": "Singapore", "currency": "SGD", "timezone": "Asia/Singapore",
+      "pms": "innkeeper", "source_code": "IK-SIN", "erp_code": "3002",
+      "rooms": {"DLX": 104, "PRM": 60, "STE": 30, "VIL": 6},
+      "base_adr_usd": 610, "base_occ": 0.78, "season": "city_asia", "trend": 0.04, "cost_factor": 1.05,
+      "restaurants": [
+        {"code": "SIN-R1", "name": "Straits Lantern", "type": "fine", "seats": 72, "tables": 24, "capture": 0.15, "local": 52},
+        {"code": "SIN-R2", "name": "Marina Commons", "type": "allday", "seats": 130, "tables": 42, "capture": 0.36, "local": 34}
+      ],
+      "stores": [{"code": "SIN-S1", "name": "Aurelian Boutique Singapore", "traffic": 1.0}],
+      "spa": {"code": "SIN-SPA", "name": "Aurelian Spa Singapore", "therapists": 7, "capture": 0.042, "local": 13}
+    }
+  ],
+  "room_types": [
+    {"room_type": "DLX", "name": "Deluxe Room", "rate_mult": 0.74, "occ_mult": 1.04},
+    {"room_type": "PRM", "name": "Premier Room", "rate_mult": 1.0, "occ_mult": 1.0},
+    {"room_type": "STE", "name": "Suite", "rate_mult": 1.65, "occ_mult": 0.92},
+    {"room_type": "VIL", "name": "Signature Villa / Penthouse", "rate_mult": 3.1, "occ_mult": 0.80}
+  ]
+}

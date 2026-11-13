@@ -1,0 +1,15 @@
+{
+  "_comment": "Simulated sign-in personas. In production these are Microsoft Entra ID groups; 'properties' and 'verticals' become Power BI row-level security roles and Fabric workspace permissions. '*' means all.",
+  "personas": [
+    {"id": "ceo", "name": "Elena Laurent", "title": "Chief Executive Officer", "scope": "Enterprise", "properties": "*", "verticals": "*", "can_approve": true, "can_export": true, "can_admin": true},
+    {"id": "cfo", "name": "Daniel Fischer", "title": "Chief Financial Officer", "scope": "Enterprise", "properties": "*", "verticals": "*", "can_approve": true, "can_export": true, "can_admin": false},
+    {"id": "cco", "name": "Amira Haddad", "title": "Chief Commercial Officer", "scope": "Enterprise", "properties": "*", "verticals": ["Hotels", "Restaurants", "Waterpark", "Retail", "Spa & Leisure", "Marketing"], "can_approve": true, "can_export": true, "can_admin": false},
+    {"id": "rd_me", "name": "Khalid Al-Mansoori", "title": "Regional Director, Middle East", "scope": "Region", "properties": ["P003", "P004"], "verticals": "*", "can_approve": true, "can_export": true, "can_admin": false},
+    {"id": "gm_dxb", "name": "Sofia Moretti", "title": "General Manager, Dubai Palm", "scope": "Property", "properties": ["P003"], "verticals": "*", "can_approve": true, "can_export": true, "can_admin": false},
+    {"id": "rev_como", "name": "Marco Bianchi", "title": "Revenue Manager, Lake Como", "scope": "Department", "properties": ["P001"], "verticals": ["Hotels"], "can_approve": true, "can_export": false, "can_admin": false},
+    {"id": "fb_hkt", "name": "Mei Tan", "title": "Director of Food & Beverage, Phuket", "scope": "Department", "properties": ["P005"], "verticals": ["Restaurants"], "can_approve": true, "can_export": false, "can_admin": false},
+    {"id": "mkt", "name": "Chloe Dubois", "title": "Group Director of Marketing", "scope": "Enterprise", "properties": "*", "verticals": ["Marketing", "Hotels"], "can_approve": true, "can_export": true, "can_admin": false},
+    {"id": "fin_analyst", "name": "Ravi Mehta", "title": "Finance Analyst (read-only)", "scope": "Enterprise", "properties": "*", "verticals": ["Finance"], "can_approve": false, "can_export": true, "can_admin": false},
+    {"id": "steward", "name": "Hana Sato", "title": "Enterprise Data Steward", "scope": "Enterprise", "properties": "*", "verticals": "*", "can_approve": false, "can_export": false, "can_admin": true}
+  ]
+}

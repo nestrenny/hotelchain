@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hip",
+      "runtimeExecutable": ".venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "-m",
+        "uvicorn",
+        "hip.api.app:app",
+        "--port",
+        "8000"
+      ],
+      "port": 8000
+    }
+  ]
+}
