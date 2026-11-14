@@ -151,6 +151,8 @@ OWNERS = [  # dataset keyword -> (domain, data owner, data steward)
     (("restaurant", "menu", "table_res", "pos_"), ("Restaurants", "VP Food & Beverage", "F&B Data Steward")),
     (("waterpark", "attraction", "park"), ("Waterpark", "VP Leisure Operations", "Leisure Data Steward")),
     (("retail", "inventory", "product"), ("Retail", "Director of Retail", "Retail Data Steward")),
+    (("energy", "meter", "weather", "asset", "device", "work_order", "bms_", "cmms", "iot_", "peak_demand", "water_leak", "vacant_room", "maintenance", "replacement", "capex", "warranty", "contract"),
+     ("Engineering & Energy", "Group Director of Engineering", "Engineering Data Steward")),
     (("spa",), ("Spa & Leisure", "Director of Spa & Wellness", "Leisure Data Steward")),
     (("campaign", "customer", "loyalty", "guest", "crm", "marketing"), ("Marketing", "Chief Commercial Officer", "CRM Data Steward")),
     (("gl_", "financ", "budget", "procure", "purchase", "supplier", "fx", "currency"), ("Finance", "Chief Financial Officer", "Finance Data Steward")),
@@ -176,6 +178,8 @@ def build_catalog(con, run_id: str) -> None:
     for col, cls in PII.items():
         con.execute("UPDATE ops.catalog_columns SET classification = ? WHERE column_name = ?", [cls, col])
     con.execute("UPDATE ops.catalog_columns SET classification = 'Confidential (financial)' WHERE classification = 'Internal' AND (column_name LIKE '%amount%' OR column_name LIKE '%budget%' OR column_name LIKE '%cost%')")
+    import pandas as pd
+    con.register("_kpi_df", pd.DataFrame(load("kpi_definitions.json")["kpis"]))
     con.execute("CREATE OR REPLACE TABLE ops.kpi_glossary AS SELECT * FROM _kpi_df")
 
 

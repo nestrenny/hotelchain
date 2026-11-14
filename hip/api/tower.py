@@ -137,7 +137,7 @@ def forecast_options(con, scope, props: list[str]) -> list[dict]:
 
 
 def forecast(con, scope, metric: str, property_id: str, entity_id: str, horizon: int) -> dict:
-    from hip.ai.forecasting import FAMILIES
+    from hip.ai.families import FAMILIES
 
     if metric not in FAMILIES:
         raise HTTPException(404, "Unknown forecast")

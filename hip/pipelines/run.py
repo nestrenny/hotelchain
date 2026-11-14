@@ -1,7 +1,7 @@
 """Pipeline orchestrator (stands in for Data Factory / Fabric pipeline orchestration).
 
-    python -m hip.pipelines.run all        # generate -> bronze -> silver -> gold -> quality -> ai
-    python -m hip.pipelines.run bronze     # a single stage (also: generate, silver, gold, quality, ai)
+    python -m hip.pipelines.run all        # generate -> bronze -> silver -> gold -> quality -> ai -> energy
+    python -m hip.pipelines.run bronze     # a single stage (also: generate, silver, gold, quality, ai, energy)
 """
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-STAGES = ["generate", "bronze", "silver", "gold", "quality", "ai"]
+STAGES = ["generate", "bronze", "silver", "gold", "quality", "ai", "energy"]
 
 
 def main(argv: list[str]) -> None:
@@ -44,6 +44,10 @@ def main(argv: list[str]) -> None:
         from hip.ai import run as ai_run
         ai_run.run(con, run_id)
         from hip.pipelines import gold
+        gold.build_catalog(con, run_id)
+    if "energy" in stages:
+        from hip.pipelines import energy, gold
+        energy.run(con, run_id)
         gold.build_catalog(con, run_id)
     con.close()
     print(f"Run {run_id} finished in {time.time() - t0:.0f}s: {', '.join(stages)}")

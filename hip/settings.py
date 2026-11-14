@@ -23,7 +23,7 @@ HISTORY_START = date.fromisoformat(os.environ.get("HIP_HISTORY_START", "2024-11-
 FORECAST_HORIZON = 90
 REPORTING_CCY = "USD"
 
-VERTICALS = ["Hotels", "Restaurants", "Waterpark", "Retail", "Spa & Leisure", "Marketing", "Finance"]
+VERTICALS = ["Hotels", "Restaurants", "Waterpark", "Retail", "Spa & Leisure", "Marketing", "Finance", "Engineering & Energy"]
 REVENUE_VERTICALS = ["Hotels", "Restaurants", "Waterpark", "Retail", "Spa & Leisure"]
 
 

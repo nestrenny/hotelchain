@@ -10,6 +10,7 @@
     {"id": "fb_hkt", "name": "Mei Tan", "title": "Director of Food & Beverage, Phuket", "scope": "Department", "properties": ["P005"], "verticals": ["Restaurants"], "can_approve": true, "can_export": false, "can_admin": false},
     {"id": "mkt", "name": "Chloe Dubois", "title": "Group Director of Marketing", "scope": "Enterprise", "properties": "*", "verticals": ["Marketing", "Hotels"], "can_approve": true, "can_export": true, "can_admin": false},
     {"id": "fin_analyst", "name": "Ravi Mehta", "title": "Finance Analyst (read-only)", "scope": "Enterprise", "properties": "*", "verticals": ["Finance"], "can_approve": false, "can_export": true, "can_admin": false},
+    {"id": "eng", "name": "Tariq Al-Farsi", "title": "Group Director of Engineering", "scope": "Enterprise", "properties": "*", "verticals": ["Engineering & Energy"], "can_approve": false, "can_export": true, "can_admin": false},
     {"id": "steward", "name": "Hana Sato", "title": "Enterprise Data Steward", "scope": "Enterprise", "properties": "*", "verticals": "*", "can_approve": false, "can_export": false, "can_admin": true}
   ]
 }

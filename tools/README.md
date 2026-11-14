@@ -8,6 +8,8 @@ Regenerates the two documents in `docs/` from the running app, so they always ma
 .\.venv\Scripts\python.exe tools\capture_screens.py          # screenshots of every card block and panel (uses installed Edge)
 .\.venv\Scripts\python.exe tools\build_guide.py              # docs\Dashboard User Guide.docx
 .\.venv\Scripts\python.exe tools\build_deck.py               # docs\Leadership Briefing.pptx
+.\.venv\Scripts\python.exe -m pip install imageio-ffmpeg piper-tts
+.\.venv\Scripts\python.exe tools\build_video.py              # docs\Platform Explainer.mp4 and .srt
 powershell -ExecutionPolicy Bypass -File tools\render_office.ps1 -Docx "docs\Dashboard User Guide.docx" -OutDir data\docs_build\render
 ```
 
@@ -17,3 +19,9 @@ powershell -ExecutionPolicy Bypass -File tools\render_office.ps1 -Docx "docs\Das
   PowerPoint charts and appear as outlined placeholders in those previews.
 - `render_office.ps1` uses Word to update the table of contents and export a review PDF. It runs Word in its own
   hidden process and does not touch PowerPoint.
+- `build_video.py` holds the storyline and narration in its `STORY` list: one line per shot, with the page, the area to focus on, the caption and
+  the words spoken. It captures each page at full length, moves a virtual camera over it (zooming to and highlighting each focus area in time
+  with the narration), and encodes with the ffmpeg bundled in `imageio-ffmpeg`. Narration uses the offline Piper neural voice
+  `en_US-ryan-high`; install it with `pip install piper-tts` and
+  `python -m piper.download_voices en_US-ryan-high --download-dir data/voices`. No text is sent to an online service.
+  Add `--no-capture` to reuse the last captures.

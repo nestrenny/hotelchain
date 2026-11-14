@@ -6,20 +6,39 @@ from __future__ import annotations
 
 import csv
 import io
+import os
 from contextlib import contextmanager
 from datetime import date, timedelta
 
 import duckdb
 from fastapi import Body, Depends, FastAPI, HTTPException, Query
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from hip.api import tower, workflow
 from hip.api.dashboards import DASHBOARDS, Ctx
+from hip.api.energy import VERTICAL as ENERGY_VERTICAL, energy as energy_page
 from hip.api.security import Scope, clean, get_scope
 from hip.settings import AS_OF, HISTORY_START, IMG, LAKE, WEB, load
 
+DASHBOARDS["energy"] = (energy_page, ENERGY_VERTICAL)      # same page spec and renderer as the dashboards
+
 app = FastAPI(title="Aurelian Collection - Hospitality Intelligence Platform", docs_url="/api/docs", openapi_url="/api/openapi.json")
+
+
+# On a small host (the free Azure tier has 1 GB of memory) cap what each query may use.
+DUCKDB_CONFIG = {k: v for k, v in {"memory_limit": os.environ.get("HIP_DUCKDB_MEMORY"), "threads": os.environ.get("HIP_DUCKDB_THREADS")}.items() if v}
+PUBLIC_DEMO = os.environ.get("HIP_PUBLIC_DEMO") == "1"
+app.add_middleware(GZipMiddleware, minimum_size=1024)      # page data and scripts compress about five-fold
+
+
+@app.middleware("http")
+async def demo_headers(request, call_next):
+    response = await call_next(request)
+    if PUBLIC_DEMO:                      # a public demo of synthetic data should not be indexed by search engines
+        response.headers["X-Robots-Tag"] = "noindex, nofollow"
+    return response
 
 
 @contextmanager
@@ -28,7 +47,7 @@ def lake():
     if not LAKE.exists():
         raise HTTPException(503, "The lakehouse has not been built yet. Run: python -m hip.pipelines.run all")
     try:
-        con = duckdb.connect(str(LAKE), read_only=True)
+        con = duckdb.connect(str(LAKE), read_only=True, config=DUCKDB_CONFIG)
     except duckdb.Error as exc:
         raise HTTPException(503, f"The lakehouse is being refreshed. Try again shortly. ({str(exc)[:120]})")
     try:
@@ -92,6 +111,8 @@ def export(name: str, panel: int, properties: str | None = None, start: str | No
             raise HTTPException(404, "Unknown panel")
         p = spec["panels"][panel]
         title = p["title"]
+        if p["type"] == "section":
+            raise HTTPException(404, "Section headings cannot be exported")
         if p["type"] == "table":
             cols, rows = [c["label"] for c in p["columns"]], [[r.get(c["key"]) for c in p["columns"]] for r in p["rows"]]
         elif p["type"] == "line":
@@ -184,7 +205,7 @@ def tower_models(scope: Scope = Depends(get_scope)):
 def platform(scope: Scope = Depends(get_scope)):
     with lake() as con:
         q = lambda s: con.execute(s).df()  # noqa: E731
-        src = {s["id"]: s for s in load("sources.json")["sources"]}
+        src = {s["id"]: s for s in load("sources.json")["sources"] + load("energy.json")["sources"]}
         ing = q("""SELECT * FROM ops.ingestion_log QUALIFY row_number() OVER (PARTITION BY source_id ORDER BY started_at DESC) = 1 ORDER BY domain, source_id""")
         ing["connector"] = ing["source_id"].map(lambda s: src.get(s, {}).get("connector"))
         ing["frequency_minutes"] = ing["source_id"].map(lambda s: src.get(s, {}).get("frequency_minutes"))

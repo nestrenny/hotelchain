@@ -1,0 +1,47 @@
+{
+  "_comment": "Engineering and energy configuration: tariffs, carbon factors, climate, device catalogue and the source feeds of the building-management (BMS), IoT, maintenance (CMMS) and contract systems. All values are assumptions for the synthetic estate.",
+  "properties": {
+    "P001": {"tariff_usd_kwh": 0.24, "water_usd_m3": 3.1, "carbon_kg_kwh": 0.26, "setback": 0.20, "monthly_temp_c": [4, 6, 10, 14, 18, 23, 26, 25, 21, 15, 9, 5], "cohort_year": 2016},
+    "P002": {"tariff_usd_kwh": 0.31, "water_usd_m3": 3.6, "carbon_kg_kwh": 0.21, "setback": 0.22, "monthly_temp_c": [5, 6, 8, 11, 14, 18, 20, 20, 17, 13, 8, 6], "cohort_year": 2013},
+    "P003": {"tariff_usd_kwh": 0.11, "water_usd_m3": 2.9, "carbon_kg_kwh": 0.40, "setback": 0.16, "monthly_temp_c": [20, 21, 24, 28, 33, 35, 37, 37, 34, 31, 26, 22], "cohort_year": 2019},
+    "P004": {"tariff_usd_kwh": 0.09, "water_usd_m3": 2.4, "carbon_kg_kwh": 0.49, "setback": 0.55, "monthly_temp_c": [18, 19, 23, 28, 34, 36, 37, 37, 34, 30, 25, 20], "cohort_year": 2015},
+    "P005": {"tariff_usd_kwh": 0.13, "water_usd_m3": 1.1, "carbon_kg_kwh": 0.47, "setback": 0.24, "monthly_temp_c": [28, 29, 30, 30, 29, 29, 28, 28, 28, 28, 28, 28], "cohort_year": 2017},
+    "P006": {"tariff_usd_kwh": 0.22, "water_usd_m3": 2.2, "carbon_kg_kwh": 0.41, "setback": 0.18, "monthly_temp_c": [27, 27, 28, 28, 29, 29, 28, 28, 28, 28, 27, 27], "cohort_year": 2018}
+  },
+  "target_vacant_setback_ratio": 0.15,
+  "device_types": [
+    {"type": "Fan coil unit", "scope": "room", "life_years": 12, "replacement_usd": 1800, "monthly_failure": 0.006, "corrective_usd": 420, "preventive_usd": 90, "warranty_years": 2, "part": "Fan motor or valve actuator", "tech_hours": 2.5, "room_out_of_order": 0.5},
+    {"type": "Smart thermostat", "scope": "room", "life_years": 8, "replacement_usd": 260, "monthly_failure": 0.004, "corrective_usd": 140, "preventive_usd": 30, "warranty_years": 2, "part": "Thermostat unit", "tech_hours": 0.7, "room_out_of_order": 0.1},
+    {"type": "Door lock", "scope": "room", "life_years": 9, "replacement_usd": 420, "monthly_failure": 0.005, "corrective_usd": 160, "preventive_usd": 25, "warranty_years": 2, "part": "Battery pack or lock case", "tech_hours": 0.8, "room_out_of_order": 0.4},
+    {"type": "Minibar fridge", "scope": "room", "life_years": 7, "replacement_usd": 520, "monthly_failure": 0.006, "corrective_usd": 210, "preventive_usd": 35, "warranty_years": 2, "part": "Compressor or thermostat", "tech_hours": 1.2, "room_out_of_order": 0.0},
+    {"type": "In-room TV", "scope": "room", "life_years": 7, "replacement_usd": 900, "monthly_failure": 0.003, "corrective_usd": 300, "preventive_usd": 20, "warranty_years": 3, "part": "Mainboard or panel", "tech_hours": 1.0, "room_out_of_order": 0.0},
+    {"type": "Chiller", "scope": "plant", "per_100_rooms": 1.0, "life_years": 20, "replacement_usd": 420000, "monthly_failure": 0.020, "corrective_usd": 18000, "preventive_usd": 2500, "warranty_years": 5, "part": "Compressor bearings", "tech_hours": 16, "room_out_of_order": 0.0},
+    {"type": "Boiler", "scope": "plant", "per_100_rooms": 0.8, "life_years": 18, "replacement_usd": 90000, "monthly_failure": 0.012, "corrective_usd": 6500, "preventive_usd": 900, "warranty_years": 3, "part": "Burner assembly", "tech_hours": 8, "room_out_of_order": 0.0},
+    {"type": "Air handling unit", "scope": "plant", "per_100_rooms": 2.5, "life_years": 15, "replacement_usd": 38000, "monthly_failure": 0.012, "corrective_usd": 2800, "preventive_usd": 350, "warranty_years": 2, "part": "Belts and bearings", "tech_hours": 5, "room_out_of_order": 0.0},
+    {"type": "Lift", "scope": "plant", "per_100_rooms": 1.6, "life_years": 22, "replacement_usd": 160000, "monthly_failure": 0.015, "corrective_usd": 5200, "preventive_usd": 600, "warranty_years": 2, "part": "Door operator", "tech_hours": 6, "room_out_of_order": 0.0},
+    {"type": "Circulation pump", "scope": "plant", "per_100_rooms": 2.5, "life_years": 12, "replacement_usd": 9000, "monthly_failure": 0.010, "corrective_usd": 1900, "preventive_usd": 220, "warranty_years": 2, "part": "Mechanical seal", "tech_hours": 4, "room_out_of_order": 0.0},
+    {"type": "Cold room", "scope": "plant", "per_100_rooms": 1.2, "life_years": 12, "replacement_usd": 28000, "monthly_failure": 0.012, "corrective_usd": 3200, "preventive_usd": 300, "warranty_years": 2, "part": "Condenser fan", "tech_hours": 4, "room_out_of_order": 0.0},
+    {"type": "Laundry machine", "scope": "plant", "per_100_rooms": 1.6, "life_years": 10, "replacement_usd": 45000, "monthly_failure": 0.015, "corrective_usd": 2400, "preventive_usd": 280, "warranty_years": 2, "part": "Drive belt or bearing", "tech_hours": 4, "room_out_of_order": 0.0}
+  ],
+  "contract_templates": [
+    {"type": "HVAC maintenance", "kind": "Maintenance service", "covers": "Chiller, Air handling unit, Fan coil unit, Circulation pump", "value_per_room": 310},
+    {"type": "Lift service", "kind": "Maintenance service", "covers": "Lift", "value_per_room": 120},
+    {"type": "Door lock system support", "kind": "Maintenance service", "covers": "Door lock", "value_per_room": 38},
+    {"type": "In-room entertainment lease", "kind": "Equipment lease", "covers": "In-room TV", "value_per_room": 95},
+    {"type": "Minibar service", "kind": "Maintenance service", "covers": "Minibar fridge", "value_per_room": 30},
+    {"type": "Boiler and hot water service", "kind": "Maintenance service", "covers": "Boiler", "value_per_room": 70},
+    {"type": "Building management software", "kind": "Software licence", "covers": "Smart thermostat", "value_per_room": 55},
+    {"type": "Electricity supply", "kind": "Energy supply", "covers": "", "value_per_room": 0},
+    {"type": "Laundry equipment service", "kind": "Maintenance service", "covers": "Laundry machine", "value_per_room": 60},
+    {"type": "Kitchen refrigeration service", "kind": "Maintenance service", "covers": "Cold room", "value_per_room": 45}
+  ],
+  "sources": [
+    {"id": "bms_energy_daily", "system": "Building Management System", "domain": "Engineering & Energy", "connector": "Event stream", "path": "bms/energy_daily.csv", "table": "bms_energy_daily", "key": ["property_id", "reading_date", "end_use"], "watermark": "reading_date", "mode": "incremental", "frequency_minutes": 15},
+    {"id": "bms_meter_hourly", "system": "Building Management System", "domain": "Engineering & Energy", "connector": "Event stream", "path": "bms/meter_hourly.csv", "table": "bms_meter_hourly", "key": ["property_id", "reading_ts"], "watermark": "reading_ts", "mode": "incremental", "frequency_minutes": 15},
+    {"id": "bms_weather_daily", "system": "Weather Service", "domain": "Engineering & Energy", "connector": "REST API", "path": "bms/weather_daily.csv", "table": "bms_weather_daily", "key": ["property_id", "weather_date"], "watermark": null, "mode": "snapshot", "frequency_minutes": 1440},
+    {"id": "cmms_assets", "system": "Maintenance System (CMMS)", "domain": "Engineering & Energy", "connector": "Database", "path": "cmms/assets.csv", "table": "cmms_assets", "key": ["asset_id"], "watermark": null, "mode": "snapshot", "frequency_minutes": 1440},
+    {"id": "cmms_work_orders", "system": "Maintenance System (CMMS)", "domain": "Engineering & Energy", "connector": "Database (CDC)", "path": "cmms/work_orders.csv", "table": "cmms_work_orders", "key": ["work_order_id"], "watermark": "completed_date", "mode": "incremental", "frequency_minutes": 60},
+    {"id": "iot_device_telemetry", "system": "IoT Device Platform", "domain": "Engineering & Energy", "connector": "Event stream", "path": "iot/device_telemetry.csv", "table": "iot_device_telemetry", "key": ["asset_id", "period_end"], "watermark": "period_end", "mode": "incremental", "frequency_minutes": 60},
+    {"id": "asset_contracts", "system": "Contract Register", "domain": "Engineering & Energy", "connector": "Database", "path": "contracts/asset_contracts.csv", "table": "asset_contracts", "key": ["contract_id"], "watermark": null, "mode": "snapshot", "frequency_minutes": 1440}
+  ]
+}

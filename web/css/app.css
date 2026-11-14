@@ -28,6 +28,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
 
 /* sidebar */
 #sidebar { background: var(--navy); color: #e9e6df; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+a.brand { text-decoration: none; color: inherit; }
 .brand { display: flex; gap: 10px; align-items: center; padding: 18px 16px 14px; border-bottom: 1px solid rgba(255, 255, 255, .08); }
 .brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--gold); color: var(--gold); display: grid; place-items: center; font: 600 17px Georgia, serif; }
 .brand-name { font-weight: 600; letter-spacing: .02em; } .brand-sub { font-size: 11px; color: #a9b4bd; letter-spacing: .08em; text-transform: uppercase; }
@@ -128,3 +129,45 @@ h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
   .hero-body h2 { font-size: 21px; } #filters { width: 100%; } .ctl { flex: 1 1 140px; } .ctl button.dd { min-width: 0; width: 100%; } #persona-box, #persona-box .ctl, #persona-box select { width: 100%; max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* splash screen: the hero photograph with two solid cards laid over it - the menu on the left and the
+   welcome panel at the bottom. No text ever sits directly on the photograph, so it is readable at any size. */
+body.splash-on #sidebar, body.splash-on #topbar { display: none; }
+body.splash-on #app { grid-template-columns: minmax(0, 1fr); }
+body.splash-on #content { padding: 0; max-width: none; }
+.splash { position: relative; min-height: 100vh; background: #0b1722 72% 50% / cover no-repeat; color: #fff; display: flex; gap: 20px; padding: 20px; }
+.splash::before { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7, 16, 25, .55) 0%, rgba(7, 16, 25, .10) 45%, rgba(7, 16, 25, .22) 100%); }
+.splash > * { position: relative; z-index: 1; }
+.splash-rail, .splash-panel { background: #0f2233; border: 1px solid rgba(255, 255, 255, .14); border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+.splash-rail { flex: none; width: 300px; padding: 22px 14px 16px; display: flex; flex-direction: column; gap: 4px; max-height: calc(100vh - 40px); overflow-y: auto; position: sticky; top: 20px; align-self: flex-start; }
+.splash-brand { display: flex; gap: 12px; align-items: center; padding: 0 8px 16px; border-bottom: 1px solid rgba(255, 255, 255, .14); }
+.splash-brand .brand-mark { width: 40px; height: 40px; font-size: 20px; flex: none; } .splash-brand .brand-name { color: #fff; font-size: 16px; } .splash-brand .brand-sub { color: #c3cdd6; }
+.splash-group h2 { font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: #f0cf99; margin: 16px 10px 6px; font-weight: 600; }
+.splash-group a { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; color: #ffffff; text-decoration: none; font-size: 15px; line-height: 1.25; }
+.splash-group a:hover, .splash-group a:focus-visible { background: rgba(255, 255, 255, .12); } .splash-group a .go { color: #9fb0bd; font-size: 18px; line-height: 1; }
+.splash-group .badge { background: var(--critical); color: #fff; border-radius: 10px; font-size: 11.5px; padding: 1px 7px; font-weight: 600; }
+.splash-role { margin-top: auto; padding: 14px 8px 0; border-top: 1px solid rgba(255, 255, 255, .14); display: grid; gap: 6px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #c3cdd6; }
+.splash-role select { height: 36px; padding: 0 8px; border-radius: 8px; border: 1px solid rgba(240, 207, 153, .7); background: #0b1722; color: #fff; font-size: 13.5px; text-transform: none; letter-spacing: 0; width: 100%; }
+.splash-role select option { color: #0b0b0b; background: #fff; }
+.splash-stage { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
+.splash-panel { padding: 28px 32px 22px; max-width: 880px; width: 100%; animation: splash-in .5s ease-out both; }
+.splash-copy .eyebrow { color: #f0cf99; font-size: 12.5px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; }
+.splash-copy h1 { font: 400 42px/1.12 Georgia, "Times New Roman", serif; margin: 10px 0 12px; color: #fff; }
+.splash-copy p { margin: 0; color: #e3e8ec; font-size: 16.5px; line-height: 1.5; }
+.splash-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.splash-btn { display: inline-flex; align-items: center; height: 46px; padding: 0 22px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .75); color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; background: transparent; }
+.splash-btn:hover { background: rgba(255, 255, 255, .12); } .splash-btn.primary { background: #d9ad6c; border-color: #d9ad6c; color: #0f1c28; } .splash-btn.primary:hover { background: #e6c089; }
+.splash-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 26px; border-top: 1px solid rgba(255, 255, 255, .14); }
+.splash-stat { padding: 16px 16px 4px 0; } .splash-stat + .splash-stat { padding-left: 18px; border-left: 1px solid rgba(255, 255, 255, .14); }
+.splash-stat .v { font-size: 28px; font-weight: 600; color: #fff; letter-spacing: -.01em; } .splash-stat .l { font-size: 13px; color: #c3cdd6; margin-top: 2px; }
+.splash-note { margin-top: 16px; color: #aebac4; font-size: 12px; }
+@keyframes splash-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (max-width: 1180px) { .splash-rail { width: 264px; } .splash-copy h1 { font-size: 34px; } .splash-panel { padding: 24px 24px 18px; }
+  .splash-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .splash-stat:nth-child(3) { padding-left: 0; border-left: 0; } .splash-stat .v { font-size: 24px; } }
+@media (max-width: 720px) {
+  .splash { flex-direction: column; padding: 0 14px 20px; gap: 14px; background-size: 100% auto; background-position: center top; }
+  .splash::before { background: linear-gradient(180deg, rgba(7, 16, 25, .10) 0, rgba(7, 16, 25, .35) 44vw, #0b1722 58vw); }
+  .splash-stage { order: -1; padding-top: 44vw; flex: none; } .splash-copy h1 { font-size: 28px; } .splash-copy p { font-size: 15px; } .splash-panel { padding: 20px 18px 16px; }
+  .splash-rail { width: auto; max-height: none; position: static; align-self: stretch; }
+}
+@media (prefers-reduced-motion: reduce) { .splash-panel { animation: none; } }

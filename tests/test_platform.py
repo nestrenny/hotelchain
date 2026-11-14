@@ -215,3 +215,57 @@ def test_forecast_workspace_payload(client):
     assert len(d["future"]["x"]) == 60 and len(d["backtest"]["x"]) == 90
     assert d["future"]["x"][0] > AS_OF.isoformat() and 0 < d["accuracy"]["wape"] < 0.5
     assert d["model"]["version"] and d["weekly_accuracy"]
+
+
+# ---------------------------------------------------------------- engineering and energy
+def has_energy(con):
+    return one(con, "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'ai' AND table_name = 'energy_findings'") > 0
+
+
+def test_energy_models_beat_their_baselines(con):
+    if not has_energy(con):
+        pytest.skip("energy stage not run")
+    m = {r[0]: (r[1], r[2]) for r in con.execute("SELECT model_name, metric_value, baseline_value FROM ai.energy_models").fetchall()}
+    assert m["Energy baseline and forecast"][0] < m["Energy baseline and forecast"][1]          # lower error than same-weekday-last-week
+    assert m["Device failure prediction"][0] > 0.75                                              # ROC AUC
+    top, average = m["Failure prediction: precision of the top 5%"]
+    assert top > 5 * average                                                                     # the highest-risk 5% fail far more often than average
+
+
+def test_planted_energy_problems_are_found(con):
+    if not has_energy(con):
+        pytest.skip("energy stage not run")
+    assert con.execute("SELECT property_id FROM ai.energy_anomalies WHERE status = 'Anomaly'").fetchall() == [("P003",)]       # chiller fault
+    assert con.execute("SELECT property_id FROM ai.water_leak WHERE status <> 'Normal'").fetchall() == [("P005",)]            # water leak
+    worst = con.execute("SELECT property_id FROM ai.vacant_room_waste ORDER BY setback_ratio DESC LIMIT 1").fetchall()[0][0]
+    assert worst == "P004"                                                                                                     # vacant rooms not set back
+
+
+def test_energy_forecast_and_device_scores_are_complete(con):
+    if not has_energy(con):
+        pytest.skip("energy stage not run")
+    assert con.execute("SELECT count(DISTINCT property_id), count(DISTINCT reading_date), count(*) FILTER (WHERE lower_80 > kwh OR upper_80 < kwh) FROM ai.energy_forecast").fetchall()[0] == (6, 30, 0)
+    n, scored, bad = con.execute("SELECT (SELECT count(*) FROM gold.dim_asset), count(*), count(*) FILTER (WHERE failure_probability NOT BETWEEN 0 AND 1) FROM ai.device_risk").fetchall()[0]
+    assert scored == n and bad == 0
+
+
+def test_contract_reminders_cover_lapsed_and_ending_contracts(con):
+    if not has_energy(con):
+        pytest.skip("energy stage not run")
+    lapsed, soon, missing = con.execute("SELECT count(*) FILTER (WHERE days_left < 0), count(*) FILTER (WHERE days_left BETWEEN 0 AND 30), count(*) FILTER (WHERE action IS NULL OR action = '') FROM ai.contract_reminders").fetchall()[0]
+    assert lapsed == 3 and soon >= 3 and missing == 0
+    expected = one(con, f"SELECT count(*) FROM gold.dim_asset_contract WHERE end_date <= DATE '{AS_OF}' + INTERVAL 120 DAY")
+    assert one(con, "SELECT count(*) FROM ai.contract_reminders") == expected
+
+
+def test_energy_page_renders_and_respects_access(client, con):
+    if not has_energy(con):
+        pytest.skip("energy stage not run")
+    spec = client.get("/api/dashboard/energy", headers=H("eng")).json()
+    assert len(spec["kpis"]) == 12 and all(k["value"] is not None for k in spec["kpis"]) and spec["actions"]
+    titles = {p["title"] for p in spec["panels"]}
+    assert {"Devices most likely to fail in the next 30 days", "Contract reminders", "Water leak watch", "Devices due for replacement"} <= titles
+    assert client.get("/api/dashboard/energy", headers=H("rev_como")).status_code == 403                 # no access to engineering
+    assert client.get("/api/dashboard/finance", headers=H("eng")).status_code == 403                     # engineering role cannot see finance
+    gm = client.get("/api/dashboard/energy", headers=H("gm_dxb")).json()
+    assert gm["properties"] == ["P003"] and all("Dubai Palm" in a["title"] for a in gm["actions"])

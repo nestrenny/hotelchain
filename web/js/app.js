@@ -80,9 +80,9 @@
   document.addEventListener("click", () => document.querySelectorAll(".dd-menu").forEach((m) => (m.hidden = true)));
 
   // ---------------------------------------------------------------- shared widgets
-  const TAGS = { good: ["Reconciled", "Passed", "Star", "Healthy", "Stable", "Deployed", "Succeeded", "Approved", "Implemented", "Resolved"],
-    warn: ["Warning", "Warnings", "Plowhorse", "Puzzle", "Slow-moving", "Watch", "Monitored", "Medium", "Acknowledged", "Pending approval", "High", "Skipped"],
-    crit: ["Break", "Failed", "Failed checks", "Dog", "Stock-out risk", "At risk", "Critical", "Drift - retrain", "Rejected", "Escalated", "Open"], info: ["Info", "Low", "Archived"] };
+  const TAGS = { good: ["Within limit", "Normal", "Monitor", "Reconciled", "Passed", "Star", "Healthy", "Stable", "Deployed", "Succeeded", "Approved", "Implemented", "Resolved"],
+    warn: ["Ends within 60 days", "Ends within 90 days", "Ends within 120 days", "Inspect at next room check", "Inspect before expiry", "Plan replacement", "Warning", "Warnings", "Plowhorse", "Puzzle", "Slow-moving", "Watch", "Monitored", "Medium", "Acknowledged", "Pending approval", "High", "Skipped"],
+    crit: ["Over limit", "Anomaly", "Leak suspected", "Expired", "Ends within 30 days", "Service within 7 days", "Raise warranty claim and service now", "Inspect and claim before expiry", "Break", "Failed", "Failed checks", "Dog", "Stock-out risk", "At risk", "Critical", "Drift - retrain", "Rejected", "Escalated", "Open"], info: ["Info", "Low", "Archived"] };
   const tagClass = (t) => Object.keys(TAGS).find((k) => TAGS[k].includes(t)) || "plain";
   const tag = (t) => h("span", { class: "tag " + tagClass(t) }, t);
   function cell(v, f) {
@@ -165,15 +165,18 @@
       h("span", { class: "legend", style: "margin:0" }, h("span", null, h("i", { style: "border-color:var(--s1)" }), "Actual"), h("span", null, h("i", { class: "dash", style: "border-color:var(--ink-2)" }), "Budget"), h("span", null, h("i", { class: "dash", style: "border-color:var(--s2)" }), "Forecast")),
       h("span", { class: "spacer" }), canExport && spec.kpis.length ? h("button", { class: "link-btn", onclick: () => exportPanel(name, -1) }, "Export KPIs") : null));
     root.appendChild(h("div", { class: "kpis" }, spec.kpis.map((k) => kpiTile(k, pr.compare_label))));
-    if (spec.insights.length || spec.recommendations.length) {
+    if (spec.insights.length || spec.recommendations.length || spec.actions) {
       root.appendChild(h("div", { class: "insights" },
         h("div", { class: "ins" }, h("h3", null, "AI-generated insights"), h("ul", null, spec.insights.map((i) => h("li", null, h("span", { class: "sym " + i.tone, "aria-hidden": "true" }, i.tone === "good" ? "▲" : i.tone === "bad" ? "▼" : "●"), h("span", null, i.text),
           i.measure ? h("span", { class: "src" }, "Measure: " + i.measure) : null)))),
+        spec.actions ? h("div", { class: "ins", style: "max-height:330px;overflow-y:auto" }, h("h3", null, `${spec.actions_title} (${spec.actions.length})`), spec.actions.length ? h("ul", null, spec.actions.map((a) => h("li", null, priTag(a.priority),
+          h("button", { class: "link-btn", style: "color:inherit;text-align:left;white-space:normal", onclick: () => findingDrawer(a) }, a.title), a.value ? h("span", { class: "src" }, fmt(a.value, "usd") + " / yr") : null))) : h("div", { class: "empty", style: "padding:6px 0;text-align:left" }, "Nothing needs attention for this view.")) :
         h("div", { class: "ins" }, h("h3", null, "Recommended actions"), spec.recommendations.length ? h("ul", null, spec.recommendations.map((r) => h("li", null, priTag(r.priority),
           h("a", { href: "#/recommendations?id=" + r.recommendation_id, style: "color:inherit" }, r.title), h("span", { class: "src" }, fmt(r.estimated_impact_usd, "usd"))))) : h("div", { class: "empty", style: "padding:6px 0;text-align:left" }, "No open recommendations for this view."))));
     }
     const grid = h("div", { class: "grid" });
     spec.panels.forEach((p, i) => {
+      if (p.type === "section") { grid.appendChild(h("div", { class: "span-12", style: "grid-column:span 12;margin-top:10px" }, h("h2", { style: "font-size:17px" }, p.title), h("div", { style: "color:var(--ink-2);font-size:12.5px" }, p.note))); return; }
       const action = canExport ? h("button", { class: "link-btn", onclick: () => exportPanel(name, i) }, "Export") : null;
       let body;
       if (p.type === "table") body = table(p.columns, p.rows, { maxHeight: 420, onRow: p.drill ? (r) => { if (r.property_id) { state.props = [r.property_id]; location.hash = "#/" + p.drill; if (p.drill === name) render(); } } : null });
@@ -181,6 +184,13 @@
       grid.appendChild(panel(p.title, p.span, body, { note: p.note, action }));
     });
     root.appendChild(grid);
+  }
+
+  function findingDrawer(a) {
+    openDrawer(h("div", null, h("div", { class: "row" }, priTag(a.priority), h("span", { class: "tag plain" }, a.category)), h("h2", { style: "margin-top:8px" }, a.title), h("p", { style: "margin-top:10px" }, a.detail),
+      h("dl", { class: "kv", style: "margin-top:12px" }, h("dt", null, "Property"), h("dd", null, a.property), h("dt", null, "Category"), h("dd", null, a.category),
+        a.value ? [h("dt", null, "Estimated annual value"), h("dd", null, fmt(a.value, "usd"))] : null, a.due_date ? [h("dt", null, "Date"), h("dd", null, longDate(a.due_date))] : null),
+      h("div", { class: "note", style: "margin-top:14px" }, "Produced by the engineering and energy models from synthetic data. Values are estimates based on stated assumptions.")));
   }
 
   // ---------------------------------------------------------------- AI Control Tower: overview
@@ -441,17 +451,54 @@
       { empty: "No actions recorded yet. Approve a recommendation, act on an alert or export a panel to see it here." }), { note: "Enterprise and administrator roles see all records; other roles see their own." }));
   }
 
+  // ---------------------------------------------------------------- splash screen
+  const BLURB = { executive: "The whole group on one page", hotels: "Occupancy, rate and pickup", restaurants: "Covers, spend and menu profit", waterpark: "Attendance, capacity and queues",
+    retail: "Sales, margin and stock", spa: "Appointments and utilisation", marketing: "Campaigns, loyalty and value", finance: "Revenue, cost and profit",
+    tower: "Outlook, exceptions and risk", energy: "Energy, devices and contracts", forecasting: "Forecasts with confidence ranges", recommendations: "Actions awaiting a decision",
+    alerts: "Exceptions to resolve", models: "Accuracy, drift and versions", platform: "Sources, quality and lineage", audit: "Who decided what, and when" };
+  async function splash(root) {
+    document.title = state.meta.chain + " | Hospitality Intelligence";
+    const p = state.meta.persona, groups = NAV.map(([g, items]) => [g, items.filter(([id]) => state.meta.pages.includes(id) || PAGES[id])]).filter(([, items]) => items.length);
+    const first = state.meta.pages.includes("executive") ? "executive" : state.meta.pages[0];
+    // four live headline figures; the splash still works if they cannot be loaded
+    let stats = [];
+    try {
+      const [ex, ov] = await Promise.all([api("/dashboard/executive"), api("/tower/overview")]);
+      const k = (label) => ex.kpis.find((x) => x.label === label), tile = (label) => ov.tiles.find((x) => x.label === label);
+      stats = [["Revenue, last 30 days", fmt(k("Total revenue").value, "usd")], ["Occupancy", fmt(k("Occupancy").value, "pct")],
+        ["Critical alerts open", fmt(tile("Critical exceptions open").value, "num")], ["Actions awaiting approval", fmt(tile("Recommendations awaiting approval").value, "num")]];
+    } catch (e) { stats = []; }
+    root.appendChild(h("div", { class: "splash", style: "background-image:url(/img/hero.jpg)" },
+      h("aside", { class: "splash-rail" },
+        h("div", { class: "splash-brand" }, h("div", { class: "brand-mark", "aria-hidden": "true" }, "A"), h("div", null, h("div", { class: "brand-name" }, state.meta.chain), h("div", { class: "brand-sub" }, "Hospitality Intelligence"))),
+        h("nav", { "aria-label": "All pages" }, groups.map(([g, items]) => h("div", { class: "splash-group" }, h("h2", null, g),
+          items.map(([id, label]) => h("a", { href: "#/" + id, title: BLURB[id] || "" }, h("span", null, label),
+            counts && counts[id] ? h("span", { class: "badge", title: counts[id] + " need attention" }, counts[id]) : h("span", { class: "go", "aria-hidden": "true" }, "\u203A")))))),
+        h("label", { class: "splash-role" }, "Signed in as (simulated)", h("select", { onchange: async (ev) => { state.persona = ev.target.value; store.set("persona", state.persona); state.props = []; state.meta = null; await render(); } },
+          state.meta.personas.map((x) => h("option", { value: x.id, selected: x.id === state.persona }, `${x.name} - ${x.title}`))))),
+      h("section", { class: "splash-stage" }, h("div", { class: "splash-panel" },
+        h("div", { class: "splash-copy" },
+          h("div", { class: "eyebrow" }, "Enterprise hospitality intelligence"),
+          h("h1", null, "One view of every property, forecast and decision"),
+          h("p", null, `Welcome, ${p.name.split(" ")[0]}. ${state.meta.properties.length} propert${state.meta.properties.length === 1 ? "y" : "ies"} in your view, with data through ${longDate(state.meta.as_of)}.`),
+          h("div", { class: "splash-actions" }, h("a", { class: "splash-btn primary", href: "#/" + first }, "Open " + (first === "executive" ? "the executive view" : "your dashboard")),
+            h("a", { class: "splash-btn", href: "#/tower" }, "AI Control Tower"))),
+        stats.length ? h("div", { class: "splash-stats" }, stats.map(([label, value]) => h("div", { class: "splash-stat" }, h("div", { class: "v" }, value), h("div", { class: "l" }, label)))) : null,
+        h("div", { class: "splash-note" }, "Working prototype on synthetic data")))));
+  }
+
   // ---------------------------------------------------------------- shell, navigation and routing
   const NAV = [["Performance", [["executive", "Executive"], ["hotels", "Hotels"], ["restaurants", "Restaurants"], ["waterpark", "Waterpark"], ["retail", "Retail"], ["spa", "Spa & Leisure"], ["marketing", "Marketing & Loyalty"], ["finance", "Finance"]]],
-    ["AI Control Tower", [["tower", "Intelligence Overview"], ["forecasting", "Forecasting Workspace"], ["recommendations", "Recommendations"], ["alerts", "Alert Management"], ["models", "Model Monitoring"]]],
+    ["AI Control Tower", [["tower", "Intelligence Overview"], ["energy", "Energy & Assets"], ["forecasting", "Forecasting Workspace"], ["recommendations", "Recommendations"], ["alerts", "Alert Management"], ["models", "Model Monitoring"]]],
     ["Platform", [["platform", "Data & Governance"], ["audit", "Audit Trail"]]]];
   const PAGES = { tower: towerOverview, forecasting, recommendations, alerts, models, platform, audit };
+  const HOME = "home";
   function setTitle(t, s) { $("#page-title").textContent = t; $("#page-sub").textContent = s || ""; document.title = t + " | " + state.meta.chain; }
   function buildNav(current, counts) {
     const nav = $("#nav");
     nav.innerHTML = "";
     NAV.forEach(([group, items]) => {
-      const vis = items.filter(([id]) => group !== "Performance" || state.meta.pages.includes(id));
+      const vis = items.filter(([id]) => state.meta.pages.includes(id) || PAGES[id]);
       if (!vis.length) return;
       nav.appendChild(h("div", { class: "nav-group" }, group));
       vis.forEach(([id, label]) => nav.appendChild(h("a", { href: "#/" + id, class: id === current ? "active" : "", "aria-current": id === current ? "page" : null, onclick: () => $("#sidebar").classList.remove("open") }, label,
@@ -476,21 +523,23 @@
         counts = null;
         Promise.all([api("/tower/recommendations"), api("/tower/alerts")]).then(([r, a]) => {
           counts = { recommendations: r.filter((x) => x.approval_status === "Pending approval" && ["Critical", "High"].includes(x.priority)).length, alerts: a.filter((x) => x.severity === "Critical" && x.status !== "Resolved").length };
-          buildNav((location.hash.slice(2).split("?")[0]) || "executive", counts);
+          if (((location.hash.slice(2).split("?")[0]) || HOME) === HOME) render(); else buildNav(location.hash.slice(2).split("?")[0], counts);
         }).catch(() => {});
       }
-      const [path, query] = (location.hash.slice(2) || "executive").split("?"), params = new URLSearchParams(query || "");
-      const isDash = state.meta.pages.includes(path), page = isDash || PAGES[path] ? path : "executive";
+      const [path, query] = (location.hash.slice(2) || HOME).split("?"), params = new URLSearchParams(query || "");
+      const isDash = state.meta.pages.includes(path), page = isDash || PAGES[path] ? path : HOME;
+      document.body.classList.toggle("splash-on", page === HOME);
       buildNav(page, counts); buildPersona(); buildFilters(state.meta.pages.includes(page));
       Charts.reset();
       pending.length = 0;
       const root = h("div");
       content.setAttribute("aria-busy", "true");
-      if (state.meta.pages.includes(page)) await dashboard(page, root); else await PAGES[page](root, params);
+      if (page === HOME) await splash(root); else if (state.meta.pages.includes(page)) await dashboard(page, root); else await PAGES[page](root, params);
       if (my !== seq) return;
       content.innerHTML = ""; content.appendChild(root); content.removeAttribute("aria-busy"); flushCharts();
     } catch (e) {
       if (my !== seq) return;
+      document.body.classList.remove("splash-on");
       content.innerHTML = "";
       content.appendChild(h("div", { class: "banner crit" }, h("div", null, h("b", null, e.status === 403 ? "You do not have access to this page" : "This page could not be loaded"), h("div", { style: "color:var(--ink-2)" }, e.message))));
       if (state.meta) { setTitle(e.status === 403 ? "Access restricted" : "Something went wrong", ""); }
