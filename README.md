@@ -60,6 +60,28 @@ Use the **Signed in as** selector to switch between ten personas (CEO, CFO, regi
 revenue manager, F&B director, marketing, read-only finance analyst, data steward). Each sees only its own
 properties and verticals, and only authorised roles can approve or export.
 
+## Documents
+
+| Document | What it is |
+|---|---|
+| [docs/Dashboard User Guide.docx](docs/Dashboard%20User%20Guide.docx) | 77-page guide to every dashboard, card, graph and table: what each shows, how it is calculated and how to read it. Also covers the AI Control Tower, the governance page, the KPI definitions and the roles. |
+| [docs/Leadership Briefing.pptx](docs/Leadership%20Briefing.pptx) | 13-slide deck with speaker notes for the leadership team: what was built, what it shows, its limits, the path to production and the decisions needed. |
+| [docs/traceability.md](docs/traceability.md) | Requirement-by-requirement status against the SRS. |
+| [docs/Luxury Hotel Chain – Enterprise Data Analytics and AI Control Tower - Writing-block.md](docs/Luxury%20Hotel%20Chain%20%E2%80%93%20Enterprise%20Data%20Analytics%20and%20AI%20Control%20Tower%20-%20Writing-block.md) | The source requirements specification (SRS). |
+
+The guide and the deck are generated from the running app, so their screenshots and figures match the platform
+(synthetic data, business date 12 November 2026). To regenerate them after a change, with the app running:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install python-docx python-pptx playwright Pillow pymupdf
+.\.venv\Scripts\python.exe tools\capture_screens.py     # screenshots of every card block and panel, using the installed Edge
+.\.venv\Scripts\python.exe tools\build_guide.py         # docs\Dashboard User Guide.docx
+.\.venv\Scripts\python.exe tools\build_deck.py          # docs\Leadership Briefing.pptx
+```
+
+The wording for every card and graph lives in `tools/guide_content.py`. See [tools/README.md](tools/README.md) for the
+Word step that refreshes the guide's table of contents, and for how the deck is checked.
+
 ## Assumptions
 
 SRS section 17 lists items to confirm before detailed development. For the prototype they are assumed as follows;
@@ -104,5 +126,7 @@ hip/ai/     forecasting, predictive models, recommendations and alerts
 hip/api/    FastAPI app, dashboards, Control Tower, security, workflow
 web/        single-page client (no build step)
 tests/      acceptance tests
+tools/      regenerates the user guide and leadership deck from the running app
+docs/       SRS, traceability matrix, Dashboard User Guide, Leadership Briefing
 data/       generated: landing files, lakehouse, workflow database, model artefacts
 ```
