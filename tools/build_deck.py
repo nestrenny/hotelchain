@@ -1,4 +1,4 @@
-"""Build docs/Leadership Briefing.pptx - a 13-slide deck for the leadership team.
+"""Build docs/Leadership Briefing.pptx - a 14-slide deck for the leadership team.
 
 Figures are read live from the lakehouse and the running app, so the deck always matches the
 platform. Also writes a rough preview image per slide and reports any text that would not fit.
@@ -280,6 +280,7 @@ def facts() -> dict:
         "props": q(f"""SELECT p.short_name, sum(total_revenue_usd) / 1e6 FROM gold.mart_executive_daily e JOIN gold.dim_property p USING (property_id)
                        WHERE business_date BETWEEN DATE '{ex['period']['start']}' AND DATE '{ex['period']['end']}' GROUP BY 1 ORDER BY 2 DESC"""),
         "kpis": q("SELECT count(*) FROM ops.kpi_glossary")[0][0],
+        "energy": api("/dashboard/energy"),
         "sup": q("SELECT estimated_impact_usd FROM gold.fact_ai_recommendations WHERE scenario = 'Supplier spend optimisation' ORDER BY 1 DESC LIMIT 1")[0][0],
     }
     c.close()
@@ -326,9 +327,9 @@ def build() -> None:
             notes="Left to right. Data arrives from every operational system. Bronze keeps it exactly as received, for audit and replay. Silver cleans it and brings the two property management systems, "
                   "currencies and guest identities into one standard. Gold is the business-ready layer the dashboards and models read. Quality rules and reconciliation to the ledger run on every load. "
                   "Each local component maps to a named Azure or Fabric service.")
-    steps = [(str(F["feeds"]), "Source feeds", "PMS, POS, ticketing, spa, CRM, ERP"), (f"{L['bronze'][1] / 1e6:.1f}M", "Bronze: raw", "Kept as received for audit"),
+    steps = [(str(F["feeds"]), "Source feeds", "PMS, POS, ticketing, CRM, ERP, buildings"), (f"{L['bronze'][1] / 1e6:.1f}M", "Bronze: raw", "Kept as received for audit"),
              (f"{L['silver'][0]}", "Silver tables", "Cleaned and standardised"), (f"{L['gold'][0]}", "Gold tables", "Business-ready data products"),
-             ("8 + 5", "Dashboards and AI pages", "One design, role-based access")]
+             ("8 + 6", "Dashboards and AI pages", "One design, role-based access")]
     for i, (big, label, sub) in enumerate(steps):
         x = 0.6 + i * 2.5
         D.card(x, 1.85, 2.1, 2.75, NAVY if i == 4 else LIGHT)
@@ -354,7 +355,7 @@ def build() -> None:
     for i, (head, body) in enumerate([(f"{F['kpis']} governed KPIs", "One definition each, shown beside every figure"),
                                       ("Actual, budget and forecast", "Always drawn the same way, so they are never confused"),
                                       ("From group to property", "Filter by property and period, then drill into the detail"),
-                                      ("Access by role", "Ten roles tested; each sees only its own properties and domains")]):
+                                      ("Access by role", "Eleven roles tested; each sees only its own properties and domains")]):
         y = 1.8 + i * 1.25
         D.card(8.55, y, 4.15, 1.08)
         D.text(8.75, y + 0.08, 3.8, 0.42, head, 17, True, NAVY)
@@ -420,7 +421,39 @@ def build() -> None:
         D.text(8.95, y + 0.1, 3.6, 0.92, title, 14, color=INK, anchor="m")
     D.text(7.2, 6.05, 5.5, 0.75, f"{n} recommendations, {money(total)} estimated in total. Estimates use stated assumptions on synthetic data.", 13, color=MUTED)
 
-    # 9 ---------------------------------------------------------------- planted problems
+    # 9 ---------------------------------------------------------------- energy and assets
+    E = F["energy"]
+    ek = {x["label"]: x for x in E["kpis"]}
+    D.slide("It also predicts failures, energy waste and contract gaps",
+            notes=f"The same approach now covers the buildings. The Energy and Assets page reads the building management system, sub-meters, device telemetry, the maintenance log and the contract register. "
+                  f"A baseline model works out how much energy each property should use for its occupancy and weather; the period ran {ek['Energy vs expected']['value']:+.1%} against that. "
+                  f"A failure model scores every device: {ek['Devices at high failure risk']['value']:.0f} are at high risk in the next 30 days. "
+                  f"{ek['Contracts lapsed or ending in 90 days']['value']:.0f} contracts have lapsed or end within 90 days. The value shown is an estimate on synthetic data.")
+    tiles = [("Energy against expected", f"{ek['Energy vs expected']['value']:+.1%}", "for the occupancy and weather"),
+             ("Devices at high failure risk", f"{ek['Devices at high failure risk']['value']:.0f}", "likely to fail within 30 days"),
+             ("Contracts needing action", f"{ek['Contracts lapsed or ending in 90 days']['value']:.0f}", "lapsed or ending in 90 days"),
+             ("Savings and avoidable cost", money(ek["Annual savings and avoidable cost identified"]["value"]), "a year, estimated")]
+    for i, (label, val, sub) in enumerate(tiles):
+        x = 0.6 + (i % 2) * 2.72
+        y = 1.75 + (i // 2) * 2.42
+        D.card(x, y, 2.52, 2.2)
+        D.text(x + 0.2, y + 0.15, 2.15, 0.4, label, 14, color=MUTED)
+        D.text(x + 0.2, y + 0.58, 2.15, 0.85, val, 36, True, NAVY, HEAD)
+        D.text(x + 0.2, y + 1.5, 2.15, 0.55, sub, 14, color=INK)
+    D.pic("energy_p0", 6.3, 1.72, 6.4, 2.35, alt="Energy use: actual, expected for occupancy and weather, and forecast", top=True)
+    D.text(6.3, 4.1, 6.4, 0.34, "Energy use: actual, expected for occupancy and weather, and forecast", 13, True, NAVY, align="c")
+    found, seen = [], set()
+    for a in E["actions"]:
+        if a["category"] not in seen:
+            seen.add(a["category"]); found.append(a)
+    for i, a in enumerate(found[:3]):
+        y = 4.55 + i * 0.64
+        D.card(6.3, y, 6.4, 0.56)
+        D.text(6.45, y + 0.03, 1.75, 0.5, a["category"], 12, True, NAVY, anchor="m")
+        D.text(8.2, y + 0.03, 4.4, 0.5, a["title"].split(": ", 1)[-1][:1].upper() + a["title"].split(": ", 1)[-1][1:] + f" ({a['property']})", 12, color=INK, anchor="m")
+    D.text(0.6, 6.55, 12.1, 0.35, "Synthetic data. Savings are estimates based on stated assumptions; findings are reminders for the engineering team.", 12, color=MUTED)
+
+    # 10 --------------------------------------------------------------- planted problems
     D.slide("It found every problem we planted in the data",
             notes="To test whether the platform notices what matters, we deliberately hid four problems in the synthetic data. It found all four without being told where to look, and the automated tests assert this on every build. "
                   "This is the strongest evidence in the prototype that the detection logic works.")
@@ -438,7 +471,7 @@ def build() -> None:
         D.card(6.75, y, 5.95, 1.02, NAVY)
         D.text(6.95, y + 0.06, 5.55, 0.9, b, 15, color=WHITE, anchor="m")
 
-    # 10 --------------------------------------------------------------- control
+    # 11 --------------------------------------------------------------- control
     D.slide("People stay in control of every decision",
             notes="Nothing is executed automatically. A recommendation is reviewed with its evidence, then approved or rejected by an authorised person, and a rejection needs a reason. Once implemented, the realised impact is recorded, "
                   "so over time we can measure whether decisions paid off. Every step is written to an audit trail, and guest data is pseudonymised with marketing consent respected.")
@@ -453,7 +486,7 @@ def build() -> None:
     D.pic("drawer_recommendation", 7.3, 1.62, 5.4, 4.5, alt="Recommendation detail with evidence and approval controls", top=True)
     D.text(7.3, 6.2, 5.4, 0.62, "Every approval, rejection and export is recorded with who and when", 14, True, NAVY, align="c")
 
-    # 11 --------------------------------------------------------------- limits
+    # 12 --------------------------------------------------------------- limits
     D.slide("What this prototype does not yet prove",
             notes="To be clear about the limits. The data is synthetic, so model accuracy must be re-established on real data. Nothing has been deployed to Azure, Fabric or Power BI yet. Sign-in is simulated. "
                   "And data loads in batches, not every few minutes. None of these is a design obstacle, but each is work in the production build.")
@@ -467,7 +500,7 @@ def build() -> None:
         D.text(x + 1.0, y + 0.27, 4.7, 0.6, head, 22, True, NAVY, anchor="m")
         D.text(x + 1.0, y + 0.98, 4.7, 1.1, body, 16, color=INK)
 
-    # 12 --------------------------------------------------------------- roadmap
+    # 13 --------------------------------------------------------------- roadmap
     D.slide("The path from prototype to production",
             notes="These seven phases and durations come from the requirements specification. They are planning estimates, not a committed schedule, and phases can overlap. "
                   "The prototype shortens discovery and design because the data model, KPI definitions, dashboards and model approach already exist and have been tested.")
@@ -488,7 +521,7 @@ def build() -> None:
         D.text(x + 0.25, 5.17, 3.4, 1.3, body, 14, color=INK)
     D.text(0.6, 6.6, 12.1, 0.35, "Durations are planning estimates from the requirements specification, not a committed schedule. Phases may overlap.", 12, color=MUTED)
 
-    # 13 --------------------------------------------------------------- decisions
+    # 14 --------------------------------------------------------------- decisions
     D.slide("Four decisions we need from you", dark=True,
             notes="Four decisions. First, confirm the actual source systems at each property and grant access, because that determines the integration work. Second, adopt the KPI definitions as the enterprise standard. "
                   "Third, name a business owner for each domain who will approve recommendations. Fourth, fund discovery and the platform foundation. With those, the build can start.")

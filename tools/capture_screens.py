@@ -14,7 +14,7 @@ from playwright.sync_api import sync_playwright
 OUT = Path(__file__).resolve().parents[1] / "data" / "docs_build" / "shots"
 BASE = "http://localhost:8000/#/"
 DASH = ["executive", "hotels", "restaurants", "waterpark", "retail", "spa", "marketing", "finance"]
-TOWER = ["tower", "forecasting", "recommendations", "alerts", "models", "platform"]
+TOWER = ["tower", "energy", "forecasting", "recommendations", "alerts", "models", "platform"]
 
 
 def settle(page, selector=".panel"):

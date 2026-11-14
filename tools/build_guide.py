@@ -191,9 +191,9 @@ class Guide:
             text = f"{self.n}. {text}"
         self.d.add_heading(text, 1)
 
-    def panel(self, title: str, image: str, content: tuple, wide: bool):
+    def panel(self, title: str, image: str, content: tuple, wide: bool, whole: bool = False):
         self.d.add_heading(title, 3)
-        self.img(image, TEXT_W if wide else 12.0, 9.5 if wide else 7.2, alt=f"Screenshot of the {title} panel", max_ratio=0.55 if wide else 0.75)
+        self.img(image, TEXT_W if wide else 12.0, 9.5 if wide else 7.2, alt=f"Screenshot of the {title} panel", max_ratio=None if whole else 0.55 if wide else 0.75)
         self.p(content[0], "What it shows.", after=2, keep=True)
         self.p(content[1], "How to read it.", after=2, keep=True)
         self.p(content[2], "Use it to", after=8)
@@ -215,13 +215,13 @@ class Guide:
 
     def basics(self):
         self.h1("About this guide")
-        self.p("The Hospitality Intelligence Platform brings data from the hotel, restaurant, waterpark, retail, spa, marketing and finance systems into one place. "
+        self.p("The Hospitality Intelligence Platform brings data from the hotel, restaurant, waterpark, retail, spa, marketing, finance and building systems into one place. "
                "It presents that data in three groups of pages, listed in the left-hand menu:")
         self.bullets([("Performance.", "Eight dashboards that report what has happened: one for the executive team and one for each business domain."),
-                      ("AI Control Tower.", "Five pages that look ahead: forecasts, recommended actions, alerts and the health of the models behind them."),
+                      ("AI Control Tower.", "Six pages that look ahead: forecasts, energy and equipment predictions, recommended actions, alerts and the health of the models behind them."),
                       ("Platform.", "Where the data came from and whether it can be trusted, and a record of who approved or exported what.")])
         self.p("Chapter 2 explains the controls and conventions that are the same on every page. Chapters 3 to 10 take each dashboard in turn, first its cards and then each graph and table. "
-               "Chapters 11 to 16 cover the AI Control Tower and the governance page. The appendices list the governed KPI definitions and what each role can see.")
+               "Chapters 11 to 17 cover the AI Control Tower and the governance page. The appendices list the governed KPI definitions and what each role can see.")
         self.note("All amounts are shown in US dollars, the reporting currency. Local-currency amounts are converted at the daily exchange rate on the transaction date.")
 
         self.h1("Finding your way around")
@@ -286,7 +286,7 @@ class Guide:
                 self.panel(t, f"{page}_p{i}", content, spec[i] >= 7)
 
     def tower(self):
-        for page in ["tower", "forecasting", "recommendations", "alerts", "models", "platform"]:
+        for page in ["tower", "energy", "forecasting", "recommendations", "alerts", "models", "platform"]:
             t = G.TOWER[page]
             self.h1(("AI Control Tower: " if page != "platform" else "") + t["title"])
             self.p(t["intro"])
@@ -301,11 +301,20 @@ class Guide:
                 self.img("platform_flow", TEXT_W, 3.2, alt="Data flow from sources through Bronze, Silver and Gold to AI")
                 self.p("Five tiles follow the data from left to right: the number of source feeds, then the rows held in the Bronze (raw), Silver (cleaned and standardised) and Gold "
                        "(business-ready) layers, and finally the rows produced by the AI models.")
-            self.d.add_heading("Graphs and tables", 2)
+            if t.get("findings"):
+                self.d.add_heading("Insights, findings and reminders", 2)
+                self.p(t["findings"], keep=True)
+                self.img(f"{page}_insights", TEXT_W, 7.5, keep=False, alt=f"Insights and findings boxes on the {t['title']} page")
+            sections, spans = t.get("sections", {}), t.get("spans")
+            if not sections:
+                self.d.add_heading("Graphs and tables", 2)
             titles = INDEX[page]["panels"]
             assert len(titles) == len(t["panels"]), (page, len(titles), len(t["panels"]))
             for i, (title, content) in enumerate(zip(titles, t["panels"])):
-                self.panel(RENAME.get((page, i), title), f"{page}_p{i}", content, True)
+                if i in sections:                      # the page groups its graphs under its own headings
+                    self.d.add_heading(sections[i][0], 2)
+                    self.p(sections[i][1], keep=True)
+                self.panel(RENAME.get((page, i), title), f"{page}_p{i}", content, spans[i] >= 7 if spans else True, i in t.get("uncropped", []))
             for shot, title, text in G.DRAWERS:
                 if shot.endswith({"recommendations": "recommendation", "alerts": "alert", "models": "model"}.get(page, "~")):
                     self.d.add_heading(title, 3)
@@ -321,7 +330,7 @@ class Guide:
         kpis = json.loads((ROOT / "config" / "kpi_definitions.json").read_text(encoding="utf-8"))["kpis"]
         self.table(["KPI", "Business definition", "Rules and exclusions", "Owner"], [[k["kpi"], k["definition"], k["exclusions"] or "None.", k["owner"]] for k in kpis], [3.2, 5.6, 5.2, 3.0])
         self.h1("Appendix B: roles and access", numbered=False)
-        self.p("The prototype offers ten roles through the Signed in as selector. In production these would be Microsoft Entra ID groups.")
+        self.p("The prototype offers eleven roles through the Signed in as selector. In production these would be Microsoft Entra ID groups.")
         self.table(["Role", "Can see", "Approve recommendations", "Export"], [list(r) for r in G.ROLES], [5.6, 6.6, 2.7, 2.1])
 
     def build(self):
