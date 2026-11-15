@@ -9,7 +9,7 @@ Regenerates the documents in `docs/` and the Power BI report from the running ap
 .\.venv\Scripts\python.exe tools\build_guide.py              # docs\Dashboard User Guide.docx
 .\.venv\Scripts\python.exe tools\build_deck.py               # docs\Leadership Briefing.pptx
 .\.venv\Scripts\python.exe -m pip install imageio-ffmpeg piper-tts
-.\.venv\Scripts\python.exe tools\build_video.py              # docs\Platform Explainer.mp4 and .srt
+.\.venv\Scripts\python.exe tools\build_video.py              # docs\Luxury Hotel Chain Platform Explainer.mp4 and .srt
 powershell -ExecutionPolicy Bypass -File tools\render_office.ps1 -Docx "docs\Dashboard User Guide.docx" -OutDir data\docs_build\render
 ```
 

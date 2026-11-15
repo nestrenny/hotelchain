@@ -1,4 +1,4 @@
-"""Build docs/Platform Explainer.mp4 - a narrated, guided tour of the running app.
+"""Build docs/Luxury Hotel Chain Platform Explainer.mp4 - a narrated, guided tour of the running app.
 
 A virtual camera moves over full-page captures of the real application: it opens wide, eases in on
 the area being discussed, spotlights it with a highlight and a pointer, then moves on. Each camera
@@ -30,7 +30,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / "data" / "docs_build" / "video"
 VOICE = ROOT / "data" / "voices" / "en_US-ryan-high.onnx"
-OUT = ROOT / "docs" / "Platform Explainer.mp4"
+OUT = ROOT / "docs" / "Luxury Hotel Chain Platform Explainer.mp4"
 BASE = "http://localhost:8000/#/"
 W, H, FPS = 1920, 1080, 30
 PACE = 1.22                      # >1 is slower; 1.22 gives an unhurried presenter pace of about 155 words a minute

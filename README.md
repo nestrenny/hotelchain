@@ -90,7 +90,7 @@ Not yet done: these models and findings live on this page only and are not in th
 | [docs/Leadership Briefing.pptx](docs/Leadership%20Briefing.pptx) | 14-slide deck with speaker notes for the leadership team: what was built, what it shows (including energy and asset predictions), its limits, the path to production and the decisions needed. |
 | [powerbi/](powerbi/README.md) | Offline Power BI report on the same data: nine pages, 28 tables, 81 measures. Open the `.pbip` file in Power BI Desktop and select Refresh. |
 | [docs/Database Schema.drawio](docs/Database%20Schema.drawio) | Logical schema of the reporting database for draw.io (diagrams.net): a fact-by-dimension matrix, then one entity-relationship page per subject area with keys and relationships. |
-| [docs/Platform Explainer.mp4](docs/Platform%20Explainer.mp4) | 4-minute narrated guided tour of the running app: seven hotel-industry problems and the screens that solve each one. The camera zooms to and highlights each area as it is described. Subtitles are in the matching `.srt` file. |
+| [docs/Luxury Hotel Chain Platform Explainer.mp4](docs/Luxury%20Hotel%20Chain%20Platform%20Explainer.mp4) | 4-minute narrated guided tour of the running app: seven hotel-industry problems and the screens that solve each one. The camera zooms to and highlights each area as it is described. Subtitles are in the matching `.srt` file. |
 | [docs/traceability.md](docs/traceability.md) | Requirement-by-requirement status against the SRS. |
 | [docs/Luxury Hotel Chain – Enterprise Data Analytics and AI Control Tower - Writing-block.md](docs/Luxury%20Hotel%20Chain%20%E2%80%93%20Enterprise%20Data%20Analytics%20and%20AI%20Control%20Tower%20-%20Writing-block.md) | The source requirements specification (SRS). |
 
@@ -102,7 +102,7 @@ The guide, the deck and the video are generated from the running app, so their s
 .\.venv\Scripts\python.exe tools\capture_screens.py     # screenshots of every card block and panel, using the installed Edge
 .\.venv\Scripts\python.exe tools\build_guide.py         # docs\Dashboard User Guide.docx
 .\.venv\Scripts\python.exe tools\build_deck.py          # docs\Leadership Briefing.pptx
-.\.venv\Scripts\python.exe tools\build_video.py         # docs\Platform Explainer.mp4 (first: pip install imageio-ffmpeg)
+.\.venv\Scripts\python.exe tools\build_video.py         # docs\Luxury Hotel Chain Platform Explainer.mp4 (first: pip install imageio-ffmpeg)
 ```
 
 The wording for every card and graph lives in `tools/guide_content.py`. See [tools/README.md](tools/README.md) for the
