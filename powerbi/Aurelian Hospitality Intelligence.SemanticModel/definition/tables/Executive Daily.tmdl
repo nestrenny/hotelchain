@@ -1,0 +1,142 @@
+table 'Executive Daily'
+	lineageTag: be8a6c91-5066-5579-beee-9cd1b9db45c4
+
+	measure 'Total Revenue' = SUM('Executive Daily'[Total Revenue USD])
+		formatString: \$#,0
+		lineageTag: 9fd36dd8-8f61-5af3-92ba-5d4be74ed1ce
+
+	measure 'Room Revenue' = SUM('Executive Daily'[Room Revenue USD])
+		formatString: \$#,0
+		lineageTag: 34a8d56c-d815-5dda-82a2-745818ec1560
+
+	measure 'Rooms Sold' = SUM('Executive Daily'[Rooms Sold (base)])
+		formatString: #,0
+		lineageTag: ec63127b-8b11-5879-9f8f-feaa03ebd4e2
+
+	measure 'Rooms Available' = SUM('Executive Daily'[Rooms Available (base)])
+		formatString: #,0
+		lineageTag: 814835cf-a0b3-5fd1-b518-0a518942d6b4
+
+	measure Occupancy = DIVIDE([Rooms Sold], [Rooms Available])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1be0bee1-c4ef-5550-a779-28d8a639986f
+
+	measure ADR = DIVIDE([Room Revenue], [Rooms Sold])
+		formatString: \$#,0
+		lineageTag: 58a71c93-f3db-5383-9a36-40cb5b17f3e3
+
+	measure RevPAR = DIVIDE([Room Revenue], [Rooms Available])
+		formatString: \$#,0
+		lineageTag: 4e5ca3ba-9a0b-5135-9927-88b363c56929
+
+	measure GOP = SUM('Executive Daily'[GOP USD])
+		formatString: \$#,0
+		lineageTag: 4749b10e-0210-526f-b2a7-9e914821a8b8
+
+	measure 'Operating Expenditure' = SUM('Executive Daily'[Opex USD])
+		formatString: \$#,0
+		lineageTag: a6b3212b-252a-51a3-9907-9801e4310568
+
+	measure 'GOP Margin' = DIVIDE([GOP], SUM('Executive Daily'[GL Revenue USD]))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c34acb61-63e8-5125-9f70-1638a54e7748
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: a25c9eb6-71c3-5b52-a2a3-1c5764cb1aca
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: e071ed11-e8fa-5490-9b76-f1cfcf58b429
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Rooms Available (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e6c1209-dfca-54e0-b8ed-9afd7323d3aa
+		summarizeBy: none
+		sourceColumn: rooms_available
+
+	column 'Rooms Sold (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 169b3fea-a1a4-54bf-8fa8-ef8462432d41
+		summarizeBy: none
+		sourceColumn: rooms_sold
+
+	column 'Room Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 86943f02-8720-5fa1-91d2-e1996b7126b1
+		summarizeBy: none
+		sourceColumn: room_revenue_usd
+
+	column 'Restaurant Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 2982cfd8-fd6d-5236-a063-e01d31ae2eb1
+		summarizeBy: none
+		sourceColumn: restaurant_revenue_usd
+
+	column 'Waterpark Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 58ab45ad-7c3b-5fff-9715-f3387317217c
+		summarizeBy: none
+		sourceColumn: waterpark_revenue_usd
+
+	column 'Retail Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 986e5503-b064-5424-ad2f-d14c13dce943
+		summarizeBy: none
+		sourceColumn: retail_revenue_usd
+
+	column 'Spa Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: e7eeba38-da16-5e11-9fd1-e3aa441d9030
+		summarizeBy: none
+		sourceColumn: spa_revenue_usd
+
+	column 'Total Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 832bbf15-d337-540d-9c7b-9315aed3f232
+		summarizeBy: none
+		sourceColumn: total_revenue_usd
+
+	column 'GL Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 955704ef-c659-5296-95f1-b1e7be45e45a
+		summarizeBy: none
+		sourceColumn: gl_revenue_usd
+
+	column 'Opex USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 2cfd2894-81d5-5d06-afe4-cf562812ec00
+		summarizeBy: none
+		sourceColumn: opex_usd
+
+	column 'GOP USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: ac89b0e8-4be4-55c2-9a8d-56335ad7f1d6
+		summarizeBy: none
+		sourceColumn: gop_usd
+
+	partition 'Executive Daily' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\executive_daily.parquet"))
+				in
+				    Source

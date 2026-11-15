@@ -1,0 +1,77 @@
+table 'Spa Appointments'
+	lineageTag: 83c698bf-4109-5c61-b0b8-3135f7069818
+
+	measure 'Completed Appointments' = CALCULATE(SUM('Spa Appointments'[Appointments]), 'Spa Appointments'[Status] = "COMPLETED")
+		formatString: #,0
+		lineageTag: 8b22b47a-9f36-5333-9c0e-194026b8e01e
+
+	measure 'Spa Revenue' = CALCULATE(SUM('Spa Appointments'[Net USD]), 'Spa Appointments'[Status] = "COMPLETED")
+		formatString: \$#,0
+		lineageTag: 5b63e58d-37d0-5a3d-88c9-bf1db8a134f7
+
+	measure 'Spa Cancellation Rate' = DIVIDE(CALCULATE(SUM('Spa Appointments'[Appointments]), 'Spa Appointments'[Status] = "CANCELLED"), SUM('Spa Appointments'[Appointments]))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f7567f46-fcd9-5dab-87e9-0396737b4bf6
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 27a796a6-be27-5399-abc3-336feb43151d
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 6c94a648-7668-5455-b2a2-fef65d5d716b
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Outlet Code'
+		dataType: string
+		isHidden
+		lineageTag: ad5c5040-e266-5348-bc2a-2ba3259a9b07
+		summarizeBy: none
+		sourceColumn: outlet_code
+
+	column 'Service Category'
+		dataType: string
+		lineageTag: 46764a23-b7ce-5200-a2ee-ec3c4427bf4c
+		summarizeBy: none
+		sourceColumn: service_category
+
+	column Status
+		dataType: string
+		lineageTag: 26ca6029-f818-5386-a576-461618bc5723
+		summarizeBy: none
+		sourceColumn: status
+
+	column Appointments
+		dataType: int64
+		formatString: 0
+		lineageTag: 90050b97-f6eb-5696-affc-4077a57cc708
+		summarizeBy: none
+		sourceColumn: appointments
+
+	column 'Net USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: e6f588c2-44a9-5dc9-9011-d7433fe2c7a5
+		summarizeBy: none
+		sourceColumn: net_usd
+
+	column 'Duration Minutes'
+		dataType: int64
+		formatString: 0
+		lineageTag: 238b9079-e6ce-5afb-8598-e58860acb929
+		summarizeBy: none
+		sourceColumn: duration_minutes
+
+	partition 'Spa Appointments' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\spa_appointments.parquet"))
+				in
+				    Source

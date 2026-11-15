@@ -1,0 +1,42 @@
+table 'Energy End Use'
+	lineageTag: 32b72c4a-f3b1-50ad-841a-4a3a681e0eca
+
+	measure 'End-use Energy (MWh)' = SUM('Energy End Use'[kWh]) / 1000
+		formatString: #,0.0
+		lineageTag: bee6214f-7063-5af4-941d-07db7ac3a415
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 448a014b-83dd-5d32-8798-589a918befb8
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: de0f37f4-9ac8-58fc-a590-cd5dc4185a44
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'End Use'
+		dataType: string
+		lineageTag: 9cb6794c-a2ca-5eb6-938b-b452cd0f86e9
+		summarizeBy: none
+		sourceColumn: end_use
+
+	column kWh
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 5152c30b-e069-51fa-abc9-57d6a27411f5
+		summarizeBy: none
+		sourceColumn: kwh
+
+	partition 'Energy End Use' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\energy_end_use.parquet"))
+				in
+				    Source

@@ -1,0 +1,201 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "06eb4bc97f2121fd9e42",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 12000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Channel"
+                    }
+                  },
+                  "Property": "Channel"
+                }
+              },
+              "queryRef": "Channel.Channel",
+              "nativeQueryRef": "Channel"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Campaign Spend"
+                }
+              },
+              "queryRef": "Marketing.Campaign Spend",
+              "nativeQueryRef": "Campaign Spend"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Clicks"
+                }
+              },
+              "queryRef": "Marketing.Clicks",
+              "nativeQueryRef": "Clicks"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Conversions"
+                }
+              },
+              "queryRef": "Marketing.Conversions",
+              "nativeQueryRef": "Conversions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Conversion Rate"
+                }
+              },
+              "queryRef": "Marketing.Conversion Rate",
+              "nativeQueryRef": "Conversion Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Acquisition Cost"
+                }
+              },
+              "queryRef": "Marketing.Acquisition Cost",
+              "nativeQueryRef": "Acquisition Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Attributed Revenue"
+                }
+              },
+              "queryRef": "Marketing.Attributed Revenue",
+              "nativeQueryRef": "Attributed Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Marketing"
+                    }
+                  },
+                  "Property": "Campaign ROI"
+                }
+              },
+              "queryRef": "Marketing.Campaign ROI",
+              "nativeQueryRef": "Campaign ROI"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Marketing"
+                  }
+                },
+                "Property": "Campaign Spend"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Performance by channel'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,108 @@
+table Recommendations
+	lineageTag: ea70429d-f72f-52a1-9a15-871db5bd7642
+
+	measure 'Recommendations Count' = COUNTROWS('Recommendations')
+		formatString: #,0
+		lineageTag: c81e2d01-3b36-510b-9dbb-33c384c5835b
+
+	measure 'Estimated Impact' = SUM('Recommendations'[Estimated Impact USD])
+		formatString: \$#,0
+		lineageTag: c6cd08a3-44e4-5969-86f2-8d6e88e59f8a
+
+	measure 'Average Confidence' = AVERAGE('Recommendations'[Confidence])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e93b8dd4-19e9-51ce-81f9-c155906c6089
+
+	column 'Recommendation ID'
+		dataType: string
+		isHidden
+		lineageTag: 33c0d59b-29ad-567b-bf41-216b17e2c3ac
+		summarizeBy: none
+		sourceColumn: recommendation_id
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 3eb128fa-30f0-53e4-8dc8-86a478feb0fe
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Business Vertical'
+		dataType: string
+		isHidden
+		lineageTag: 75b8c65c-ba04-5541-8cb0-767eeb975c57
+		summarizeBy: none
+		sourceColumn: business_vertical
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: e366926b-5513-5e57-886f-10952a2e5b78
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column Scenario
+		dataType: string
+		lineageTag: 8eb041ca-572c-5cbc-ad46-23f87595fb3a
+		summarizeBy: none
+		sourceColumn: scenario
+
+	column Title
+		dataType: string
+		lineageTag: 1cded9fa-d549-51e9-ba7c-ee98b56d61d1
+		summarizeBy: none
+		sourceColumn: title
+
+	column 'Recommended Action'
+		dataType: string
+		lineageTag: 014938f4-cdaa-546e-ae71-0ab290fdcc5e
+		summarizeBy: none
+		sourceColumn: recommended_action
+
+	column 'Estimated Impact USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 21814574-729a-5e3d-9c78-7f5ba2ce95c3
+		summarizeBy: none
+		sourceColumn: estimated_impact_usd
+
+	column Confidence
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 5773c22b-bfa0-5098-8f08-a3ca51191983
+		summarizeBy: none
+		sourceColumn: confidence
+
+	column Priority
+		dataType: string
+		lineageTag: 231a6f50-aed6-57bf-a9d6-aa9ebcc57f4d
+		summarizeBy: none
+		sourceColumn: priority
+
+	column 'Priority Score'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: cace9ea4-0b50-5f59-bf12-05ba13cfaa70
+		summarizeBy: none
+		sourceColumn: priority_score
+
+	column 'Approval Status'
+		dataType: string
+		lineageTag: c6ba9223-b013-5038-91b6-b928423fc224
+		summarizeBy: none
+		sourceColumn: approval_status
+
+	column 'Owner Role'
+		dataType: string
+		lineageTag: ff4076b0-8618-59d0-8f90-24fe1d5d4815
+		summarizeBy: none
+		sourceColumn: owner_role
+
+	partition Recommendations = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\recommendations.parquet"))
+				in
+				    Source

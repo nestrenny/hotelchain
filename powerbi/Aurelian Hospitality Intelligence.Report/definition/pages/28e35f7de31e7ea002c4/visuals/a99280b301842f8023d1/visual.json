@@ -1,0 +1,159 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "a99280b301842f8023d1",
+  "position": {
+    "x": 788,
+    "y": 478,
+    "z": 13000,
+    "height": 232,
+    "width": 476,
+    "tabOrder": 13000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Property"
+                    }
+                  },
+                  "Property": "Property"
+                }
+              },
+              "queryRef": "Property.Property",
+              "nativeQueryRef": "Property"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Ledger Revenue"
+                }
+              },
+              "queryRef": "Finance.Ledger Revenue",
+              "nativeQueryRef": "Ledger Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Ledger Expenses"
+                }
+              },
+              "queryRef": "Finance.Ledger Expenses",
+              "nativeQueryRef": "Ledger Expenses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Ledger GOP"
+                }
+              },
+              "queryRef": "Finance.Ledger GOP",
+              "nativeQueryRef": "Ledger GOP"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Ledger GOP Margin"
+                }
+              },
+              "queryRef": "Finance.Ledger GOP Margin",
+              "nativeQueryRef": "Ledger GOP Margin"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Finance"
+                  }
+                },
+                "Property": "Ledger Revenue"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Profitability by property'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

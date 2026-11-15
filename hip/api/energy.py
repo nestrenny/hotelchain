@@ -165,7 +165,7 @@ def energy(c: Ctx) -> dict:
         {"text": f"{dev[0]} devices have a high probability of failing within 30 days; about {dev[1]:.0f} failures are expected across {dev[3]:,} devices.", "tone": "bad" if dev[0] else "good", "measure": "Device failure prediction"},
         {"text": f"Probable water leak at {', '.join(leaks['property'])}: about {leaks['loss_m3_per_day'].sum():,.0f} m3 a day." if len(leaks) else "Overnight water flow is normal at every property.",
          "tone": "bad" if len(leaks) else "good", "measure": "Water leak detection"},
-        {"text": f"{ctr[0] or 0} contract(s) have lapsed and {ctr[1] or 0} end within 90 days; {dev[2]:,} devices are due for replacement ({fmtv(dev[4] or 0, 'usd')}).", "tone": "bad" if ctr[0] else "neutral",
+        {"text": f"{ctr[0] or 0} {'contract has' if ctr[0] == 1 else 'contracts have'} lapsed and {ctr[1] or 0} {'ends' if ctr[1] == 1 else 'end'} within 90 days; {dev[2]:,} devices are due for replacement ({fmtv(dev[4] or 0, 'usd')}).", "tone": "bad" if ctr[0] else "neutral",
          "measure": "Contracts and lifecycle"},
     ]
     spec = page(c, "Energy & Assets", "AI predictions for energy management, device maintenance, contracts and replacement", kpis, panels, insights, VERTICAL)

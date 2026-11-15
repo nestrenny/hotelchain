@@ -1,0 +1,173 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "284d6abcb79dfc13b633",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 11000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Outlet"
+                    }
+                  },
+                  "Property": "Outlet Name"
+                }
+              },
+              "queryRef": "Outlet.Outlet Name",
+              "nativeQueryRef": "Outlet Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waterpark Daily"
+                    }
+                  },
+                  "Property": "Visitors"
+                }
+              },
+              "queryRef": "Waterpark Daily.Visitors",
+              "nativeQueryRef": "Visitors"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waterpark Daily"
+                    }
+                  },
+                  "Property": "Ticket Revenue"
+                }
+              },
+              "queryRef": "Waterpark Daily.Ticket Revenue",
+              "nativeQueryRef": "Ticket Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waterpark Daily"
+                    }
+                  },
+                  "Property": "Revenue per Visitor"
+                }
+              },
+              "queryRef": "Waterpark Daily.Revenue per Visitor",
+              "nativeQueryRef": "Revenue per Visitor"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waterpark Daily"
+                    }
+                  },
+                  "Property": "Capacity Utilisation"
+                }
+              },
+              "queryRef": "Waterpark Daily.Capacity Utilisation",
+              "nativeQueryRef": "Capacity Utilisation"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waterpark Daily"
+                    }
+                  },
+                  "Property": "Average Queue (min)"
+                }
+              },
+              "queryRef": "Waterpark Daily.Average Queue (min)",
+              "nativeQueryRef": "Average Queue (min)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Waterpark Daily"
+                  }
+                },
+                "Property": "Visitors"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Performance by park'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

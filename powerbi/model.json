@@ -1,0 +1,2116 @@
+{
+  "tables": [
+    {
+      "name": "Date",
+      "kind": "dim",
+      "source": "gold.dim_date",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Year",
+          "source": "year",
+          "type": "int64"
+        },
+        {
+          "name": "Quarter",
+          "source": "quarter",
+          "type": "int64"
+        },
+        {
+          "name": "Month",
+          "source": "month",
+          "type": "int64"
+        },
+        {
+          "name": "Month Name",
+          "source": "month_name",
+          "type": "string"
+        },
+        {
+          "name": "Year Month",
+          "source": "year_month",
+          "type": "string"
+        },
+        {
+          "name": "Iso Week",
+          "source": "iso_week",
+          "type": "int64"
+        },
+        {
+          "name": "Day Name",
+          "source": "day_name",
+          "type": "string"
+        },
+        {
+          "name": "Is Weekend",
+          "source": "is_weekend",
+          "type": "boolean"
+        },
+        {
+          "name": "Is Actual",
+          "source": "is_actual",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Property",
+      "kind": "dim",
+      "source": "gold.dim_property",
+      "columns": [
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Property",
+          "source": "property",
+          "type": "string"
+        },
+        {
+          "name": "Property Name",
+          "source": "property_name",
+          "type": "string"
+        },
+        {
+          "name": "Brand Name",
+          "source": "brand_name",
+          "type": "string"
+        },
+        {
+          "name": "Region",
+          "source": "region",
+          "type": "string"
+        },
+        {
+          "name": "Country",
+          "source": "country",
+          "type": "string"
+        },
+        {
+          "name": "City",
+          "source": "city",
+          "type": "string"
+        },
+        {
+          "name": "Currency",
+          "source": "currency",
+          "type": "string"
+        },
+        {
+          "name": "Total Rooms",
+          "source": "total_rooms",
+          "type": "int64"
+        },
+        {
+          "name": "Has Waterpark",
+          "source": "has_waterpark",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Business Vertical",
+      "kind": "dim",
+      "source": "gold.dim_business_vertical",
+      "columns": [
+        {
+          "name": "Business Vertical",
+          "source": "business_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Sort Order",
+          "source": "sort_order",
+          "type": "int64"
+        }
+      ]
+    },
+    {
+      "name": "Outlet",
+      "kind": "dim",
+      "source": "gold.dim_outlet",
+      "columns": [
+        {
+          "name": "Outlet Code",
+          "source": "outlet_code",
+          "type": "string"
+        },
+        {
+          "name": "Outlet Name",
+          "source": "outlet_name",
+          "type": "string"
+        },
+        {
+          "name": "Outlet Type",
+          "source": "outlet_type",
+          "type": "string"
+        },
+        {
+          "name": "Sub Type",
+          "source": "sub_type",
+          "type": "string"
+        },
+        {
+          "name": "Capacity",
+          "source": "capacity",
+          "type": "int64"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Room Type",
+      "kind": "dim",
+      "source": "gold.dim_room",
+      "columns": [
+        {
+          "name": "Room Type",
+          "source": "room_type",
+          "type": "string"
+        },
+        {
+          "name": "Room Type Name",
+          "source": "room_type_name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Channel",
+      "kind": "dim",
+      "source": "gold.dim_channel",
+      "columns": [
+        {
+          "name": "Channel",
+          "source": "channel",
+          "type": "string"
+        },
+        {
+          "name": "Channel Type",
+          "source": "channel_type",
+          "type": "string"
+        },
+        {
+          "name": "Is Direct",
+          "source": "is_direct",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Cost Centre",
+      "kind": "dim",
+      "source": "gold.fact_financial_transactions, gold.fact_budget",
+      "columns": [
+        {
+          "name": "Cost Centre",
+          "source": "cost_centre",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Executive Daily",
+      "kind": "fact",
+      "source": "gold.mart_executive_daily",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Rooms Available (base)",
+          "source": "rooms_available",
+          "type": "int64"
+        },
+        {
+          "name": "Rooms Sold (base)",
+          "source": "rooms_sold",
+          "type": "int64"
+        },
+        {
+          "name": "Room Revenue USD",
+          "source": "room_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "Restaurant Revenue USD",
+          "source": "restaurant_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "Waterpark Revenue USD",
+          "source": "waterpark_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "Retail Revenue USD",
+          "source": "retail_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "Spa Revenue USD",
+          "source": "spa_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "Total Revenue USD",
+          "source": "total_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "GL Revenue USD",
+          "source": "gl_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "Opex USD",
+          "source": "opex_usd",
+          "type": "double"
+        },
+        {
+          "name": "GOP USD",
+          "source": "gop_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Revenue by Vertical",
+      "kind": "fact",
+      "source": "gold.mart_daily_revenue",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Business Vertical",
+          "source": "business_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Revenue USD",
+          "source": "revenue_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Room Occupancy",
+      "kind": "fact",
+      "source": "gold.fact_room_occupancy",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Room Type",
+          "source": "room_type",
+          "type": "string"
+        },
+        {
+          "name": "Rooms Available (base)",
+          "source": "rooms_available",
+          "type": "int64"
+        },
+        {
+          "name": "Rooms Sold (base)",
+          "source": "rooms_sold",
+          "type": "int64"
+        },
+        {
+          "name": "Room Revenue USD",
+          "source": "room_revenue_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Room Revenue",
+      "kind": "fact",
+      "source": "gold.fact_room_revenue",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Room Type",
+          "source": "room_type",
+          "type": "string"
+        },
+        {
+          "name": "Channel",
+          "source": "channel",
+          "type": "string"
+        },
+        {
+          "name": "Segment",
+          "source": "segment",
+          "type": "string"
+        },
+        {
+          "name": "Room Nights (base)",
+          "source": "room_nights",
+          "type": "int64"
+        },
+        {
+          "name": "Room Revenue USD",
+          "source": "room_revenue_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Restaurant Covers",
+      "kind": "fact",
+      "source": "gold.fact_restaurant_covers",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Outlet Code",
+          "source": "outlet_code",
+          "type": "string"
+        },
+        {
+          "name": "Time Slot",
+          "source": "time_slot",
+          "type": "string"
+        },
+        {
+          "name": "Checks (base)",
+          "source": "checks",
+          "type": "int64"
+        },
+        {
+          "name": "Covers (base)",
+          "source": "covers",
+          "type": "int64"
+        },
+        {
+          "name": "Net USD",
+          "source": "net_usd",
+          "type": "double"
+        },
+        {
+          "name": "Food Cost USD",
+          "source": "food_cost_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Waterpark Daily",
+      "kind": "fact",
+      "source": "gold.fact_waterpark_daily",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Outlet Code",
+          "source": "outlet_code",
+          "type": "string"
+        },
+        {
+          "name": "Daily Capacity",
+          "source": "daily_capacity",
+          "type": "int64"
+        },
+        {
+          "name": "Visitors (base)",
+          "source": "visitors",
+          "type": "int64"
+        },
+        {
+          "name": "Net USD",
+          "source": "net_usd",
+          "type": "double"
+        },
+        {
+          "name": "Avg Queue Minutes",
+          "source": "avg_queue_minutes",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Retail Sales",
+      "kind": "fact",
+      "source": "gold.fact_retail_sales",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Outlet Code",
+          "source": "outlet_code",
+          "type": "string"
+        },
+        {
+          "name": "Category",
+          "source": "category",
+          "type": "string"
+        },
+        {
+          "name": "Net USD",
+          "source": "net_usd",
+          "type": "double"
+        },
+        {
+          "name": "Cost USD",
+          "source": "cost_usd",
+          "type": "double"
+        },
+        {
+          "name": "Discount USD",
+          "source": "discount_usd",
+          "type": "double"
+        },
+        {
+          "name": "Gross USD",
+          "source": "gross_usd",
+          "type": "double"
+        },
+        {
+          "name": "Units",
+          "source": "units",
+          "type": "int64"
+        }
+      ]
+    },
+    {
+      "name": "Spa Appointments",
+      "kind": "fact",
+      "source": "gold.fact_spa_appointments",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Outlet Code",
+          "source": "outlet_code",
+          "type": "string"
+        },
+        {
+          "name": "Service Category",
+          "source": "service_category",
+          "type": "string"
+        },
+        {
+          "name": "Status",
+          "source": "status",
+          "type": "string"
+        },
+        {
+          "name": "Appointments",
+          "source": "appointments",
+          "type": "int64"
+        },
+        {
+          "name": "Net USD",
+          "source": "net_usd",
+          "type": "double"
+        },
+        {
+          "name": "Duration Minutes",
+          "source": "duration_minutes",
+          "type": "int64"
+        }
+      ]
+    },
+    {
+      "name": "Marketing",
+      "kind": "fact",
+      "source": "gold.fact_marketing_campaigns",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Campaign ID",
+          "source": "campaign_id",
+          "type": "string"
+        },
+        {
+          "name": "Campaign Name",
+          "source": "campaign_name",
+          "type": "string"
+        },
+        {
+          "name": "Channel",
+          "source": "channel",
+          "type": "string"
+        },
+        {
+          "name": "Target Vertical",
+          "source": "target_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Audience Segment",
+          "source": "audience_segment",
+          "type": "string"
+        },
+        {
+          "name": "Impressions",
+          "source": "impressions",
+          "type": "int64"
+        },
+        {
+          "name": "Clicks (base)",
+          "source": "clicks",
+          "type": "int64"
+        },
+        {
+          "name": "Conversions (base)",
+          "source": "conversions",
+          "type": "int64"
+        },
+        {
+          "name": "Spend USD",
+          "source": "spend_usd",
+          "type": "double"
+        },
+        {
+          "name": "Attributed Revenue USD",
+          "source": "attributed_revenue_usd",
+          "type": "double"
+        },
+        {
+          "name": "New Customers",
+          "source": "new_customers",
+          "type": "int64"
+        }
+      ]
+    },
+    {
+      "name": "Finance",
+      "kind": "fact",
+      "source": "gold.fact_financial_transactions",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Business Vertical",
+          "source": "business_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Cost Centre",
+          "source": "cost_centre",
+          "type": "string"
+        },
+        {
+          "name": "Account Type",
+          "source": "account_type",
+          "type": "string"
+        },
+        {
+          "name": "Amount USD",
+          "source": "amount_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Budget",
+      "kind": "fact",
+      "source": "gold.fact_budget",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Business Vertical",
+          "source": "business_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Cost Centre",
+          "source": "cost_centre",
+          "type": "string"
+        },
+        {
+          "name": "Account Type",
+          "source": "account_type",
+          "type": "string"
+        },
+        {
+          "name": "Budget USD",
+          "source": "budget_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Forecasts",
+      "kind": "fact",
+      "source": "gold.fact_forecasts",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Metric",
+          "source": "metric",
+          "type": "string"
+        },
+        {
+          "name": "Forecast Type",
+          "source": "forecast_type",
+          "type": "string"
+        },
+        {
+          "name": "Forecast Value",
+          "source": "forecast_value",
+          "type": "double"
+        },
+        {
+          "name": "Lower 80",
+          "source": "lower_80",
+          "type": "double"
+        },
+        {
+          "name": "Upper 80",
+          "source": "upper_80",
+          "type": "double"
+        },
+        {
+          "name": "Actual Value",
+          "source": "actual_value",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Recommendations",
+      "kind": "fact",
+      "source": "gold.fact_ai_recommendations",
+      "columns": [
+        {
+          "name": "Recommendation ID",
+          "source": "recommendation_id",
+          "type": "string"
+        },
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Business Vertical",
+          "source": "business_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Scenario",
+          "source": "scenario",
+          "type": "string"
+        },
+        {
+          "name": "Title",
+          "source": "title",
+          "type": "string"
+        },
+        {
+          "name": "Recommended Action",
+          "source": "recommended_action",
+          "type": "string"
+        },
+        {
+          "name": "Estimated Impact USD",
+          "source": "estimated_impact_usd",
+          "type": "double"
+        },
+        {
+          "name": "Confidence",
+          "source": "confidence",
+          "type": "double"
+        },
+        {
+          "name": "Priority",
+          "source": "priority",
+          "type": "string"
+        },
+        {
+          "name": "Priority Score",
+          "source": "priority_score",
+          "type": "double"
+        },
+        {
+          "name": "Approval Status",
+          "source": "approval_status",
+          "type": "string"
+        },
+        {
+          "name": "Owner Role",
+          "source": "owner_role",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "kind": "fact",
+      "source": "ai.alerts",
+      "columns": [
+        {
+          "name": "Alert ID",
+          "source": "alert_id",
+          "type": "string"
+        },
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Severity",
+          "source": "severity",
+          "type": "string"
+        },
+        {
+          "name": "Category",
+          "source": "category",
+          "type": "string"
+        },
+        {
+          "name": "Business Vertical",
+          "source": "business_vertical",
+          "type": "string"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Title",
+          "source": "title",
+          "type": "string"
+        },
+        {
+          "name": "Status",
+          "source": "status",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Models",
+      "kind": "fact",
+      "source": "ai.model_registry",
+      "columns": [
+        {
+          "name": "Model Name",
+          "source": "model_name",
+          "type": "string"
+        },
+        {
+          "name": "Version",
+          "source": "version",
+          "type": "string"
+        },
+        {
+          "name": "Domain",
+          "source": "domain",
+          "type": "string"
+        },
+        {
+          "name": "Model Type",
+          "source": "model_type",
+          "type": "string"
+        },
+        {
+          "name": "Algorithm",
+          "source": "algorithm",
+          "type": "string"
+        },
+        {
+          "name": "Metric Name",
+          "source": "metric_name",
+          "type": "string"
+        },
+        {
+          "name": "Metric Value",
+          "source": "metric_value",
+          "type": "double"
+        },
+        {
+          "name": "Baseline Value",
+          "source": "baseline_value",
+          "type": "double"
+        },
+        {
+          "name": "Drift Status",
+          "source": "drift_status",
+          "type": "string"
+        },
+        {
+          "name": "Data Quality Status",
+          "source": "data_quality_status",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Energy Daily",
+      "kind": "fact",
+      "source": "ai.energy_baseline",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "kWh",
+          "source": "kwh",
+          "type": "double"
+        },
+        {
+          "name": "Expected kWh",
+          "source": "expected_kwh",
+          "type": "double"
+        },
+        {
+          "name": "Peak kW",
+          "source": "peak_kw",
+          "type": "double"
+        },
+        {
+          "name": "Water m3",
+          "source": "water_m3",
+          "type": "double"
+        },
+        {
+          "name": "Cost USD",
+          "source": "cost_usd",
+          "type": "double"
+        },
+        {
+          "name": "Carbon (t)",
+          "source": "carbon_t",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Energy End Use",
+      "kind": "fact",
+      "source": "gold.fact_energy_daily",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "End Use",
+          "source": "end_use",
+          "type": "string"
+        },
+        {
+          "name": "kWh",
+          "source": "kwh",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Energy Forecast",
+      "kind": "fact",
+      "source": "ai.energy_forecast",
+      "columns": [
+        {
+          "name": "Date",
+          "source": "date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Forecast kWh",
+          "source": "forecast_kwh",
+          "type": "double"
+        },
+        {
+          "name": "Lower 80",
+          "source": "lower_80",
+          "type": "double"
+        },
+        {
+          "name": "Upper 80",
+          "source": "upper_80",
+          "type": "double"
+        },
+        {
+          "name": "Cost USD",
+          "source": "cost_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Device Risk",
+      "kind": "fact",
+      "source": "ai.device_risk",
+      "columns": [
+        {
+          "name": "Asset ID",
+          "source": "asset_id",
+          "type": "string"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Location",
+          "source": "location",
+          "type": "string"
+        },
+        {
+          "name": "Device Type",
+          "source": "device_type",
+          "type": "string"
+        },
+        {
+          "name": "Age Years",
+          "source": "age_years",
+          "type": "double"
+        },
+        {
+          "name": "Failure Probability",
+          "source": "failure_probability",
+          "type": "double"
+        },
+        {
+          "name": "Risk Band",
+          "source": "risk_band",
+          "type": "string"
+        },
+        {
+          "name": "Remaining Life Months",
+          "source": "remaining_life_months",
+          "type": "double"
+        },
+        {
+          "name": "Under Warranty",
+          "source": "under_warranty",
+          "type": "boolean"
+        },
+        {
+          "name": "Service Contract",
+          "source": "service_contract",
+          "type": "boolean"
+        },
+        {
+          "name": "Replace Reason",
+          "source": "replace_reason",
+          "type": "string"
+        },
+        {
+          "name": "Action",
+          "source": "action",
+          "type": "string"
+        },
+        {
+          "name": "Replacement Cost USD",
+          "source": "replacement_cost_usd",
+          "type": "double"
+        },
+        {
+          "name": "Cost Avoided USD",
+          "source": "cost_avoided_usd",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "Contract Reminders",
+      "kind": "fact",
+      "source": "ai.contract_reminders",
+      "columns": [
+        {
+          "name": "Contract Name",
+          "source": "contract_name",
+          "type": "string"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Supplier Name",
+          "source": "supplier_name",
+          "type": "string"
+        },
+        {
+          "name": "Covers (base)",
+          "source": "covers",
+          "type": "string"
+        },
+        {
+          "name": "End Date",
+          "source": "end_date",
+          "type": "dateTime"
+        },
+        {
+          "name": "Days Left",
+          "source": "days_left",
+          "type": "int64"
+        },
+        {
+          "name": "Notice Deadline",
+          "source": "notice_deadline",
+          "type": "dateTime"
+        },
+        {
+          "name": "Annual Value USD",
+          "source": "annual_value_usd",
+          "type": "double"
+        },
+        {
+          "name": "Devices Covered",
+          "source": "devices_covered",
+          "type": "int64"
+        },
+        {
+          "name": "Failure Exposure USD",
+          "source": "failure_exposure_usd",
+          "type": "double"
+        },
+        {
+          "name": "Status",
+          "source": "status",
+          "type": "string"
+        },
+        {
+          "name": "Action",
+          "source": "action",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Energy Findings",
+      "kind": "fact",
+      "source": "ai.energy_findings",
+      "columns": [
+        {
+          "name": "Priority",
+          "source": "priority",
+          "type": "string"
+        },
+        {
+          "name": "Category",
+          "source": "category",
+          "type": "string"
+        },
+        {
+          "name": "Property ID",
+          "source": "property_id",
+          "type": "string"
+        },
+        {
+          "name": "Title",
+          "source": "title",
+          "type": "string"
+        },
+        {
+          "name": "Detail",
+          "source": "detail",
+          "type": "string"
+        },
+        {
+          "name": "Annual Value USD",
+          "source": "annual_value_usd",
+          "type": "double"
+        },
+        {
+          "name": "Due Date",
+          "source": "due_date",
+          "type": "dateTime"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Executive Daily",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Executive Daily",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Revenue by Vertical",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Revenue by Vertical",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Revenue by Vertical",
+      "from_column": "Business Vertical",
+      "to": "Business Vertical",
+      "to_column": "Business Vertical",
+      "in_model": true
+    },
+    {
+      "from": "Room Occupancy",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Room Occupancy",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Room Occupancy",
+      "from_column": "Room Type",
+      "to": "Room Type",
+      "to_column": "Room Type",
+      "in_model": true
+    },
+    {
+      "from": "Room Revenue",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Room Revenue",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Room Revenue",
+      "from_column": "Room Type",
+      "to": "Room Type",
+      "to_column": "Room Type",
+      "in_model": true
+    },
+    {
+      "from": "Room Revenue",
+      "from_column": "Channel",
+      "to": "Channel",
+      "to_column": "Channel",
+      "in_model": true
+    },
+    {
+      "from": "Restaurant Covers",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Restaurant Covers",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Restaurant Covers",
+      "from_column": "Outlet Code",
+      "to": "Outlet",
+      "to_column": "Outlet Code",
+      "in_model": true
+    },
+    {
+      "from": "Waterpark Daily",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Waterpark Daily",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Waterpark Daily",
+      "from_column": "Outlet Code",
+      "to": "Outlet",
+      "to_column": "Outlet Code",
+      "in_model": true
+    },
+    {
+      "from": "Retail Sales",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Retail Sales",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Retail Sales",
+      "from_column": "Outlet Code",
+      "to": "Outlet",
+      "to_column": "Outlet Code",
+      "in_model": true
+    },
+    {
+      "from": "Spa Appointments",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Spa Appointments",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Spa Appointments",
+      "from_column": "Outlet Code",
+      "to": "Outlet",
+      "to_column": "Outlet Code",
+      "in_model": true
+    },
+    {
+      "from": "Marketing",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Marketing",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Marketing",
+      "from_column": "Channel",
+      "to": "Channel",
+      "to_column": "Channel",
+      "in_model": true
+    },
+    {
+      "from": "Finance",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Finance",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Finance",
+      "from_column": "Business Vertical",
+      "to": "Business Vertical",
+      "to_column": "Business Vertical",
+      "in_model": true
+    },
+    {
+      "from": "Finance",
+      "from_column": "Cost Centre",
+      "to": "Cost Centre",
+      "to_column": "Cost Centre",
+      "in_model": true
+    },
+    {
+      "from": "Budget",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Budget",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Budget",
+      "from_column": "Business Vertical",
+      "to": "Business Vertical",
+      "to_column": "Business Vertical",
+      "in_model": true
+    },
+    {
+      "from": "Budget",
+      "from_column": "Cost Centre",
+      "to": "Cost Centre",
+      "to_column": "Cost Centre",
+      "in_model": true
+    },
+    {
+      "from": "Forecasts",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Forecasts",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Recommendations",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Recommendations",
+      "from_column": "Business Vertical",
+      "to": "Business Vertical",
+      "to_column": "Business Vertical",
+      "in_model": true
+    },
+    {
+      "from": "Recommendations",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Alerts",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Alerts",
+      "from_column": "Business Vertical",
+      "to": "Business Vertical",
+      "to_column": "Business Vertical",
+      "in_model": true
+    },
+    {
+      "from": "Alerts",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Energy Daily",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Energy Daily",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Energy End Use",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Energy End Use",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Energy Forecast",
+      "from_column": "Date",
+      "to": "Date",
+      "to_column": "Date",
+      "in_model": true
+    },
+    {
+      "from": "Energy Forecast",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Device Risk",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Contract Reminders",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Energy Findings",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": true
+    },
+    {
+      "from": "Outlet",
+      "from_column": "Property ID",
+      "to": "Property",
+      "to_column": "Property ID",
+      "in_model": false
+    }
+  ],
+  "measures": [
+    {
+      "table": "Executive Daily",
+      "name": "Total Revenue",
+      "expression": "SUM('Executive Daily'[Total Revenue USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "Room Revenue",
+      "expression": "SUM('Executive Daily'[Room Revenue USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "Rooms Sold",
+      "expression": "SUM('Executive Daily'[Rooms Sold (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "Rooms Available",
+      "expression": "SUM('Executive Daily'[Rooms Available (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "Occupancy",
+      "expression": "DIVIDE([Rooms Sold], [Rooms Available])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "ADR",
+      "expression": "DIVIDE([Room Revenue], [Rooms Sold])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "RevPAR",
+      "expression": "DIVIDE([Room Revenue], [Rooms Available])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "GOP",
+      "expression": "SUM('Executive Daily'[GOP USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "Operating Expenditure",
+      "expression": "SUM('Executive Daily'[Opex USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Executive Daily",
+      "name": "GOP Margin",
+      "expression": "DIVIDE([GOP], SUM('Executive Daily'[GL Revenue USD]))",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Revenue by Vertical",
+      "name": "Vertical Revenue",
+      "expression": "SUM('Revenue by Vertical'[Revenue USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Room Occupancy",
+      "name": "Room Type Occupancy",
+      "expression": "DIVIDE(SUM('Room Occupancy'[Rooms Sold (base)]), SUM('Room Occupancy'[Rooms Available (base)]))",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Room Occupancy",
+      "name": "Room Type Revenue",
+      "expression": "SUM('Room Occupancy'[Room Revenue USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Room Occupancy",
+      "name": "Room Type ADR",
+      "expression": "DIVIDE(SUM('Room Occupancy'[Room Revenue USD]), SUM('Room Occupancy'[Rooms Sold (base)]))",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Room Revenue",
+      "name": "Room Nights",
+      "expression": "SUM('Room Revenue'[Room Nights (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Room Revenue",
+      "name": "Booked Room Revenue",
+      "expression": "SUM('Room Revenue'[Room Revenue USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Room Revenue",
+      "name": "Booked ADR",
+      "expression": "DIVIDE([Booked Room Revenue], [Room Nights])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Restaurant Covers",
+      "name": "Covers",
+      "expression": "SUM('Restaurant Covers'[Covers (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Restaurant Covers",
+      "name": "Restaurant Sales",
+      "expression": "SUM('Restaurant Covers'[Net USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Restaurant Covers",
+      "name": "Checks",
+      "expression": "SUM('Restaurant Covers'[Checks (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Restaurant Covers",
+      "name": "Spend per Guest",
+      "expression": "DIVIDE([Restaurant Sales], [Covers])",
+      "format": "\\$#,0.00"
+    },
+    {
+      "table": "Restaurant Covers",
+      "name": "Food Cost %",
+      "expression": "DIVIDE(SUM('Restaurant Covers'[Food Cost USD]), [Restaurant Sales])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Waterpark Daily",
+      "name": "Visitors",
+      "expression": "SUM('Waterpark Daily'[Visitors (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Waterpark Daily",
+      "name": "Ticket Revenue",
+      "expression": "SUM('Waterpark Daily'[Net USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Waterpark Daily",
+      "name": "Revenue per Visitor",
+      "expression": "DIVIDE([Ticket Revenue], [Visitors])",
+      "format": "\\$#,0.00"
+    },
+    {
+      "table": "Waterpark Daily",
+      "name": "Capacity Utilisation",
+      "expression": "DIVIDE([Visitors], SUM('Waterpark Daily'[Daily Capacity]))",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Waterpark Daily",
+      "name": "Average Queue (min)",
+      "expression": "AVERAGE('Waterpark Daily'[Avg Queue Minutes])",
+      "format": "#,0.0"
+    },
+    {
+      "table": "Retail Sales",
+      "name": "Retail Sales Value",
+      "expression": "SUM('Retail Sales'[Net USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Retail Sales",
+      "name": "Retail Margin",
+      "expression": "DIVIDE(SUM('Retail Sales'[Net USD]) - SUM('Retail Sales'[Cost USD]), SUM('Retail Sales'[Net USD]))",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Retail Sales",
+      "name": "Units Sold",
+      "expression": "SUM('Retail Sales'[Units])",
+      "format": "#,0"
+    },
+    {
+      "table": "Retail Sales",
+      "name": "Discount Rate",
+      "expression": "DIVIDE(SUM('Retail Sales'[Discount USD]), SUM('Retail Sales'[Gross USD]))",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Spa Appointments",
+      "name": "Completed Appointments",
+      "expression": "CALCULATE(SUM('Spa Appointments'[Appointments]), 'Spa Appointments'[Status] = \"COMPLETED\")",
+      "format": "#,0"
+    },
+    {
+      "table": "Spa Appointments",
+      "name": "Spa Revenue",
+      "expression": "CALCULATE(SUM('Spa Appointments'[Net USD]), 'Spa Appointments'[Status] = \"COMPLETED\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Spa Appointments",
+      "name": "Spa Cancellation Rate",
+      "expression": "DIVIDE(CALCULATE(SUM('Spa Appointments'[Appointments]), 'Spa Appointments'[Status] = \"CANCELLED\"), SUM('Spa Appointments'[Appointments]))",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Marketing",
+      "name": "Campaign Spend",
+      "expression": "SUM('Marketing'[Spend USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Marketing",
+      "name": "Attributed Revenue",
+      "expression": "SUM('Marketing'[Attributed Revenue USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Marketing",
+      "name": "Campaign ROI",
+      "expression": "DIVIDE([Attributed Revenue] - [Campaign Spend], [Campaign Spend])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Marketing",
+      "name": "Conversions",
+      "expression": "SUM('Marketing'[Conversions (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Marketing",
+      "name": "Clicks",
+      "expression": "SUM('Marketing'[Clicks (base)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Marketing",
+      "name": "Conversion Rate",
+      "expression": "DIVIDE([Conversions], [Clicks])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Marketing",
+      "name": "Acquisition Cost",
+      "expression": "DIVIDE([Campaign Spend], SUM('Marketing'[New Customers]))",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Finance",
+      "name": "Ledger Revenue",
+      "expression": "CALCULATE(SUM('Finance'[Amount USD]), 'Finance'[Account Type] = \"REVENUE\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Finance",
+      "name": "Ledger Expenses",
+      "expression": "CALCULATE(SUM('Finance'[Amount USD]), 'Finance'[Account Type] = \"EXPENSE\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Finance",
+      "name": "Ledger GOP",
+      "expression": "[Ledger Revenue] - [Ledger Expenses]",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Finance",
+      "name": "Ledger GOP Margin",
+      "expression": "DIVIDE([Ledger GOP], [Ledger Revenue])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Budget",
+      "name": "Revenue Budget",
+      "expression": "CALCULATE(SUM('Budget'[Budget USD]), 'Budget'[Account Type] = \"REVENUE\", 'Date'[Is Actual] = TRUE())",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Budget",
+      "name": "Expense Budget",
+      "expression": "CALCULATE(SUM('Budget'[Budget USD]), 'Budget'[Account Type] = \"EXPENSE\", 'Date'[Is Actual] = TRUE())",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Budget",
+      "name": "Revenue vs Budget",
+      "expression": "DIVIDE([Ledger Revenue] - [Revenue Budget], [Revenue Budget])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Budget",
+      "name": "Expenses vs Budget",
+      "expression": "DIVIDE([Ledger Expenses] - [Expense Budget], [Expense Budget])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Budget",
+      "name": "Expense Variance",
+      "expression": "[Ledger Expenses] - [Expense Budget]",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Forecasts",
+      "name": "Revenue Forecast",
+      "expression": "CALCULATE(SUM('Forecasts'[Forecast Value]), 'Forecasts'[Metric] = \"finance_revenue\", 'Forecasts'[Forecast Type] = \"forecast\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Forecasts",
+      "name": "Revenue Forecast Low",
+      "expression": "CALCULATE(SUM('Forecasts'[Lower 80]), 'Forecasts'[Metric] = \"finance_revenue\", 'Forecasts'[Forecast Type] = \"forecast\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Forecasts",
+      "name": "Revenue Forecast High",
+      "expression": "CALCULATE(SUM('Forecasts'[Upper 80]), 'Forecasts'[Metric] = \"finance_revenue\", 'Forecasts'[Forecast Type] = \"forecast\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Forecasts",
+      "name": "Revenue Actual (last 90 days)",
+      "expression": "CALCULATE(SUM('Forecasts'[Actual Value]), 'Forecasts'[Metric] = \"finance_revenue\", 'Forecasts'[Forecast Type] = \"backtest\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Forecasts",
+      "name": "Revenue Backtest Forecast",
+      "expression": "CALCULATE(SUM('Forecasts'[Forecast Value]), 'Forecasts'[Metric] = \"finance_revenue\", 'Forecasts'[Forecast Type] = \"backtest\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Forecasts",
+      "name": "GOP Forecast",
+      "expression": "CALCULATE(SUM('Forecasts'[Forecast Value]), 'Forecasts'[Metric] = \"finance_gop\", 'Forecasts'[Forecast Type] = \"forecast\")",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Recommendations",
+      "name": "Recommendations Count",
+      "expression": "COUNTROWS('Recommendations')",
+      "format": "#,0"
+    },
+    {
+      "table": "Recommendations",
+      "name": "Estimated Impact",
+      "expression": "SUM('Recommendations'[Estimated Impact USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Recommendations",
+      "name": "Average Confidence",
+      "expression": "AVERAGE('Recommendations'[Confidence])",
+      "format": "0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Alerts",
+      "name": "Open Alerts",
+      "expression": "CALCULATE(COUNTROWS('Alerts'), 'Alerts'[Status] <> \"Resolved\")",
+      "format": "#,0"
+    },
+    {
+      "table": "Alerts",
+      "name": "Critical Alerts",
+      "expression": "CALCULATE(COUNTROWS('Alerts'), 'Alerts'[Status] <> \"Resolved\", 'Alerts'[Severity] = \"Critical\")",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Energy (MWh)",
+      "expression": "SUM('Energy Daily'[kWh]) / 1000",
+      "format": "#,0.0"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Energy (kWh)",
+      "expression": "SUM('Energy Daily'[kWh])",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Expected Energy (kWh)",
+      "expression": "SUM('Energy Daily'[Expected kWh])",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Energy vs Expected",
+      "expression": "DIVIDE([Energy (kWh)] - [Expected Energy (kWh)], [Expected Energy (kWh)])",
+      "format": "+0.0%;-0.0%;0.0%"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Energy Cost",
+      "expression": "SUM('Energy Daily'[Cost USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Carbon (t CO2e)",
+      "expression": "SUM('Energy Daily'[Carbon (t)])",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy Daily",
+      "name": "Water (m3)",
+      "expression": "SUM('Energy Daily'[Water m3])",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy End Use",
+      "name": "End-use Energy (MWh)",
+      "expression": "SUM('Energy End Use'[kWh]) / 1000",
+      "format": "#,0.0"
+    },
+    {
+      "table": "Energy Forecast",
+      "name": "Forecast Energy (kWh)",
+      "expression": "SUM('Energy Forecast'[Forecast kWh])",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy Forecast",
+      "name": "Forecast Energy Cost",
+      "expression": "SUM('Energy Forecast'[Cost USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Device Risk",
+      "name": "Devices",
+      "expression": "COUNTROWS('Device Risk')",
+      "format": "#,0"
+    },
+    {
+      "table": "Device Risk",
+      "name": "High-risk Devices",
+      "expression": "CALCULATE(COUNTROWS('Device Risk'), 'Device Risk'[Risk Band] = \"High\")",
+      "format": "#,0"
+    },
+    {
+      "table": "Device Risk",
+      "name": "Expected Failures (30 days)",
+      "expression": "SUM('Device Risk'[Failure Probability])",
+      "format": "#,0.0"
+    },
+    {
+      "table": "Device Risk",
+      "name": "Devices Due for Replacement",
+      "expression": "CALCULATE(COUNTROWS('Device Risk'), NOT ISBLANK('Device Risk'[Replace Reason]))",
+      "format": "#,0"
+    },
+    {
+      "table": "Device Risk",
+      "name": "Replacement Cost",
+      "expression": "CALCULATE(SUM('Device Risk'[Replacement Cost USD]), NOT ISBLANK('Device Risk'[Replace Reason]))",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Contract Reminders",
+      "name": "Contracts Needing Action",
+      "expression": "COUNTROWS('Contract Reminders')",
+      "format": "#,0"
+    },
+    {
+      "table": "Contract Reminders",
+      "name": "Contract Annual Value",
+      "expression": "SUM('Contract Reminders'[Annual Value USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Contract Reminders",
+      "name": "Repair Exposure",
+      "expression": "SUM('Contract Reminders'[Failure Exposure USD])",
+      "format": "\\$#,0"
+    },
+    {
+      "table": "Energy Findings",
+      "name": "Findings",
+      "expression": "COUNTROWS('Energy Findings')",
+      "format": "#,0"
+    },
+    {
+      "table": "Energy Findings",
+      "name": "Findings Annual Value",
+      "expression": "SUM('Energy Findings'[Annual Value USD])",
+      "format": "\\$#,0"
+    }
+  ]
+}

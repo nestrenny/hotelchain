@@ -1,0 +1,89 @@
+table Forecasts
+	lineageTag: eb22790a-2748-56f7-98a0-9c6ecc434ab8
+
+	measure 'Revenue Forecast' = CALCULATE(SUM('Forecasts'[Forecast Value]), 'Forecasts'[Metric] = "finance_revenue", 'Forecasts'[Forecast Type] = "forecast")
+		formatString: \$#,0
+		lineageTag: 163c15da-834a-56ee-be42-9a971d89d49f
+
+	measure 'Revenue Forecast Low' = CALCULATE(SUM('Forecasts'[Lower 80]), 'Forecasts'[Metric] = "finance_revenue", 'Forecasts'[Forecast Type] = "forecast")
+		formatString: \$#,0
+		lineageTag: 7d51ae35-724b-54cb-8789-4198030cff44
+
+	measure 'Revenue Forecast High' = CALCULATE(SUM('Forecasts'[Upper 80]), 'Forecasts'[Metric] = "finance_revenue", 'Forecasts'[Forecast Type] = "forecast")
+		formatString: \$#,0
+		lineageTag: afb4231b-1fde-5cd9-ba38-639b31544982
+
+	measure 'Revenue Actual (last 90 days)' = CALCULATE(SUM('Forecasts'[Actual Value]), 'Forecasts'[Metric] = "finance_revenue", 'Forecasts'[Forecast Type] = "backtest")
+		formatString: \$#,0
+		lineageTag: f2cc61ac-773e-5ee9-b3ed-97bdfd2e11e0
+
+	measure 'Revenue Backtest Forecast' = CALCULATE(SUM('Forecasts'[Forecast Value]), 'Forecasts'[Metric] = "finance_revenue", 'Forecasts'[Forecast Type] = "backtest")
+		formatString: \$#,0
+		lineageTag: ce27dfdf-abd1-5474-a485-7ad650e04fee
+
+	measure 'GOP Forecast' = CALCULATE(SUM('Forecasts'[Forecast Value]), 'Forecasts'[Metric] = "finance_gop", 'Forecasts'[Forecast Type] = "forecast")
+		formatString: \$#,0
+		lineageTag: 893ef7b9-dd0d-5b5f-9b75-17f1cf8b327b
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 5d56d5a6-2b87-5a13-83ad-5f145abf74be
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: bf0cfb30-0370-5f84-bffa-5c655cc874df
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column Metric
+		dataType: string
+		lineageTag: 250ab544-255d-52c1-8171-8598685e1113
+		summarizeBy: none
+		sourceColumn: metric
+
+	column 'Forecast Type'
+		dataType: string
+		lineageTag: f6b41844-dd1d-5ed6-a62b-732b401c4ff6
+		summarizeBy: none
+		sourceColumn: forecast_type
+
+	column 'Forecast Value'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 439346a2-f3e3-5c8c-83cf-409a8a0361e3
+		summarizeBy: none
+		sourceColumn: forecast_value
+
+	column 'Lower 80'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f19022c3-cd35-5b10-9178-439eba04e120
+		summarizeBy: none
+		sourceColumn: lower_80
+
+	column 'Upper 80'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: a09873a1-ecf9-524b-ac51-3e73740b8cad
+		summarizeBy: none
+		sourceColumn: upper_80
+
+	column 'Actual Value'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: a0c6c080-2f99-584a-8aed-11fd712f0f26
+		summarizeBy: none
+		sourceColumn: actual_value
+
+	partition Forecasts = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\forecasts.parquet"))
+				in
+				    Source

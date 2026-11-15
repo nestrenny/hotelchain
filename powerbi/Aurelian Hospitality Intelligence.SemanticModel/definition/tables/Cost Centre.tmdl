@@ -1,0 +1,17 @@
+table 'Cost Centre'
+	lineageTag: 528bb16b-0042-53c0-b19d-5d3b9857b3fe
+
+	column 'Cost Centre'
+		dataType: string
+		isKey
+		lineageTag: 02e290cb-bcb3-5cd8-97f4-9160b468aa5a
+		summarizeBy: none
+		sourceColumn: cost_centre
+
+	partition 'Cost Centre' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_cost_centre.parquet"))
+				in
+				    Source

@@ -1,0 +1,173 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "6227df4a9039f2b9e695",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 12000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Recommendations"
+                    }
+                  },
+                  "Property": "Title"
+                }
+              },
+              "queryRef": "Recommendations.Title",
+              "nativeQueryRef": "Title"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Recommendations"
+                    }
+                  },
+                  "Property": "Priority"
+                }
+              },
+              "queryRef": "Recommendations.Priority",
+              "nativeQueryRef": "Priority"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Property"
+                    }
+                  },
+                  "Property": "Property"
+                }
+              },
+              "queryRef": "Property.Property",
+              "nativeQueryRef": "Property"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Recommendations"
+                    }
+                  },
+                  "Property": "Approval Status"
+                }
+              },
+              "queryRef": "Recommendations.Approval Status",
+              "nativeQueryRef": "Approval Status"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Recommendations"
+                    }
+                  },
+                  "Property": "Estimated Impact"
+                }
+              },
+              "queryRef": "Recommendations.Estimated Impact",
+              "nativeQueryRef": "Estimated Impact"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Recommendations"
+                    }
+                  },
+                  "Property": "Average Confidence"
+                }
+              },
+              "queryRef": "Recommendations.Average Confidence",
+              "nativeQueryRef": "Average Confidence"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Recommendations"
+                  }
+                },
+                "Property": "Estimated Impact"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recommendations'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

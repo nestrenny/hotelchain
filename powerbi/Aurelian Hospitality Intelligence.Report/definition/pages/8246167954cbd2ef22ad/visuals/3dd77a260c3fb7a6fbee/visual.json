@@ -1,0 +1,167 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "3dd77a260c3fb7a6fbee",
+  "position": {
+    "x": 16,
+    "y": 236,
+    "z": 10000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "Date.Date",
+              "nativeQueryRef": "Date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Forecasts"
+                    }
+                  },
+                  "Property": "Revenue Actual (last 90 days)"
+                }
+              },
+              "queryRef": "Forecasts.Revenue Actual (last 90 days)",
+              "nativeQueryRef": "Revenue Actual (last 90 days)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Forecasts"
+                    }
+                  },
+                  "Property": "Revenue Forecast"
+                }
+              },
+              "queryRef": "Forecasts.Revenue Forecast",
+              "nativeQueryRef": "Revenue Forecast"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Forecasts"
+                    }
+                  },
+                  "Property": "Revenue Forecast Low"
+                }
+              },
+              "queryRef": "Forecasts.Revenue Forecast Low",
+              "nativeQueryRef": "Revenue Forecast Low"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Forecasts"
+                    }
+                  },
+                  "Property": "Revenue Forecast High"
+                }
+              },
+              "queryRef": "Forecasts.Revenue Forecast High",
+              "nativeQueryRef": "Revenue Forecast High"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue: last 90 days and forecast for the next 90'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

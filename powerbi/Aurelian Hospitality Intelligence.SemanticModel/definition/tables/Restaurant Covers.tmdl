@@ -1,0 +1,86 @@
+table 'Restaurant Covers'
+	lineageTag: 7ef03a15-fc25-5f28-b97b-89c6211cccb7
+
+	measure Covers = SUM('Restaurant Covers'[Covers (base)])
+		formatString: #,0
+		lineageTag: 56051686-f259-58b4-bb1d-8911f1b1bb97
+
+	measure 'Restaurant Sales' = SUM('Restaurant Covers'[Net USD])
+		formatString: \$#,0
+		lineageTag: 640ec89c-0b1e-5e7c-9ab5-333c643c7be0
+
+	measure Checks = SUM('Restaurant Covers'[Checks (base)])
+		formatString: #,0
+		lineageTag: 3bc200e0-c2ad-5442-8e54-942f61c2c3c4
+
+	measure 'Spend per Guest' = DIVIDE([Restaurant Sales], [Covers])
+		formatString: \$#,0.00
+		lineageTag: 5315c179-56e9-5ed3-99bc-bfadc22bdcf2
+
+	measure 'Food Cost %' = DIVIDE(SUM('Restaurant Covers'[Food Cost USD]), [Restaurant Sales])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 10bbf6ac-69e0-51df-8721-5203e787ecae
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 789fa48c-6956-58b9-9f04-f96edecd952e
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: f18ac9af-4f07-5d49-8083-1ffac17f3224
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Outlet Code'
+		dataType: string
+		isHidden
+		lineageTag: 822107cc-1568-59be-982d-478135ae44dd
+		summarizeBy: none
+		sourceColumn: outlet_code
+
+	column 'Time Slot'
+		dataType: string
+		lineageTag: c1eda785-0e60-57e9-bb15-cc86bdac32c9
+		summarizeBy: none
+		sourceColumn: time_slot
+
+	column 'Checks (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: dd058f69-a080-52cb-8c73-a0f9bf650c98
+		summarizeBy: none
+		sourceColumn: checks
+
+	column 'Covers (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 46c86d5d-1347-5b7e-b85a-ec22644b1d97
+		summarizeBy: none
+		sourceColumn: covers
+
+	column 'Net USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 16d4fa2a-c776-5453-abad-b81553b80438
+		summarizeBy: none
+		sourceColumn: net_usd
+
+	column 'Food Cost USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 11313cff-8128-5be4-81ee-f8eac5d4741c
+		summarizeBy: none
+		sourceColumn: food_cost_usd
+
+	partition 'Restaurant Covers' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\restaurant_covers.parquet"))
+				in
+				    Source

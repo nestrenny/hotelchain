@@ -1,0 +1,63 @@
+table 'Energy Findings'
+	lineageTag: 5ccfd81b-ca0e-5971-a59b-67ae0e5572ae
+
+	measure Findings = COUNTROWS('Energy Findings')
+		formatString: #,0
+		lineageTag: ce0a32dc-bef9-523d-a3fc-4206ce04ec02
+
+	measure 'Findings Annual Value' = SUM('Energy Findings'[Annual Value USD])
+		formatString: \$#,0
+		lineageTag: ccaca586-576b-5e7d-af36-be0076af8641
+
+	column Priority
+		dataType: string
+		lineageTag: 29a96ac6-4eac-5d3c-8c3a-41872fe28286
+		summarizeBy: none
+		sourceColumn: priority
+
+	column Category
+		dataType: string
+		lineageTag: a8bef289-bed1-51a5-bc95-80f1aba3a374
+		summarizeBy: none
+		sourceColumn: category
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 69bd6b30-5c70-5a6c-97ba-ad861f939919
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column Title
+		dataType: string
+		lineageTag: 8d546e72-4867-5d16-93c4-fcffae10ebb4
+		summarizeBy: none
+		sourceColumn: title
+
+	column Detail
+		dataType: string
+		lineageTag: 576d5e2d-8c98-5560-bcfd-80fa39ead2cb
+		summarizeBy: none
+		sourceColumn: detail
+
+	column 'Annual Value USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: cb1b897a-7e65-5bd6-8067-a202523e1b5b
+		summarizeBy: none
+		sourceColumn: annual_value_usd
+
+	column 'Due Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 34c720d6-3f10-58c1-9973-50234cdf4d60
+		summarizeBy: none
+		sourceColumn: due_date
+
+	partition 'Energy Findings' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\energy_findings.parquet"))
+				in
+				    Source

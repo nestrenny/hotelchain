@@ -1,0 +1,25 @@
+table 'Business Vertical'
+	lineageTag: 8304f1e4-b051-5bca-ab5c-e21099466807
+
+	column 'Business Vertical'
+		dataType: string
+		isKey
+		lineageTag: 4f7d8107-2b34-5051-845c-b3e64c4f7607
+		summarizeBy: none
+		sortByColumn: 'Sort Order'
+		sourceColumn: business_vertical
+
+	column 'Sort Order'
+		dataType: int64
+		formatString: 0
+		lineageTag: 83e4ea34-7da9-5421-ac21-4c0d93456a4e
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	partition 'Business Vertical' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_business_vertical.parquet"))
+				in
+				    Source

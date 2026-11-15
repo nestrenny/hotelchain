@@ -1,0 +1,127 @@
+table Marketing
+	lineageTag: 4b8dffb0-48b8-542e-a907-f06a375d444f
+
+	measure 'Campaign Spend' = SUM('Marketing'[Spend USD])
+		formatString: \$#,0
+		lineageTag: c2f12ca4-9820-5f1b-a5a1-ee36073d970d
+
+	measure 'Attributed Revenue' = SUM('Marketing'[Attributed Revenue USD])
+		formatString: \$#,0
+		lineageTag: fc73df8d-8aa1-5953-8136-5a811eae2477
+
+	measure 'Campaign ROI' = DIVIDE([Attributed Revenue] - [Campaign Spend], [Campaign Spend])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f568b3ab-8c1b-5588-a303-7a9116451fe5
+
+	measure Conversions = SUM('Marketing'[Conversions (base)])
+		formatString: #,0
+		lineageTag: df0d3efc-c712-5568-a972-7dc451d059f6
+
+	measure Clicks = SUM('Marketing'[Clicks (base)])
+		formatString: #,0
+		lineageTag: 83698d26-4a84-5df8-bde8-98cc4e7509f2
+
+	measure 'Conversion Rate' = DIVIDE([Conversions], [Clicks])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7a458a7e-aa9f-51a9-ad63-7b38d025410e
+
+	measure 'Acquisition Cost' = DIVIDE([Campaign Spend], SUM('Marketing'[New Customers]))
+		formatString: \$#,0
+		lineageTag: 5d7f5ff4-507b-5440-a6c0-546235ee8f0d
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 3093488e-8296-5048-83fc-8a6eb65aeb76
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: e8ac3216-f84d-5ff6-bdcf-806971391b7d
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Campaign ID'
+		dataType: string
+		isHidden
+		lineageTag: 9bf2121d-3190-5c46-a051-086e473803a6
+		summarizeBy: none
+		sourceColumn: campaign_id
+
+	column 'Campaign Name'
+		dataType: string
+		lineageTag: 59a3c009-b520-5469-8ccc-4127b4729dbf
+		summarizeBy: none
+		sourceColumn: campaign_name
+
+	column Channel
+		dataType: string
+		isHidden
+		lineageTag: 669e9cdc-64ad-50cb-81e5-17f26e4d9186
+		summarizeBy: none
+		sourceColumn: channel
+
+	column 'Target Vertical'
+		dataType: string
+		lineageTag: e1e0a44e-9c2d-5fd8-890e-e80cbc08678d
+		summarizeBy: none
+		sourceColumn: target_vertical
+
+	column 'Audience Segment'
+		dataType: string
+		lineageTag: ab4c51cc-18ed-5477-8da6-6866746b27de
+		summarizeBy: none
+		sourceColumn: audience_segment
+
+	column Impressions
+		dataType: int64
+		formatString: 0
+		lineageTag: d9e3042a-8289-53f3-a033-8dbae8fcd4e3
+		summarizeBy: none
+		sourceColumn: impressions
+
+	column 'Clicks (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: bfe1e7b5-b7bc-5f60-8e2a-6a725e1aa986
+		summarizeBy: none
+		sourceColumn: clicks
+
+	column 'Conversions (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: a33fd53c-6886-5433-a94b-25dcdbdb4109
+		summarizeBy: none
+		sourceColumn: conversions
+
+	column 'Spend USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 11d4c373-cb76-5858-890d-dbb0e9be2b05
+		summarizeBy: none
+		sourceColumn: spend_usd
+
+	column 'Attributed Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 7b3479da-7a69-583a-af7d-c3b42fc432f3
+		summarizeBy: none
+		sourceColumn: attributed_revenue_usd
+
+	column 'New Customers'
+		dataType: int64
+		formatString: 0
+		lineageTag: 030b2263-0977-5a5e-a4ab-2cfc3357a3de
+		summarizeBy: none
+		sourceColumn: new_customers
+
+	partition Marketing = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\marketing.parquet"))
+				in
+				    Source

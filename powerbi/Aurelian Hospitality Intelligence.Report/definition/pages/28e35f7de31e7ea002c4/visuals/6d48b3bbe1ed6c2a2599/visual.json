@@ -1,0 +1,159 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "6d48b3bbe1ed6c2a2599",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 12000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 12000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Cost Centre"
+                    }
+                  },
+                  "Property": "Cost Centre"
+                }
+              },
+              "queryRef": "Cost Centre.Cost Centre",
+              "nativeQueryRef": "Cost Centre"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Finance"
+                    }
+                  },
+                  "Property": "Ledger Expenses"
+                }
+              },
+              "queryRef": "Finance.Ledger Expenses",
+              "nativeQueryRef": "Ledger Expenses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Budget"
+                    }
+                  },
+                  "Property": "Expense Budget"
+                }
+              },
+              "queryRef": "Budget.Expense Budget",
+              "nativeQueryRef": "Expense Budget"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Budget"
+                    }
+                  },
+                  "Property": "Expense Variance"
+                }
+              },
+              "queryRef": "Budget.Expense Variance",
+              "nativeQueryRef": "Expense Variance"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Budget"
+                    }
+                  },
+                  "Property": "Expenses vs Budget"
+                }
+              },
+              "queryRef": "Budget.Expenses vs Budget",
+              "nativeQueryRef": "Expenses vs Budget"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Finance"
+                  }
+                },
+                "Property": "Ledger Expenses"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cost centres against budget'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

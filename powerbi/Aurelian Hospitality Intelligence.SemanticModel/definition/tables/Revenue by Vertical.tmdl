@@ -1,0 +1,43 @@
+table 'Revenue by Vertical'
+	lineageTag: b2a92939-e74f-5568-b340-89e0ac17b890
+
+	measure 'Vertical Revenue' = SUM('Revenue by Vertical'[Revenue USD])
+		formatString: \$#,0
+		lineageTag: 6ce16451-0a4f-58c9-befa-d60d1d353c37
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: ac42789b-aadb-5087-8707-5457ba0695c3
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: fc4302e9-1244-51b7-b2b7-cd07705e6ecb
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Business Vertical'
+		dataType: string
+		isHidden
+		lineageTag: 527d1413-f1e6-5c11-bc8f-9b5a14429a26
+		summarizeBy: none
+		sourceColumn: business_vertical
+
+	column 'Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: c2087ad4-de63-5105-a27c-e8c13cfd66ab
+		summarizeBy: none
+		sourceColumn: revenue_usd
+
+	partition 'Revenue by Vertical' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\revenue_by_vertical.parquet"))
+				in
+				    Source

@@ -1,6 +1,6 @@
 # Document tooling
 
-Regenerates the two documents in `docs/` from the running app, so they always match the platform.
+Regenerates the documents in `docs/` and the Power BI report from the running app and the lakehouse, so they always match the platform.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install python-docx python-pptx playwright Pillow pymupdf
@@ -25,3 +25,7 @@ powershell -ExecutionPolicy Bypass -File tools\render_office.ps1 -Docx "docs\Das
   `en_US-ryan-high`; install it with `pip install piper-tts` and
   `python -m piper.download_voices en_US-ryan-high --download-dir data/voices`. No text is sent to an online service.
   Add `--no-capture` to reuse the last captures.
+- `build_powerbi.py` exports the Gold and AI tables to Parquet and writes the Power BI project in `powerbi/`: the tables, relationships and
+  measures (TMDL) and the nine report pages (PBIR). `--validate` checks the report files against Microsoft's published schemas.
+- `build_schema_diagram.py` reads `powerbi/model.json` and writes `docs/Database Schema.drawio`, so the diagram always matches the model.
+  Run it after `build_powerbi.py`.

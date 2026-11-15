@@ -1,0 +1,48 @@
+table Outlet
+	lineageTag: 4acbe177-0175-581f-891b-3ed5576f6b96
+
+	column 'Outlet Code'
+		dataType: string
+		isKey
+		lineageTag: d5968608-fb6f-50af-85f5-0e25e57e23cd
+		summarizeBy: none
+		sourceColumn: outlet_code
+
+	column 'Outlet Name'
+		dataType: string
+		lineageTag: c2029e01-4f3c-54a5-b6e7-9c2aec2367c1
+		summarizeBy: none
+		sourceColumn: outlet_name
+
+	column 'Outlet Type'
+		dataType: string
+		lineageTag: 6cc9ebfd-1777-56a3-96d6-14e8e699fea5
+		summarizeBy: none
+		sourceColumn: outlet_type
+
+	column 'Sub Type'
+		dataType: string
+		lineageTag: 30da7a11-f410-5452-841f-2183d9216cc9
+		summarizeBy: none
+		sourceColumn: sub_type
+
+	column Capacity
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a30b662-cd54-5e73-aa4d-748e84b81111
+		summarizeBy: none
+		sourceColumn: capacity
+
+	column 'Property ID'
+		dataType: string
+		lineageTag: 37946202-835d-5230-b86a-a4492c013718
+		summarizeBy: none
+		sourceColumn: property_id
+
+	partition Outlet = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_outlet.parquet"))
+				in
+				    Source

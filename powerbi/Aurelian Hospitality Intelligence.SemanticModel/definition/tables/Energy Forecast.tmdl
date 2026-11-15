@@ -1,0 +1,61 @@
+table 'Energy Forecast'
+	lineageTag: 05f6e492-6292-5a8c-94d3-e529bf915af1
+
+	measure 'Forecast Energy (kWh)' = SUM('Energy Forecast'[Forecast kWh])
+		formatString: #,0
+		lineageTag: da1098f6-9069-5f95-9cc5-3d01aff7e4f0
+
+	measure 'Forecast Energy Cost' = SUM('Energy Forecast'[Cost USD])
+		formatString: \$#,0
+		lineageTag: 2da9e211-97bc-5a1f-a74a-8cb9c09ed4c1
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: f772de83-30f4-5283-bf5d-7b6f1e0c5516
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 0b368348-8b3c-53b9-a5df-eb06d2ec6b0d
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Forecast kWh'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 2e685047-035d-53e5-a650-7e18c50aaaa1
+		summarizeBy: none
+		sourceColumn: forecast_kwh
+
+	column 'Lower 80'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 0ed97681-50b1-58cb-b25c-fdbd10587365
+		summarizeBy: none
+		sourceColumn: lower_80
+
+	column 'Upper 80'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d4b7b2a6-1bc2-588f-bf06-9e075e24f9bb
+		summarizeBy: none
+		sourceColumn: upper_80
+
+	column 'Cost USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: c82a58d5-6c77-586a-8684-0068a0f5cb40
+		summarizeBy: none
+		sourceColumn: cost_usd
+
+	partition 'Energy Forecast' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\energy_forecast.parquet"))
+				in
+				    Source

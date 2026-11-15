@@ -1,0 +1,187 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "86d6075797ac86f42074",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 13000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 13000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Contract Reminders"
+                    }
+                  },
+                  "Property": "Contract Name"
+                }
+              },
+              "queryRef": "Contract Reminders.Contract Name",
+              "nativeQueryRef": "Contract Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Property"
+                    }
+                  },
+                  "Property": "Property"
+                }
+              },
+              "queryRef": "Property.Property",
+              "nativeQueryRef": "Property"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Contract Reminders"
+                    }
+                  },
+                  "Property": "Supplier Name"
+                }
+              },
+              "queryRef": "Contract Reminders.Supplier Name",
+              "nativeQueryRef": "Supplier Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Contract Reminders"
+                    }
+                  },
+                  "Property": "End Date"
+                }
+              },
+              "queryRef": "Contract Reminders.End Date",
+              "nativeQueryRef": "End Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Contract Reminders"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "Contract Reminders.Status",
+              "nativeQueryRef": "Status"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Contract Reminders"
+                    }
+                  },
+                  "Property": "Contract Annual Value"
+                }
+              },
+              "queryRef": "Contract Reminders.Contract Annual Value",
+              "nativeQueryRef": "Contract Annual Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Contract Reminders"
+                    }
+                  },
+                  "Property": "Repair Exposure"
+                }
+              },
+              "queryRef": "Contract Reminders.Repair Exposure",
+              "nativeQueryRef": "Repair Exposure"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Contract Reminders"
+                  }
+                },
+                "Property": "Contract Annual Value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Contract reminders'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

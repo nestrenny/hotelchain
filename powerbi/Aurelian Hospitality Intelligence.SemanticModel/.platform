@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Aurelian Hospitality Intelligence"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9a137e4e-5c27-571d-b448-a920b54ab15c"
+  }
+}

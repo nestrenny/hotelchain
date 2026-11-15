@@ -1,0 +1,72 @@
+table Property
+	lineageTag: d1790ae4-5cda-58e6-bee1-050247552049
+
+	column 'Property ID'
+		dataType: string
+		isKey
+		lineageTag: c59ce843-7d07-5520-a405-0c3b0500f0cd
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column Property
+		dataType: string
+		lineageTag: c0f6a220-cffc-5a2b-ba25-5d23f1363835
+		summarizeBy: none
+		sourceColumn: property
+
+	column 'Property Name'
+		dataType: string
+		lineageTag: 6a2e7034-c444-5383-810f-1599a8748b6e
+		summarizeBy: none
+		sourceColumn: property_name
+
+	column 'Brand Name'
+		dataType: string
+		lineageTag: 9786275d-c47a-5c4c-be73-393c0ad7487b
+		summarizeBy: none
+		sourceColumn: brand_name
+
+	column Region
+		dataType: string
+		lineageTag: 0cf136e2-d591-5f54-91c2-64bcb54d84c5
+		summarizeBy: none
+		sourceColumn: region
+
+	column Country
+		dataType: string
+		lineageTag: 85c96665-45ef-57a0-9d7a-17f14b984edd
+		summarizeBy: none
+		sourceColumn: country
+
+	column City
+		dataType: string
+		lineageTag: 503125db-d768-52c3-941f-6633f0c6df41
+		summarizeBy: none
+		sourceColumn: city
+
+	column Currency
+		dataType: string
+		lineageTag: b11edd12-d8ed-5f18-b598-13cabd6820f4
+		summarizeBy: none
+		sourceColumn: currency
+
+	column 'Total Rooms'
+		dataType: int64
+		formatString: 0
+		lineageTag: f0593f6d-be37-5069-a137-cb18200edbb7
+		summarizeBy: none
+		sourceColumn: total_rooms
+
+	column 'Has Waterpark'
+		dataType: boolean
+		lineageTag: a89f0177-55ec-564a-a508-0ef80b16fa10
+		summarizeBy: none
+		sourceColumn: has_waterpark
+
+	partition Property = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_property.parquet"))
+				in
+				    Source

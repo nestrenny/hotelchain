@@ -1,0 +1,95 @@
+table 'Energy Daily'
+	lineageTag: 3231b800-2dd4-59d6-a899-00f6e4744466
+
+	measure 'Energy (MWh)' = SUM('Energy Daily'[kWh]) / 1000
+		formatString: #,0.0
+		lineageTag: 47c6d664-5f1b-5505-8ddf-87e7492006f1
+
+	measure 'Energy (kWh)' = SUM('Energy Daily'[kWh])
+		formatString: #,0
+		lineageTag: 432c0801-7182-5702-bcc3-86fb3553b3e1
+
+	measure 'Expected Energy (kWh)' = SUM('Energy Daily'[Expected kWh])
+		formatString: #,0
+		lineageTag: cd3a6114-e7b7-52a0-b614-a73d3cdfc0b5
+
+	measure 'Energy vs Expected' = DIVIDE([Energy (kWh)] - [Expected Energy (kWh)], [Expected Energy (kWh)])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: c08ee3ea-0835-5a0a-bc12-a276e6b401e7
+
+	measure 'Energy Cost' = SUM('Energy Daily'[Cost USD])
+		formatString: \$#,0
+		lineageTag: 9f4df546-dbb0-5d71-8896-996b3a94ec0f
+
+	measure 'Carbon (t CO2e)' = SUM('Energy Daily'[Carbon (t)])
+		formatString: #,0
+		lineageTag: 229830f0-47f0-5c18-a298-fcdd51b4bac0
+
+	measure 'Water (m3)' = SUM('Energy Daily'[Water m3])
+		formatString: #,0
+		lineageTag: 1ad5ea97-c991-5e7f-8e59-87f45a6ba0dd
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 0c50ecfa-feea-598c-a0f5-2481e30184a6
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 0b178f25-d01f-5fbe-90d4-0176e58eaa01
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column kWh
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 535161f0-d3a1-5289-89f3-421762771a48
+		summarizeBy: none
+		sourceColumn: kwh
+
+	column 'Expected kWh'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 641679ec-62bb-5cf9-826d-830bf1bf51b6
+		summarizeBy: none
+		sourceColumn: expected_kwh
+
+	column 'Peak kW'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 68d40fcf-ebd1-58e5-8708-4b515e070ebc
+		summarizeBy: none
+		sourceColumn: peak_kw
+
+	column 'Water m3'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 7df713c6-dce5-5d79-baae-1ceb8a460708
+		summarizeBy: none
+		sourceColumn: water_m3
+
+	column 'Cost USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 786cf518-61f4-5b2c-b092-ff3b7c149057
+		summarizeBy: none
+		sourceColumn: cost_usd
+
+	column 'Carbon (t)'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f39842be-2418-58ed-8c95-cc7fab2500ed
+		summarizeBy: none
+		sourceColumn: carbon_t
+
+	partition 'Energy Daily' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\energy_daily.parquet"))
+				in
+				    Source

@@ -1,0 +1,71 @@
+table 'Room Revenue'
+	lineageTag: 5a624e81-7061-5c1b-a812-3353c1bc7b5b
+
+	measure 'Room Nights' = SUM('Room Revenue'[Room Nights (base)])
+		formatString: #,0
+		lineageTag: 31715fa6-a1c2-5136-b73b-2282580e4dd9
+
+	measure 'Booked Room Revenue' = SUM('Room Revenue'[Room Revenue USD])
+		formatString: \$#,0
+		lineageTag: 14d4be2b-bd7f-580c-9464-75996972b290
+
+	measure 'Booked ADR' = DIVIDE([Booked Room Revenue], [Room Nights])
+		formatString: \$#,0
+		lineageTag: b453242c-a5d1-5f74-8caa-94ce7ae8afed
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 53b77557-81f8-5837-b70b-dc4126497ce7
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 87ab5e5b-ac92-592f-a490-cbb5b42c78f1
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Room Type'
+		dataType: string
+		isHidden
+		lineageTag: 4064e498-ac21-58e7-870a-1d0bb8c4cf9d
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column Channel
+		dataType: string
+		isHidden
+		lineageTag: 712efc26-894c-50da-95cf-f663357af5b6
+		summarizeBy: none
+		sourceColumn: channel
+
+	column Segment
+		dataType: string
+		lineageTag: 8b661450-17dc-5c33-b7ad-80319520e6b7
+		summarizeBy: none
+		sourceColumn: segment
+
+	column 'Room Nights (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8d49af07-44a3-5996-a040-ccd63e862669
+		summarizeBy: none
+		sourceColumn: room_nights
+
+	column 'Room Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 6258f6b3-b735-5f8b-8f7d-3a866662e916
+		summarizeBy: none
+		sourceColumn: room_revenue_usd
+
+	partition 'Room Revenue' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\room_revenue.parquet"))
+				in
+				    Source

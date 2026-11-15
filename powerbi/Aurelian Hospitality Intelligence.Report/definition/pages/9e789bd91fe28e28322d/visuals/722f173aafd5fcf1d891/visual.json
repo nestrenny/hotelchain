@@ -1,0 +1,159 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "722f173aafd5fcf1d891",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 11000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Outlet"
+                    }
+                  },
+                  "Property": "Outlet Name"
+                }
+              },
+              "queryRef": "Outlet.Outlet Name",
+              "nativeQueryRef": "Outlet Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Restaurant Covers"
+                    }
+                  },
+                  "Property": "Covers"
+                }
+              },
+              "queryRef": "Restaurant Covers.Covers",
+              "nativeQueryRef": "Covers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Restaurant Covers"
+                    }
+                  },
+                  "Property": "Restaurant Sales"
+                }
+              },
+              "queryRef": "Restaurant Covers.Restaurant Sales",
+              "nativeQueryRef": "Restaurant Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Restaurant Covers"
+                    }
+                  },
+                  "Property": "Spend per Guest"
+                }
+              },
+              "queryRef": "Restaurant Covers.Spend per Guest",
+              "nativeQueryRef": "Spend per Guest"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Restaurant Covers"
+                    }
+                  },
+                  "Property": "Food Cost %"
+                }
+              },
+              "queryRef": "Restaurant Covers.Food Cost %",
+              "nativeQueryRef": "Food Cost %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Restaurant Covers"
+                  }
+                },
+                "Property": "Covers"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Performance by restaurant'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

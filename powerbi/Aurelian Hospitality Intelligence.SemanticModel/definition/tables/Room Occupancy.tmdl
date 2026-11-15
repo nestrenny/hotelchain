@@ -1,0 +1,65 @@
+table 'Room Occupancy'
+	lineageTag: a96e5443-1730-546a-939e-dc91e6f81022
+
+	measure 'Room Type Occupancy' = DIVIDE(SUM('Room Occupancy'[Rooms Sold (base)]), SUM('Room Occupancy'[Rooms Available (base)]))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f71b23cf-389a-5908-a83d-86d42c54f787
+
+	measure 'Room Type Revenue' = SUM('Room Occupancy'[Room Revenue USD])
+		formatString: \$#,0
+		lineageTag: 66697154-3ab6-5a99-b4cf-b60c713b571e
+
+	measure 'Room Type ADR' = DIVIDE(SUM('Room Occupancy'[Room Revenue USD]), SUM('Room Occupancy'[Rooms Sold (base)]))
+		formatString: \$#,0
+		lineageTag: 83f2b037-e11b-53e3-a194-7feacdf1eb51
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 5ddc5148-0731-54eb-a69c-c2d9b07a39d9
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: ed360eb2-0db6-57e1-a42f-5c089f57c3c9
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Room Type'
+		dataType: string
+		isHidden
+		lineageTag: 27419a83-ee78-55a3-bb24-50b46d3945e1
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column 'Rooms Available (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: d6d15a3f-80c0-5567-b1f0-f5e257ffdce2
+		summarizeBy: none
+		sourceColumn: rooms_available
+
+	column 'Rooms Sold (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: e7f9d9c9-3094-5335-96a5-9fc3b16737e6
+		summarizeBy: none
+		sourceColumn: rooms_sold
+
+	column 'Room Revenue USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 68fdfbe1-3388-5356-880f-906b61d2a5d5
+		summarizeBy: none
+		sourceColumn: room_revenue_usd
+
+	partition 'Room Occupancy' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\room_occupancy.parquet"))
+				in
+				    Source

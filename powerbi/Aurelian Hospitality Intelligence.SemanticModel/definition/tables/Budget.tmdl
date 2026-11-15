@@ -1,0 +1,72 @@
+table Budget
+	lineageTag: 06ed7ea4-7d8b-5a3e-9b67-6b192e81d867
+
+	measure 'Revenue Budget' = CALCULATE(SUM('Budget'[Budget USD]), 'Budget'[Account Type] = "REVENUE", 'Date'[Is Actual] = TRUE())
+		formatString: \$#,0
+		lineageTag: 9904b700-d6a4-5c93-b439-0083f72171af
+
+	measure 'Expense Budget' = CALCULATE(SUM('Budget'[Budget USD]), 'Budget'[Account Type] = "EXPENSE", 'Date'[Is Actual] = TRUE())
+		formatString: \$#,0
+		lineageTag: 65a13dfd-308c-591f-8b3d-ca4f81a544ec
+
+	measure 'Revenue vs Budget' = DIVIDE([Ledger Revenue] - [Revenue Budget], [Revenue Budget])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 7ad10d7e-5fca-52f6-bb83-9e95720e1a4c
+
+	measure 'Expenses vs Budget' = DIVIDE([Ledger Expenses] - [Expense Budget], [Expense Budget])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 68325fa5-a5bc-5322-9edd-ca83cb8e5e17
+
+	measure 'Expense Variance' = [Ledger Expenses] - [Expense Budget]
+		formatString: \$#,0
+		lineageTag: 7fc7a467-2a3f-5403-bce3-2f4757e01858
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: e297b499-1b7d-5b3d-a9d2-49daf012eda1
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 2e83d2f5-cee4-5930-9573-6fb7acda687d
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Business Vertical'
+		dataType: string
+		isHidden
+		lineageTag: 85f03e90-c3f7-5908-b9a6-3d5fc4d30b1b
+		summarizeBy: none
+		sourceColumn: business_vertical
+
+	column 'Cost Centre'
+		dataType: string
+		isHidden
+		lineageTag: b101f546-292f-5a69-9488-355b474dd132
+		summarizeBy: none
+		sourceColumn: cost_centre
+
+	column 'Account Type'
+		dataType: string
+		lineageTag: c182c05d-b45d-559b-bdac-3fbea8630218
+		summarizeBy: none
+		sourceColumn: account_type
+
+	column 'Budget USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 87d6ae68-e968-5076-853a-697f8a814d21
+		summarizeBy: none
+		sourceColumn: budget_usd
+
+	partition Budget = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\budget.parquet"))
+				in
+				    Source

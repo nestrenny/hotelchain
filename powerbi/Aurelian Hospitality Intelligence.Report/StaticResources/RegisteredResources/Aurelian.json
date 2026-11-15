@@ -1,0 +1,25 @@
+{
+  "name": "Aurelian",
+  "dataColors": [
+    "#1F5FA8",
+    "#B8894A",
+    "#2E8B6F",
+    "#C0504D",
+    "#7A5CA8",
+    "#4BACC6",
+    "#8C8C8C",
+    "#E0A93B"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1E1E1E",
+  "tableAccent": "#0F2233",
+  "textClasses": {
+    "title": {
+      "color": "#0F2233",
+      "fontFace": "Segoe UI Semibold"
+    },
+    "label": {
+      "color": "#3A4652"
+    }
+  }
+}

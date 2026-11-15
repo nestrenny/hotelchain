@@ -1,0 +1,145 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "d502793f481d3093d4cc",
+  "position": {
+    "x": 16,
+    "y": 478,
+    "z": 11000,
+    "height": 232,
+    "width": 760,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Room Type"
+                    }
+                  },
+                  "Property": "Room Type Name"
+                }
+              },
+              "queryRef": "Room Type.Room Type Name",
+              "nativeQueryRef": "Room Type Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Room Occupancy"
+                    }
+                  },
+                  "Property": "Room Type Occupancy"
+                }
+              },
+              "queryRef": "Room Occupancy.Room Type Occupancy",
+              "nativeQueryRef": "Room Type Occupancy"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Room Occupancy"
+                    }
+                  },
+                  "Property": "Room Type ADR"
+                }
+              },
+              "queryRef": "Room Occupancy.Room Type ADR",
+              "nativeQueryRef": "Room Type ADR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Room Occupancy"
+                    }
+                  },
+                  "Property": "Room Type Revenue"
+                }
+              },
+              "queryRef": "Room Occupancy.Room Type Revenue",
+              "nativeQueryRef": "Room Type Revenue"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Room Occupancy"
+                  }
+                },
+                "Property": "Room Type Occupancy"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Performance by room category'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0F2233'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

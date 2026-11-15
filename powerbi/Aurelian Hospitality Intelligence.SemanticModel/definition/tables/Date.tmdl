@@ -1,0 +1,78 @@
+table Date
+	lineageTag: f0140891-665c-548e-9c12-585be5a22cd1
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 545db556-017c-5f70-b5f0-187307ec3193
+		summarizeBy: none
+		sourceColumn: date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: b21062be-d4bd-5c8b-a756-96baf6bbc08c
+		summarizeBy: none
+		sourceColumn: year
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 0421b87f-aece-5720-abee-4dbd2557b6c1
+		summarizeBy: none
+		sourceColumn: quarter
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: cce7976d-be68-5196-ac0a-31d54b50a6ea
+		summarizeBy: none
+		sourceColumn: month
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 9cab4f1f-40c1-5646-88d1-0656f56040c6
+		summarizeBy: none
+		sortByColumn: Month
+		sourceColumn: month_name
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: 346e5e69-83d9-585f-a936-a847cf7d60f7
+		summarizeBy: none
+		sourceColumn: year_month
+
+	column 'Iso Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: c8b96c6d-df7a-58af-9d2b-30497868eb29
+		summarizeBy: none
+		sourceColumn: iso_week
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: db4f1b43-e221-5f6d-a759-9d7f3100929b
+		summarizeBy: none
+		sourceColumn: day_name
+
+	column 'Is Weekend'
+		dataType: boolean
+		lineageTag: e376fe98-6960-5349-9d3d-1ba8adf761c6
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+	column 'Is Actual'
+		dataType: boolean
+		lineageTag: e2228bb9-aac6-5a5c-820d-781e36971975
+		summarizeBy: none
+		sourceColumn: is_actual
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_date.parquet"))
+				in
+				    Source

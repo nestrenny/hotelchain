@@ -1,0 +1,68 @@
+table Finance
+	lineageTag: 3a99add9-820d-51fc-bd5d-ec63b2a039ab
+
+	measure 'Ledger Revenue' = CALCULATE(SUM('Finance'[Amount USD]), 'Finance'[Account Type] = "REVENUE")
+		formatString: \$#,0
+		lineageTag: cc6cb0c1-81c8-514d-b6ba-ea277ef01f61
+
+	measure 'Ledger Expenses' = CALCULATE(SUM('Finance'[Amount USD]), 'Finance'[Account Type] = "EXPENSE")
+		formatString: \$#,0
+		lineageTag: e576405a-240d-599d-bdfc-053e75fe923c
+
+	measure 'Ledger GOP' = [Ledger Revenue] - [Ledger Expenses]
+		formatString: \$#,0
+		lineageTag: 0e77e0bd-15e0-5842-ab4d-1bc925174258
+
+	measure 'Ledger GOP Margin' = DIVIDE([Ledger GOP], [Ledger Revenue])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 47069474-4d38-5a8f-b395-7c79c81696d6
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 164ff750-76ea-5f82-8613-0cad68a17e2c
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 9338c81f-1019-5a80-8f43-dce24201be1b
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Business Vertical'
+		dataType: string
+		isHidden
+		lineageTag: 7804f956-b313-5645-8b58-4703d543c88b
+		summarizeBy: none
+		sourceColumn: business_vertical
+
+	column 'Cost Centre'
+		dataType: string
+		isHidden
+		lineageTag: b52382d9-0cea-5043-ba11-08eedca195e8
+		summarizeBy: none
+		sourceColumn: cost_centre
+
+	column 'Account Type'
+		dataType: string
+		lineageTag: 8c9fa0c9-290e-500d-9e3b-3ac6ddf8b406
+		summarizeBy: none
+		sourceColumn: account_type
+
+	column 'Amount USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 1d067588-a56f-5fc6-9a45-0358816af941
+		summarizeBy: none
+		sourceColumn: amount_usd
+
+	partition Finance = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\finance.parquet"))
+				in
+				    Source

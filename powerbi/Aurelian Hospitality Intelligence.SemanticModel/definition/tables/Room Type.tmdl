@@ -1,0 +1,23 @@
+table 'Room Type'
+	lineageTag: 21809eec-931e-54b3-be6b-1a6ccb937a63
+
+	column 'Room Type'
+		dataType: string
+		isKey
+		lineageTag: be6b7ef8-9afd-5655-8a2a-051d50630772
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column 'Room Type Name'
+		dataType: string
+		lineageTag: 16793fa8-2dab-5839-bedd-06768eacaa18
+		summarizeBy: none
+		sourceColumn: room_type_name
+
+	partition 'Room Type' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\dim_room.parquet"))
+				in
+				    Source

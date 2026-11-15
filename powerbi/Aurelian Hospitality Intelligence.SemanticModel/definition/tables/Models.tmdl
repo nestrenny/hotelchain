@@ -1,0 +1,72 @@
+table Models
+	lineageTag: 21b4f8e3-2a08-5774-95d5-a752fbb4811a
+
+	column 'Model Name'
+		dataType: string
+		lineageTag: 72bd8da4-eabe-5e83-a2a2-8108bb91badb
+		summarizeBy: none
+		sourceColumn: model_name
+
+	column Version
+		dataType: string
+		lineageTag: a9a72114-ac05-583c-ab47-2b750b0d698a
+		summarizeBy: none
+		sourceColumn: version
+
+	column Domain
+		dataType: string
+		lineageTag: 114c69f0-d6ea-5334-9a3f-4e75389cb690
+		summarizeBy: none
+		sourceColumn: domain
+
+	column 'Model Type'
+		dataType: string
+		lineageTag: 87d0b7ae-9cf5-5d1d-a95c-4290298c4c29
+		summarizeBy: none
+		sourceColumn: model_type
+
+	column Algorithm
+		dataType: string
+		lineageTag: 3dc911a0-5db5-58cf-9e44-7fe4849b6096
+		summarizeBy: none
+		sourceColumn: algorithm
+
+	column 'Metric Name'
+		dataType: string
+		lineageTag: 2b16c43b-c9df-5e24-982b-c24bf2644073
+		summarizeBy: none
+		sourceColumn: metric_name
+
+	column 'Metric Value'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d0b0a0be-bb1f-5550-abf3-d209cf3713f3
+		summarizeBy: none
+		sourceColumn: metric_value
+
+	column 'Baseline Value'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 2ed4a9c3-6c31-5fad-8670-b46d113b23e2
+		summarizeBy: none
+		sourceColumn: baseline_value
+
+	column 'Drift Status'
+		dataType: string
+		lineageTag: cbf451e8-c335-53cf-8596-1b3533c43ac9
+		summarizeBy: none
+		sourceColumn: drift_status
+
+	column 'Data Quality Status'
+		dataType: string
+		lineageTag: 00b5bd0f-d3e9-5fd4-8204-944c6594acbb
+		summarizeBy: none
+		sourceColumn: data_quality_status
+
+	partition Models = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\models.parquet"))
+				in
+				    Source

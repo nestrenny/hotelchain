@@ -1,0 +1,4 @@
+expression DataFolder = "C:\STC\LP 0 - General\claude\projects\hotelchain\powerbi\data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 68af4b64-8fe0-5106-b65d-1fbb7e6ce49b
+
+	annotation PBI_ResultType = Text

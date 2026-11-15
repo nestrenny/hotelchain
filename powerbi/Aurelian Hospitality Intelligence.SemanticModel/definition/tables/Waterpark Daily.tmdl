@@ -1,0 +1,80 @@
+table 'Waterpark Daily'
+	lineageTag: 4ba56144-93de-5e2f-9c41-798889cad909
+
+	measure Visitors = SUM('Waterpark Daily'[Visitors (base)])
+		formatString: #,0
+		lineageTag: c56d6a18-8f17-5dd0-a113-c5253ac7c53e
+
+	measure 'Ticket Revenue' = SUM('Waterpark Daily'[Net USD])
+		formatString: \$#,0
+		lineageTag: 71bf5672-6466-5eb0-bf9b-e768012662e6
+
+	measure 'Revenue per Visitor' = DIVIDE([Ticket Revenue], [Visitors])
+		formatString: \$#,0.00
+		lineageTag: 30d1e0dd-9736-544b-9b24-21f5f002d247
+
+	measure 'Capacity Utilisation' = DIVIDE([Visitors], SUM('Waterpark Daily'[Daily Capacity]))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0c2688ae-b631-5e90-afcc-7140dd2f7eb8
+
+	measure 'Average Queue (min)' = AVERAGE('Waterpark Daily'[Avg Queue Minutes])
+		formatString: #,0.0
+		lineageTag: c01f2e11-bf72-5d8c-bb86-1d65a8c8552d
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: f6f7c099-a67c-5fbb-aa5d-7008c86d1235
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: c552c0db-a2ba-58ae-8e40-1850def6cf9d
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Outlet Code'
+		dataType: string
+		isHidden
+		lineageTag: 60b29e78-f0fc-5375-aaae-a0e6d2723b3c
+		summarizeBy: none
+		sourceColumn: outlet_code
+
+	column 'Daily Capacity'
+		dataType: int64
+		formatString: 0
+		lineageTag: aad28474-fe0a-57fa-9d57-6b5914c2ac51
+		summarizeBy: none
+		sourceColumn: daily_capacity
+
+	column 'Visitors (base)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 27d8c558-6346-5881-8e6c-be2bd0e2c45a
+		summarizeBy: none
+		sourceColumn: visitors
+
+	column 'Net USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: dcbef524-e3e8-5e1a-8d40-42370d2b1aae
+		summarizeBy: none
+		sourceColumn: net_usd
+
+	column 'Avg Queue Minutes'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 8aa8ab57-c8f8-5919-b951-71955c3dd564
+		summarizeBy: none
+		sourceColumn: avg_queue_minutes
+
+	partition 'Waterpark Daily' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\waterpark_daily.parquet"))
+				in
+				    Source

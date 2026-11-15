@@ -1,0 +1,89 @@
+table 'Retail Sales'
+	lineageTag: ba20159b-de60-523c-9767-e67d31f69947
+
+	measure 'Retail Sales Value' = SUM('Retail Sales'[Net USD])
+		formatString: \$#,0
+		lineageTag: 601fb514-90a5-5bb8-a07f-883d6d91f10c
+
+	measure 'Retail Margin' = DIVIDE(SUM('Retail Sales'[Net USD]) - SUM('Retail Sales'[Cost USD]), SUM('Retail Sales'[Net USD]))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 512756f9-7373-5103-86a8-ee9f11006141
+
+	measure 'Units Sold' = SUM('Retail Sales'[Units])
+		formatString: #,0
+		lineageTag: 4c51c0e1-c46c-5ca8-a346-816e4b576325
+
+	measure 'Discount Rate' = DIVIDE(SUM('Retail Sales'[Discount USD]), SUM('Retail Sales'[Gross USD]))
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: cdd9813b-d9fb-54f8-a6b6-811c6b27d4d5
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: b98a9bca-1481-5e0c-8a2f-6328f6da33d7
+		summarizeBy: none
+		sourceColumn: date
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 557ef56e-a74c-5b59-9945-7d6d5b7ea2d6
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Outlet Code'
+		dataType: string
+		isHidden
+		lineageTag: ff3b055c-c382-5032-9442-092344ebd984
+		summarizeBy: none
+		sourceColumn: outlet_code
+
+	column Category
+		dataType: string
+		lineageTag: b7ae09b8-2b34-5bf9-a2d4-31356e95965b
+		summarizeBy: none
+		sourceColumn: category
+
+	column 'Net USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 4ecb027d-e7c4-5ef4-84d0-123a644caca6
+		summarizeBy: none
+		sourceColumn: net_usd
+
+	column 'Cost USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: ae7e8e77-4eb7-5fde-86bc-edcb468aa9c7
+		summarizeBy: none
+		sourceColumn: cost_usd
+
+	column 'Discount USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d8888f78-f8bc-5a93-8e79-8bfde975ce29
+		summarizeBy: none
+		sourceColumn: discount_usd
+
+	column 'Gross USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 69310390-62a0-5137-8260-39aac6304504
+		summarizeBy: none
+		sourceColumn: gross_usd
+
+	column Units
+		dataType: int64
+		formatString: 0
+		lineageTag: 08412c8f-cae6-580d-bd46-da05da444997
+		summarizeBy: none
+		sourceColumn: units
+
+	partition 'Retail Sales' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\retail_sales.parquet"))
+				in
+				    Source

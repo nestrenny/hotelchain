@@ -88,6 +88,8 @@ Not yet done: these models and findings live on this page only and are not in th
 |---|---|
 | [docs/Dashboard User Guide.docx](docs/Dashboard%20User%20Guide.docx) | 77-page guide to every dashboard, card, graph and table: what each shows, how it is calculated and how to read it. Also covers the AI Control Tower, the governance page, the KPI definitions and the roles. |
 | [docs/Leadership Briefing.pptx](docs/Leadership%20Briefing.pptx) | 14-slide deck with speaker notes for the leadership team: what was built, what it shows (including energy and asset predictions), its limits, the path to production and the decisions needed. |
+| [powerbi/](powerbi/README.md) | Offline Power BI report on the same data: nine pages, 28 tables, 81 measures. Open the `.pbip` file in Power BI Desktop and select Refresh. |
+| [docs/Database Schema.drawio](docs/Database%20Schema.drawio) | Logical schema of the reporting database for draw.io (diagrams.net): a fact-by-dimension matrix, then one entity-relationship page per subject area with keys and relationships. |
 | [docs/Platform Explainer.mp4](docs/Platform%20Explainer.mp4) | 4-minute narrated guided tour of the running app: seven hotel-industry problems and the screens that solve each one. The camera zooms to and highlights each area as it is described. Subtitles are in the matching `.srt` file. |
 | [docs/traceability.md](docs/traceability.md) | Requirement-by-requirement status against the SRS. |
 | [docs/Luxury Hotel Chain – Enterprise Data Analytics and AI Control Tower - Writing-block.md](docs/Luxury%20Hotel%20Chain%20%E2%80%93%20Enterprise%20Data%20Analytics%20and%20AI%20Control%20Tower%20-%20Writing-block.md) | The source requirements specification (SRS). |
@@ -163,6 +165,7 @@ web/        single-page client (no build step)
 tests/      acceptance tests
 tools/      regenerates the user guide, leadership deck and explainer video from the running app
 deploy/     free-tier Azure deployment for a public demo
+powerbi/    offline Power BI report (project files and Parquet data)
 docs/       SRS, traceability matrix, Dashboard User Guide, Leadership Briefing
 data/       generated: landing files, lakehouse, workflow database, model artefacts
 ```

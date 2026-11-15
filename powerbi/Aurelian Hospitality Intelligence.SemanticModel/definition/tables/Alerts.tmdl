@@ -1,0 +1,71 @@
+table Alerts
+	lineageTag: 2764e49f-7174-5a17-a44c-47edc45d8933
+
+	measure 'Open Alerts' = CALCULATE(COUNTROWS('Alerts'), 'Alerts'[Status] <> "Resolved")
+		formatString: #,0
+		lineageTag: a46f1bce-cc11-58bf-87ae-1d12bc40c349
+
+	measure 'Critical Alerts' = CALCULATE(COUNTROWS('Alerts'), 'Alerts'[Status] <> "Resolved", 'Alerts'[Severity] = "Critical")
+		formatString: #,0
+		lineageTag: 01f917cf-b9b0-5030-b86c-4f277ade1e4b
+
+	column 'Alert ID'
+		dataType: string
+		isHidden
+		lineageTag: 1b5616b4-d3fb-56bd-8407-c58493b9109b
+		summarizeBy: none
+		sourceColumn: alert_id
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 38a305f2-69f0-54b6-8e2e-cd1c2674d4b6
+		summarizeBy: none
+		sourceColumn: date
+
+	column Severity
+		dataType: string
+		lineageTag: 3c8dc906-dbd5-5294-9084-8a01e37a9b06
+		summarizeBy: none
+		sourceColumn: severity
+
+	column Category
+		dataType: string
+		lineageTag: bedfda43-020f-5421-aaa1-186c110cc306
+		summarizeBy: none
+		sourceColumn: category
+
+	column 'Business Vertical'
+		dataType: string
+		isHidden
+		lineageTag: cb41a2f8-cb19-5a44-8d80-f47308a68a8d
+		summarizeBy: none
+		sourceColumn: business_vertical
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: d4ac471f-7dee-5725-a026-9255f8189698
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column Title
+		dataType: string
+		lineageTag: 148cc5f2-872f-570d-8be7-8007d4910a7d
+		summarizeBy: none
+		sourceColumn: title
+
+	column Status
+		dataType: string
+		lineageTag: 4da56058-ea86-505d-b5f5-ade0b24b7868
+		summarizeBy: none
+		sourceColumn: status
+
+	partition Alerts = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\alerts.parquet"))
+				in
+				    Source

@@ -1,0 +1,101 @@
+table 'Contract Reminders'
+	lineageTag: 2eec49c6-bfd4-56a5-91d3-71877a9cb8b5
+
+	measure 'Contracts Needing Action' = COUNTROWS('Contract Reminders')
+		formatString: #,0
+		lineageTag: d6b7cedb-b3bc-5dfc-9a47-3221c8fba87a
+
+	measure 'Contract Annual Value' = SUM('Contract Reminders'[Annual Value USD])
+		formatString: \$#,0
+		lineageTag: 60529029-23e4-590c-870b-1a2f1fc5a02d
+
+	measure 'Repair Exposure' = SUM('Contract Reminders'[Failure Exposure USD])
+		formatString: \$#,0
+		lineageTag: 5d3a67d3-dbec-5258-8a88-d61d0bc588cb
+
+	column 'Contract Name'
+		dataType: string
+		lineageTag: 12f7acde-bce8-585b-b37b-0443ec5319c2
+		summarizeBy: none
+		sourceColumn: contract_name
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 7fe5606b-059a-5e86-803a-cf90ccd6ff63
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column 'Supplier Name'
+		dataType: string
+		lineageTag: 6fb84021-e64a-5967-87a9-34dae766eb63
+		summarizeBy: none
+		sourceColumn: supplier_name
+
+	column 'Covers (base)'
+		dataType: string
+		lineageTag: c4aa1967-c91d-5d20-91ef-e4a8f76da846
+		summarizeBy: none
+		sourceColumn: covers
+
+	column 'End Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 3f59000d-3537-5d23-ad4c-4a6656e70ada
+		summarizeBy: none
+		sourceColumn: end_date
+
+	column 'Days Left'
+		dataType: int64
+		formatString: 0
+		lineageTag: f3578e9c-484a-55ff-a8f8-32c359be8e73
+		summarizeBy: none
+		sourceColumn: days_left
+
+	column 'Notice Deadline'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 6c7a19e0-17ee-5dc1-a9f1-a407e30a0412
+		summarizeBy: none
+		sourceColumn: notice_deadline
+
+	column 'Annual Value USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 9629a058-a398-5459-9179-7e73782277dd
+		summarizeBy: none
+		sourceColumn: annual_value_usd
+
+	column 'Devices Covered'
+		dataType: int64
+		formatString: 0
+		lineageTag: 235d0f30-91d5-5177-8012-f7493dd68779
+		summarizeBy: none
+		sourceColumn: devices_covered
+
+	column 'Failure Exposure USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 3d2f4006-a989-5102-91e0-f782ff996aac
+		summarizeBy: none
+		sourceColumn: failure_exposure_usd
+
+	column Status
+		dataType: string
+		lineageTag: 311616d4-cadf-56db-b659-7fac3526b5fe
+		summarizeBy: none
+		sourceColumn: status
+
+	column Action
+		dataType: string
+		lineageTag: fd44347b-5742-5922-9f56-0a02f46cce09
+		summarizeBy: none
+		sourceColumn: action
+
+	partition 'Contract Reminders' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\contract_reminders.parquet"))
+				in
+				    Source

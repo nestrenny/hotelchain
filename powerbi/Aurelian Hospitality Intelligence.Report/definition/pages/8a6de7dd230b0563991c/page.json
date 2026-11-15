@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "8a6de7dd230b0563991c",
+  "displayName": "Retail and Spa",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

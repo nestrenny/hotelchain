@@ -37,6 +37,11 @@ def _money(v: float) -> str:
     return f"${v / 1e6:,.2f}M" if abs(v) >= 1e6 else f"${v / 1e3:,.0f}K" if abs(v) >= 1e4 else f"${v:,.0f}"
 
 
+def _n(count: int, noun: str) -> str:
+    """'1 device' or '14 devices'."""
+    return f"{count:,} {noun}{'' if count == 1 else 's'}"
+
+
 def energy_models(con, cfg, names, findings, models) -> None:
     rates = pd.DataFrame([{"property_id": k, **{x: v[x] for x in ("tariff_usd_kwh", "water_usd_m3", "carbon_kg_kwh")}} for k, v in cfg["properties"].items()])
     _save(con, "energy_rates", rates)
@@ -236,8 +241,8 @@ def device_models(con, cfg, names, findings, models) -> None:
 
     for pid, gp in out[out["risk_band"] == "High"].groupby("property_id"):
         crit = gp[gp["scope"] == "plant"]
-        findings.append(("Critical" if len(crit) else "High", "Predictive maintenance", pid, f"{names[pid]}: {len(gp)} device(s) likely to fail within 30 days" + (f", including {crit.iloc[0]['location']}" if len(crit) else ""),
-                         f"{(gp['device_type'].value_counts().head(3)).to_dict()}. Servicing them before failure avoids an estimated {_money(gp['cost_avoided_usd'].sum())} of repair cost and lost room nights.",
+        findings.append(("Critical" if len(crit) else "High", "Predictive maintenance", pid, f"{names[pid]}: {_n(len(gp), 'device')} likely to fail within 30 days" + (f", including {crit.iloc[0]['location']}" if len(crit) else ""),
+                         f"Most are: {', '.join(f'{t} ({k})' for t, k in gp['device_type'].value_counts().head(3).items())}. Servicing them before failure avoids an estimated {_money(gp['cost_avoided_usd'].sum())} of repair cost and lost room nights.",
                          float(gp["cost_avoided_usd"].sum()), None))
 
     # ---- replacement plan and capital forecast
@@ -249,8 +254,8 @@ def device_models(con, cfg, names, findings, models) -> None:
     _save(con, "capex_forecast", rp.groupby(["property_id", "quarter"]).agg(devices=("asset_id", "size"), capex_usd=("replacement_cost_usd", "sum")).reset_index())
     for pid, gp in rp.groupby("property_id"):
         topd = gp.groupby("device_type")["asset_id"].size().sort_values(ascending=False)
-        findings.append(("High" if gp["replacement_cost_usd"].sum() > 250000 else "Medium", "Replacement due", pid, f"{names[pid]}: {len(gp)} device(s) due for replacement, {_money(gp['replacement_cost_usd'].sum())} of capital",
-                         f"Mostly {topd.index[0].lower()} ({topd.iloc[0]}). Reasons: past design life and likely to fail, under six months of life left, or repeated repairs above half the replacement cost. Include in the next capital plan.",
+        findings.append(("High" if gp["replacement_cost_usd"].sum() > 250000 else "Medium", "Replacement due", pid, f"{names[pid]}: {_n(len(gp), 'device')} due for replacement, {_money(gp['replacement_cost_usd'].sum())} of capital",
+                         f"The largest group is {topd.index[0]} ({topd.iloc[0]:,}). Reasons: past design life and likely to fail, under six months of life left, or repeated repairs above half the replacement cost. Include in the next capital plan.",
                          None, None))
 
     # ---- warranty reminders

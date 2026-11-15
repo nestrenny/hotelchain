@@ -1,0 +1,121 @@
+table 'Device Risk'
+	lineageTag: 7db4061f-18c0-5fb5-9588-2aed2c8d5fbb
+
+	measure Devices = COUNTROWS('Device Risk')
+		formatString: #,0
+		lineageTag: fd58c2d4-eba2-5b09-b81f-4de0f1a06632
+
+	measure 'High-risk Devices' = CALCULATE(COUNTROWS('Device Risk'), 'Device Risk'[Risk Band] = "High")
+		formatString: #,0
+		lineageTag: c482a7fb-29f2-592d-a37d-450c134ba842
+
+	measure 'Expected Failures (30 days)' = SUM('Device Risk'[Failure Probability])
+		formatString: #,0.0
+		lineageTag: e0f7103e-06ad-56c8-8145-a331591bf42a
+
+	measure 'Devices Due for Replacement' = CALCULATE(COUNTROWS('Device Risk'), NOT ISBLANK('Device Risk'[Replace Reason]))
+		formatString: #,0
+		lineageTag: ef6abea4-832b-5858-8499-9f35f0ccee17
+
+	measure 'Replacement Cost' = CALCULATE(SUM('Device Risk'[Replacement Cost USD]), NOT ISBLANK('Device Risk'[Replace Reason]))
+		formatString: \$#,0
+		lineageTag: 265280cc-4e87-57fa-8445-1c44daef5280
+
+	column 'Asset ID'
+		dataType: string
+		isHidden
+		lineageTag: b831ce34-e731-5eed-9581-5a745dc1d35f
+		summarizeBy: none
+		sourceColumn: asset_id
+
+	column 'Property ID'
+		dataType: string
+		isHidden
+		lineageTag: 4209dc15-df5b-52af-a644-bae541b39899
+		summarizeBy: none
+		sourceColumn: property_id
+
+	column Location
+		dataType: string
+		lineageTag: f105a2fe-c326-51a0-a928-dd476c9dfc9e
+		summarizeBy: none
+		sourceColumn: location
+
+	column 'Device Type'
+		dataType: string
+		lineageTag: cfc573fd-57c9-50cb-bc70-281b7e8e9e23
+		summarizeBy: none
+		sourceColumn: device_type
+
+	column 'Age Years'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 0b28730b-2d42-566a-8021-9613f1cb5b46
+		summarizeBy: none
+		sourceColumn: age_years
+
+	column 'Failure Probability'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 496fbee2-8088-562f-be31-de28627db36e
+		summarizeBy: none
+		sourceColumn: failure_probability
+
+	column 'Risk Band'
+		dataType: string
+		lineageTag: cb85d445-151d-5260-bd16-d4c2d000c664
+		summarizeBy: none
+		sourceColumn: risk_band
+
+	column 'Remaining Life Months'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: cfbf3e33-88ec-520d-9a52-4f7e41bfb822
+		summarizeBy: none
+		sourceColumn: remaining_life_months
+
+	column 'Under Warranty'
+		dataType: boolean
+		lineageTag: 369b2be9-b719-5a74-8bdc-c9975d2f98ff
+		summarizeBy: none
+		sourceColumn: under_warranty
+
+	column 'Service Contract'
+		dataType: boolean
+		lineageTag: 95cf6b0a-efcf-5edb-8654-4015bac00166
+		summarizeBy: none
+		sourceColumn: service_contract
+
+	column 'Replace Reason'
+		dataType: string
+		lineageTag: 2aee950a-a3e9-5b61-9700-abaef6082ee7
+		summarizeBy: none
+		sourceColumn: replace_reason
+
+	column Action
+		dataType: string
+		lineageTag: 260bfbc5-50fc-58e6-9b75-69866987aa94
+		summarizeBy: none
+		sourceColumn: action
+
+	column 'Replacement Cost USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: aab66809-add3-5242-9430-aacc48a3601a
+		summarizeBy: none
+		sourceColumn: replacement_cost_usd
+
+	column 'Cost Avoided USD'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 0862cfbf-1c04-52ac-b6e1-1850b011f0f3
+		summarizeBy: none
+		sourceColumn: cost_avoided_usd
+
+	partition 'Device Risk' = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents(DataFolder & "\device_risk.parquet"))
+				in
+				    Source

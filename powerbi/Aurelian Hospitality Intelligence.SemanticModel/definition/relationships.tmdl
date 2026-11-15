@@ -1,0 +1,207 @@
+relationship 306de790-5cc9-5279-999a-ee8d3aebcf50
+	fromColumn: 'Executive Daily'.Date
+	toColumn: Date.Date
+
+relationship 5dd702dc-7492-5b74-803e-5b9791f27e3d
+	fromColumn: 'Executive Daily'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 94df7e70-c666-597e-bd40-06e9baa21d2a
+	fromColumn: 'Revenue by Vertical'.Date
+	toColumn: Date.Date
+
+relationship 82ddd5ee-1b03-54e2-a621-761809bcc71b
+	fromColumn: 'Revenue by Vertical'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 98d7961c-885c-50a3-a60a-ab7cf5bc18ed
+	fromColumn: 'Revenue by Vertical'.'Business Vertical'
+	toColumn: 'Business Vertical'.'Business Vertical'
+
+relationship a7cc39f4-f056-57f2-a874-c1a7ea6507b5
+	fromColumn: 'Room Occupancy'.Date
+	toColumn: Date.Date
+
+relationship b37af074-657e-5ee6-8e24-39c350fcb50f
+	fromColumn: 'Room Occupancy'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 6e43f6cb-7a9d-51a8-9cbc-106b0724be18
+	fromColumn: 'Room Occupancy'.'Room Type'
+	toColumn: 'Room Type'.'Room Type'
+
+relationship 9809d6f1-5e75-504d-b920-99238eeb6a88
+	fromColumn: 'Room Revenue'.Date
+	toColumn: Date.Date
+
+relationship 6600714a-f2da-5324-bc62-cb62a4fb957e
+	fromColumn: 'Room Revenue'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship ff5219fa-c40e-54d5-a701-3b7c82bbe60e
+	fromColumn: 'Room Revenue'.'Room Type'
+	toColumn: 'Room Type'.'Room Type'
+
+relationship 1ce2d90a-7f25-53ec-8239-d7a60f2740c1
+	fromColumn: 'Room Revenue'.Channel
+	toColumn: Channel.Channel
+
+relationship d9db69e3-08db-561b-9aec-bf46ea23dbb4
+	fromColumn: 'Restaurant Covers'.Date
+	toColumn: Date.Date
+
+relationship bfc5898f-bc17-56d3-9ca2-9d7b1a11273b
+	fromColumn: 'Restaurant Covers'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 10711c2a-7294-5685-b3e6-7ecc01d348f4
+	fromColumn: 'Restaurant Covers'.'Outlet Code'
+	toColumn: Outlet.'Outlet Code'
+
+relationship d175a0a8-6602-5c43-a357-2fce2606334a
+	fromColumn: 'Waterpark Daily'.Date
+	toColumn: Date.Date
+
+relationship a355fe10-f4fe-50b7-9c85-495a383fed93
+	fromColumn: 'Waterpark Daily'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 652fff99-ad50-5292-9dd3-f2c1eb1d4eee
+	fromColumn: 'Waterpark Daily'.'Outlet Code'
+	toColumn: Outlet.'Outlet Code'
+
+relationship cd4b8dbc-fed7-5c98-b4fa-9333df0dd896
+	fromColumn: 'Retail Sales'.Date
+	toColumn: Date.Date
+
+relationship 543e02e2-6a4b-5d0b-9807-6b7ba9c204e5
+	fromColumn: 'Retail Sales'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 92c0eb19-09da-5852-82d8-d756378aed3e
+	fromColumn: 'Retail Sales'.'Outlet Code'
+	toColumn: Outlet.'Outlet Code'
+
+relationship ed678133-6283-5f4e-96eb-93116c38b978
+	fromColumn: 'Spa Appointments'.Date
+	toColumn: Date.Date
+
+relationship fe5fc040-18ff-5633-9382-106163d29bfb
+	fromColumn: 'Spa Appointments'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 075184c2-eec0-5b8b-bda0-6c94cfc287b1
+	fromColumn: 'Spa Appointments'.'Outlet Code'
+	toColumn: Outlet.'Outlet Code'
+
+relationship 4ab43a9b-2124-57d8-ac1a-663881c19a0c
+	fromColumn: Marketing.Date
+	toColumn: Date.Date
+
+relationship 7c1aabdd-65f5-5f25-8d0d-b7082688fe30
+	fromColumn: Marketing.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 4acc3d29-2bca-55d1-a934-fc631e5e735c
+	fromColumn: Marketing.Channel
+	toColumn: Channel.Channel
+
+relationship 2b7f3d3c-fac6-59dd-b7b0-849b48c4d462
+	fromColumn: Finance.Date
+	toColumn: Date.Date
+
+relationship b0bc38bd-d312-5de3-bf2c-e9d029718e4d
+	fromColumn: Finance.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship c329ac0b-109b-574e-b1f8-a1be83324714
+	fromColumn: Finance.'Business Vertical'
+	toColumn: 'Business Vertical'.'Business Vertical'
+
+relationship 026133c9-082d-562c-9f23-fa4b2c563536
+	fromColumn: Finance.'Cost Centre'
+	toColumn: 'Cost Centre'.'Cost Centre'
+
+relationship 08c143aa-2abd-52b8-91de-7428dcaf0b73
+	fromColumn: Budget.Date
+	toColumn: Date.Date
+
+relationship 03a52718-1e0b-5a8a-b2de-5cfbd355cae7
+	fromColumn: Budget.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship b6841095-d148-59d1-824e-7f1745491812
+	fromColumn: Budget.'Business Vertical'
+	toColumn: 'Business Vertical'.'Business Vertical'
+
+relationship 4dabbf0c-4b71-5170-b36d-1cd646a7562f
+	fromColumn: Budget.'Cost Centre'
+	toColumn: 'Cost Centre'.'Cost Centre'
+
+relationship c3d6c257-a4d2-56b9-bcd8-812258d8e7c1
+	fromColumn: Forecasts.Date
+	toColumn: Date.Date
+
+relationship 0ab1786d-f384-5f5b-91b7-ce7d7e49bccd
+	fromColumn: Forecasts.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 3c41d161-3b23-59d2-a047-fc0be3209ae1
+	fromColumn: Recommendations.Date
+	toColumn: Date.Date
+
+relationship e89235dd-d6ef-5f53-8d7f-28884ac13355
+	fromColumn: Recommendations.'Business Vertical'
+	toColumn: 'Business Vertical'.'Business Vertical'
+
+relationship f6977a6d-9b84-5a0e-95aa-37e00a7171ab
+	fromColumn: Recommendations.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 39e17748-0aed-5f0d-9800-e308642cc9c9
+	fromColumn: Alerts.Date
+	toColumn: Date.Date
+
+relationship 58f2687c-c775-5fde-a061-51f6740b1ca1
+	fromColumn: Alerts.'Business Vertical'
+	toColumn: 'Business Vertical'.'Business Vertical'
+
+relationship 3e1c4a8c-79b1-5967-a666-78b967faa1aa
+	fromColumn: Alerts.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship f5578b81-6764-5955-9178-b1e5c9d927c7
+	fromColumn: 'Energy Daily'.Date
+	toColumn: Date.Date
+
+relationship 03f393c0-79c2-599c-8947-8d69bdfa3a8f
+	fromColumn: 'Energy Daily'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 149be60f-d096-570c-abb7-462439d1a55d
+	fromColumn: 'Energy End Use'.Date
+	toColumn: Date.Date
+
+relationship a2c51104-aa37-5d84-abc1-f988d11708ae
+	fromColumn: 'Energy End Use'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship ffc07bfd-bfec-5fbd-94ef-23e07785c496
+	fromColumn: 'Energy Forecast'.Date
+	toColumn: Date.Date
+
+relationship dae9c494-e6ce-5fc7-8de5-3fa98c839d98
+	fromColumn: 'Energy Forecast'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship f55cfb77-5dd3-561d-b896-a5478159aa7b
+	fromColumn: 'Device Risk'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship f69bc041-4164-5a0b-9ae9-665d8e78551a
+	fromColumn: 'Contract Reminders'.'Property ID'
+	toColumn: Property.'Property ID'
+
+relationship 91307f22-28fa-5ec4-b4e0-8d1014a14791
+	fromColumn: 'Energy Findings'.'Property ID'
+	toColumn: Property.'Property ID'
