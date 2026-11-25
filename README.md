@@ -55,6 +55,9 @@ Stop the web app before re-running the pipeline (the lakehouse file allows one w
 - **AI Control Tower**: Intelligence Overview, Forecasting Workspace (30/60/90 days, intervals, backtest accuracy,
   scenarios), Recommendations (approve, reject, implement, reassign, with history), Alert Management
   (acknowledge, assign, escalate, resolve), Model Monitoring.
+- **CxO Morning Report** (under Executive): the thirteen questions the executive team asks every morning, from how full the hotels were last night
+  to whether next month will be better or worse. Each is a card with the KPIs that answer it, a verdict (On track, Watch, Act now), a plain-language
+  answer and a suggested action. Verdicts follow written rules in `hip/api/morning.py`; each role sees only the questions for its own domains.
 - **Energy & Assets** (in the AI Control Tower menu): one page of AI predictions for engineering. Energy use against an expected baseline with a 30-day forecast,
   energy anomalies, vacant-room waste, peak-demand risk and water-leak detection; device failure prediction, estimated life left, spares and technician workload;
   and reminders for contracts, warranties and devices due for replacement. See [Energy & Assets](#energy--assets) below.
@@ -87,7 +90,7 @@ Not yet done: these models and findings live on this page only and are not in th
 | Document | What it is |
 |---|---|
 | [docs/Dashboard User Guide.docx](docs/Dashboard%20User%20Guide.docx) | 77-page guide to every dashboard, card, graph and table: what each shows, how it is calculated and how to read it. Also covers the AI Control Tower, the governance page, the KPI definitions and the roles. |
-| [docs/Leadership Briefing.pptx](docs/Leadership%20Briefing.pptx) | 14-slide deck with speaker notes for the leadership team: what was built, what it shows (including energy and asset predictions), its limits, the path to production and the decisions needed. |
+| [docs/Leadership Briefing.pptx](docs/Leadership%20Briefing.pptx) | 15-slide deck with speaker notes for the leadership team: what was built, what it shows (including the CxO morning report and energy and asset predictions), its limits, the path to production and the decisions needed. |
 | [powerbi/](powerbi/README.md) | Offline Power BI report on the same data: nine pages, 28 tables, 81 measures. Open the `.pbip` file in Power BI Desktop and select Refresh. |
 | [docs/Database Schema.drawio](docs/Database%20Schema.drawio) | Logical schema of the reporting database for draw.io (diagrams.net): a fact-by-dimension matrix, then one entity-relationship page per subject area with keys and relationships. |
 | [docs/Luxury Hotel Chain Platform Explainer.mp4](docs/Luxury%20Hotel%20Chain%20Platform%20Explainer.mp4) | 4-minute narrated guided tour of the running app: seven hotel-industry problems and the screens that solve each one. The camera zooms to and highlights each area as it is described. Subtitles are in the matching `.srt` file. |

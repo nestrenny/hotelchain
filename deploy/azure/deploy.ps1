@@ -1,9 +1,9 @@
-# Deploys the demo to Azure App Service on the FREE (F1) tier. Nothing in this script creates a paid resource:
+# Deploys the demo to Azure App Service. A new deployment uses the FREE (F1) tier and nothing in this script creates a paid resource:
 #   - one resource group        (free)
 #   - one Linux App Service plan, SKU F1 "Free"   (no charge; 60 CPU-minutes a day, 1 GB memory, 1 GB storage)
 #   - one web app on that plan  (free)
 # No database, storage account, container registry, Log Analytics, Fabric or Power BI capacity is created.
-# The script stops if the plan is not on the Free tier.
+# A new plan that does not come out on the Free tier stops the script. A plan you have scaled up yourself keeps its tier.
 #
 # Before running:  install the Azure CLI, then sign in with   az login
 # Usage:           .\deploy\azure\deploy.ps1 -AppName my-unique-name [-Location westeurope]
@@ -28,10 +28,19 @@ if ($LASTEXITCODE -ne 0) { throw "Package build failed" }
 Write-Host "2/5  Resource group $ResourceGroup in $Location"
 az group create --name $ResourceGroup --location $Location --output none
 
-Write-Host "3/5  App Service plan on the Free tier"
-az appservice plan create --name $Plan --resource-group $ResourceGroup --sku F1 --is-linux --output none
-$sku = az appservice plan show --name $Plan --resource-group $ResourceGroup --query "sku.tier" -o tsv
-if ($sku -ne "Free") { throw "The plan is on tier '$sku', not Free. Stopping so that nothing chargeable is used. Delete the resource group to clean up." }
+Write-Host "3/5  App Service plan"
+# A new plan is always created on the Free tier. An existing plan keeps whatever tier it is on: running
+# "plan create" again would silently move a plan that was scaled up back to Free.
+$planExists = az appservice plan list --resource-group $ResourceGroup --query "[?name=='$Plan'] | length(@)" -o tsv
+if ($planExists -ne "1") {
+    az appservice plan create --name $Plan --resource-group $ResourceGroup --sku F1 --is-linux --output none
+    $sku = az appservice plan show --name $Plan --resource-group $ResourceGroup --query "sku.tier" -o tsv
+    if ($sku -ne "Free") { throw "The new plan is on tier '$sku', not Free. Stopping so that nothing chargeable is used. Delete the resource group to clean up." }
+} else {
+    $sku = az appservice plan show --name $Plan --resource-group $ResourceGroup --query "sku.name" -o tsv
+    if ($sku -eq "F1") { Write-Host "     Existing plan, Free tier" }
+    else { Write-Warning "The existing plan is on the paid tier $sku and is billed by the hour. The tier is left unchanged." }
+}
 
 Write-Host "4/5  Web app $AppName"
 # The Free tier allows only about 15 app restarts an hour, and every settings change restarts the app,

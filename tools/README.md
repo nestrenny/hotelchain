@@ -17,7 +17,7 @@ powershell -ExecutionPolicy Bypass -File tools\render_office.ps1 -Docx "docs\Das
 - `build_deck.py` reads its figures live from the lakehouse and the API, writes a rough preview image per slide to
   `data/docs_build/render/slides/` and reports any text that would not fit its box. Charts in the deck are native
   PowerPoint charts and appear as outlined placeholders in those previews.
-- `render_office.ps1` uses Word to update the table of contents and export a review PDF. It runs Word in its own
+- `render_office.ps1` uses Word to update the table of contents and export a review PDF. The PDF step sometimes stalls; the script then warns, and the document itself is still saved with its contents updated. It runs Word in its own
   hidden process and does not touch PowerPoint.
 - `build_video.py` holds the storyline and narration in its `STORY` list: one line per shot, with the page, the area to focus on, the caption and
   the words spoken. It captures each page at full length, moves a virtual camera over it (zooming to and highlighting each focus area in time

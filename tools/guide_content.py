@@ -475,6 +475,57 @@ TOWER = {
     },
 }
 
+MORNING = {
+    "title": "CxO Morning Report", "who": "CEO, COO, CFO, Chief Commercial Officer and general managers",
+    "intro": "One page that answers the thirteen questions the executive team asks every morning. Each question is answered by the KPIs that measure it, "
+             "a verdict and the business action it points to, so every number on the page leads to a decision. It uses the same filters as the dashboards: "
+             "choose the properties, the period and the comparison at the top.",
+    "card": [
+        ("The number and question", "Each card is headed by one management question."),
+        ("The verdict", "On track (green), Watch (amber) or Act now (red), also shown as the coloured edge of the card. How it is reached is explained below."),
+        ("The KPI tiles", "The figures that answer the question, each with its change against the comparison period. Where a KPI has a management target, "
+                          "the tile says whether it is within or outside it. Hover over a KPI name for its governed definition."),
+        ("The answer", "One sentence that states what the figures say, and names the property that stands out where more than one is in view."),
+        ("What to do", "The business action the figures point to."),
+        ("Open the detail", "Opens the dashboard with the full detail behind the question."),
+    ],
+    "verdict": "Each KPI counts for the answer when it moved the right way by more than a small margin against the comparison period, and against it when it moved the wrong way: "
+               "half a percentage point for rates, 2% for amounts; smaller changes count as flat. The first KPI on each card counts twice. A clearly positive score is On track, "
+               "a clearly negative one is Act now, and anything in between is Watch. A KPI outside its target, or a specific problem such as a sharp rise in complaints, "
+               "holds the verdict at Watch even when the trend is good. The rules are deliberately simple and are written out in the platform, so every verdict can be explained.",
+    "targets": [("Food cost %", "35% or less"), ("Spa utilisation", "50% or more"), ("Payroll cost %", "35% or less"), ("Utilities cost %", "5% or less"), ("GOP margin", "30% or more")],
+    "questions": [
+        (1, "How full is my hotel today?", "Occupancy last night (the last day of the period) against the same night last year, and occupancy across the period.",
+         "Open targeted offers when rooms are going unsold, test higher rates when demand is strong, or check the next 14 nights when last night was soft but the period is ahead."),
+        (2, "Am I selling rooms at the right price?", "ADR (average rate per room sold) read together with occupancy.",
+         "Rate rising without losing volume is on track; rate falling while occupancy rises means discounting is buying volume; both falling calls for a pricing review."),
+        (3, "Am I generating enough room revenue?", "RevPAR (room revenue per available room) and total room revenue.",
+         "Names whether rate or occupancy is driving a fall, so the action follows from question 2 or question 1."),
+        (4, "How much revenue are my guests generating overall?", "TRevPAR (total revenue from every outlet per available room) and the share of revenue earned outside the room.",
+         "A falling non-room share calls for cross-selling restaurants, spa and waterpark at booking and check-in."),
+        (5, "Are restaurants performing well?", "Covers, average spend per guest and food cost % (target 35% or less).",
+         "Food cost above target calls for a supplier, recipe and portion review, starting with the property with the highest food cost; falling covers or spend calls for promotion or menu work."),
+        (6, "Is my waterpark operating efficiently?", "Attendance and capacity utilisation against licensed daily capacity. Shown only when a property with a waterpark is in view.",
+         "Days at 90% of capacity or more call for timed entry and extra staff; falling attendance calls for weekday ticket offers."),
+        (7, "Is my spa generating sufficient revenue?", "Therapist utilisation (target 50% or more) and revenue per treatment hour.",
+         "Unsold therapist time calls for quiet-hour offers and packages; falling revenue per hour calls for promoting longer treatments."),
+        (8, "Is my retail business profitable?", "Gross margin and inventory turnover (annualised).",
+         "A falling margin points to unapproved discounting; slow turnover or a large value of slow-moving stock calls for clearance and smaller reorders."),
+        (9, "Are guests satisfied?", "NPS, GSS (the share of surveyed guests rating their stay 4 or 5 out of 5) and complaints logged by guest relations per 100 checked-out stays.",
+         "A complaint category that rises sharply at one property is named, with a request for a root-cause review; falling scores call for a review of survey comments."),
+        (10, "Are marketing campaigns effective?", "Marketing ROI, ROAS (attributed revenue per dollar spent) and CAC (cost of acquiring a new customer).",
+         "Channels that lost money are named, with the advice to move their budget to the best-returning channel."),
+        (11, "Am I controlling operating costs?", "CPOR (Rooms department cost per occupied room), payroll cost % (target 35% or less) and utilities cost % (target 5% or less), with operating cost against budget.",
+         "Rising payroll calls for rosters aligned with the occupancy forecast; rising utilities points to the Energy & Assets page; rising CPOR to housekeeping productivity."),
+        (12, "Is the hotel profitable?", "GOP, GOP margin (target 30% or more) and GOPPAR, with GOP against budget.",
+         "A property with a margin below 20% is named for a recovery plan; GOP more than 3% below budget calls for a Finance review of the gap."),
+        (13, "Will next month be better or worse?", "Forecast occupancy, ADR, revenue and GOP for the next calendar month, each against the same month last year.",
+         "Separates weaker demand (secure group and corporate business, lighter rosters) from demand that holds while profit falls (review the cost plan)."),
+    ],
+    "roles": "Each role sees only the questions for the business domains it can access: a revenue manager sees the rooms, guest and forecast questions for their hotel, "
+             "a food and beverage director only the restaurants question. The page is hidden from roles with none of these domains.",
+}
+
 DRAWERS = [
     ("drawer_recommendation", "The recommendation detail panel",
      "Opens when a recommendation is selected. It carries everything needed to decide: the problem or opportunity, the recommended action, the figures and model output behind it, "

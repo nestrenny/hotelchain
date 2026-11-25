@@ -217,11 +217,11 @@ class Guide:
         self.h1("About this guide")
         self.p("The Hospitality Intelligence Platform brings data from the hotel, restaurant, waterpark, retail, spa, marketing, finance and building systems into one place. "
                "It presents that data in three groups of pages, listed in the left-hand menu:")
-        self.bullets([("Performance.", "Eight dashboards that report what has happened: one for the executive team and one for each business domain."),
+        self.bullets([("Performance.", "Eight dashboards that report what has happened, one for the executive team and one for each business domain, and the CxO Morning Report that answers the thirteen daily management questions."),
                       ("AI Control Tower.", "Six pages that look ahead: forecasts, energy and equipment predictions, recommended actions, alerts and the health of the models behind them."),
                       ("Platform.", "Where the data came from and whether it can be trusted, and a record of who approved or exported what.")])
-        self.p("Chapter 2 explains the controls and conventions that are the same on every page. Chapters 3 to 10 take each dashboard in turn, first its cards and then each graph and table. "
-               "Chapters 11 to 17 cover the AI Control Tower and the governance page. The appendices list the governed KPI definitions and what each role can see.")
+        self.p("Chapter 2 explains the controls and conventions that are the same on every page. Chapter 3 covers the Executive dashboard and chapter 4 the CxO Morning Report. Chapters 5 to 11 take each domain dashboard in turn, first its cards and then each graph and table. "
+               "Chapters 12 to 18 cover the AI Control Tower and the governance page. The appendices list the governed KPI definitions and what each role can see.")
         self.note("All amounts are shown in US dollars, the reporting currency. Local-currency amounts are converted at the daily exchange rate on the transaction date.")
 
         self.h1("Finding your way around")
@@ -268,6 +268,32 @@ class Guide:
         self.p("On a narrow screen the menu collapses behind the button at the top left, the filters stack, cards form two columns and every graph takes the full width.", keep=True)
         self.img("mobile_executive", 6.2, 11.5, photo=True, keep=False, alt="Executive dashboard on a phone")
 
+    def morning(self):
+        m = G.MORNING
+        self.h1(m["title"])
+        self.p(m["intro"])
+        self.p(m["who"] + ".", "Who uses it:")
+        self.img("morning_top", TEXT_W, 10.2, keep=False, alt="CxO Morning Report")
+        self.d.add_heading("How to read a question card", 2)
+        self.img("morning_q9", 12.5, 9.0, alt="Example question card: Are guests satisfied?")
+        self.bullets([(a + ".", b) for a, b in m["card"]])
+        self.d.add_heading("How the verdict is decided", 2)
+        self.p(m["verdict"])
+        self.table(["KPI", "Management target"], [list(x) for x in m["targets"]], [8.5, 8.5])
+        self.note("The targets are illustrative values for the prototype. In production they would come from the approved budget and brand standards.")
+        self.d.add_heading("The insights box", 2)
+        self.p("Above the cards, the left box counts how many questions are on track, to watch and needing action, and repeats every Act now item with its action. "
+               "The right box lists the highest-priority recommendations from the AI Control Tower.")
+        self.d.add_heading("The thirteen questions", 2)
+        for n, question, kpis, actions in m["questions"]:
+            self.d.add_heading(f"{n}. {question}", 3)
+            self.img(f"morning_q{n}", 12.5, 8.5, alt=f"Question card: {question}")
+            self.p(kpis, "KPIs.", after=2, keep=True)
+            self.p(actions, "What it can advise.", after=8)
+        self.d.add_heading("Who sees what", 2)
+        self.p(m["roles"])
+        self.p("Roles with export permission can download the whole report as a CSV file, one row per KPI with its question, verdict, answer and action.")
+
     def dashboards(self):
         for page in ["executive", "hotels", "restaurants", "waterpark", "retail", "spa", "marketing", "finance"]:
             title, who, intro = G.INTRO[page]
@@ -284,6 +310,8 @@ class Guide:
             spec = SPANS[page]
             for i, (t, content) in enumerate(zip(titles, G.PANELS[page])):
                 self.panel(t, f"{page}_p{i}", content, spec[i] >= 7)
+            if page == "executive":
+                self.morning()
 
     def tower(self):
         for page in ["tower", "energy", "forecasting", "recommendations", "alerts", "models", "platform"]:

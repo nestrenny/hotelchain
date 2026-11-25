@@ -301,3 +301,10 @@ def test_morning_report_follows_role_access(client):
     assert client.get("/api/dashboard/morning", headers=H("eng")).status_code == 403
     assert "morning" not in client.get("/api/meta", headers=H("eng")).json()["pages"]
     assert "morning" in client.get("/api/meta", headers=H("rev_como")).json()["pages"]
+
+
+def test_page_shell_fingerprints_scripts_so_deployments_are_picked_up(client):
+    r = client.get("/")
+    assert r.status_code == 200 and r.headers["cache-control"] == "no-cache"
+    assert 'src="js/app.js?v=' in r.text and 'href="css/app.css?v=' in r.text
+    assert client.get("/js/app.js").headers["cache-control"] == "no-cache"

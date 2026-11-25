@@ -53,6 +53,20 @@ def main() -> None:
                 titles.append(el.locator("h3").first.inner_text())
             index[name] = {"blocks": items, "panels": titles}
             print(f"{name:<16}{len(titles):>3} panels  {items}")
+        # CxO morning report: the whole page, the summary and every question card
+        page.goto(BASE + "morning")
+        page.reload()
+        page.wait_for_selector(".mq-card", timeout=20000)
+        page.wait_for_function("!document.querySelector('#content').hasAttribute('aria-busy')", timeout=20000)
+        page.wait_for_timeout(700)
+        page.screenshot(path=str(OUT / "morning_top.png"))
+        page.locator(".insights").first.screenshot(path=str(OUT / "morning_insights.png"))
+        cards = page.locator(".mq-card")
+        for i in range(cards.count()):
+            cards.nth(i).scroll_into_view_if_needed()
+            cards.nth(i).screenshot(path=str(OUT / f"morning_q{i + 1}.png"))
+        index["morning"] = {"cards": cards.count()}
+        print(f"morning         {cards.count():>3} cards")
         # filter bar, a tooltip, and the detail drawers
         page.goto(BASE + "hotels")
         page.reload()

@@ -1,4 +1,4 @@
-"""Build docs/Leadership Briefing.pptx - a 14-slide deck for the leadership team.
+"""Build docs/Leadership Briefing.pptx - a 15-slide deck for the leadership team.
 
 Figures are read live from the lakehouse and the running app, so the deck always matches the
 platform. Also writes a rough preview image per slide and reports any text that would not fit.
@@ -281,6 +281,7 @@ def facts() -> dict:
                        WHERE business_date BETWEEN DATE '{ex['period']['start']}' AND DATE '{ex['period']['end']}' GROUP BY 1 ORDER BY 2 DESC"""),
         "kpis": q("SELECT count(*) FROM ops.kpi_glossary")[0][0],
         "energy": api("/dashboard/energy"),
+        "morning": {**api("/dashboard/morning"), "items": api("/dashboard/morning")["panels"][0]["items"]},
         "sup": q("SELECT estimated_impact_usd FROM gold.fact_ai_recommendations WHERE scenario = 'Supplier spend optimisation' ORDER BY 1 DESC LIMIT 1")[0][0],
     }
     c.close()
@@ -361,7 +362,29 @@ def build() -> None:
         D.text(8.75, y + 0.08, 3.8, 0.42, head, 17, True, NAVY)
         D.text(8.75, y + 0.5, 3.8, 0.52, body, 14, color=MUTED)
 
-    # 5 ---------------------------------------------------------------- 30 days
+    # 5 ---------------------------------------------------------------- morning report
+    mr = F["morning"]
+    cnt = mr["counts"]
+    D.slide("Every morning, thirteen questions answered on one page",
+            notes=f"This is the CxO Morning Report. It takes the thirteen questions the executive team asks every morning, from how full the hotels were last night to whether next month "
+                  f"will be better or worse, and answers each one with the KPIs that measure it, a verdict and a suggested action. For the last 30 days it shows {cnt['good']} questions on track, "
+                  f"{cnt['watch']} to watch and {cnt['bad']} needing action. The verdicts come from simple, written rules rather than a model, so each one can be explained. Targets shown are illustrative.")
+    D.pic("morning_q9", 0.6, 1.65, 5.6, 3.3, alt="Morning report card: Are guests satisfied?", top=True)
+    D.text(0.6, 5.1, 5.6, 0.36, "Each card: the question, its KPIs, a verdict, the answer and what to do", 13, True, NAVY, align="c")
+    for i, (key, label, colour) in enumerate([("good", "On track", GOOD), ("watch", "Watch", "B7791F"), ("bad", "Act now", BAD)]):
+        x = 6.6 + i * 2.06
+        D.card(x, 1.7, 1.9, 1.45)
+        D.text(x + 0.1, 1.75, 1.7, 0.85, str(cnt[key]), 40, True, colour, HEAD, align="c", anchor="m")
+        D.text(x + 0.1, 2.6, 1.7, 0.45, label, 15, True, INK, align="c")
+    acts = [i for i in mr["items"] if i["verdict"] == "bad"] + [i for i in mr["items"] if i["verdict"] == "watch"]
+    D.text(6.6, 3.35, 6.1, 0.4, "What the report says today", 16, True, NAVY)
+    for j, i in enumerate(acts[:3]):
+        y = 3.85 + j * 0.86
+        D.card(6.6, y, 6.1, 0.76, "FBE4E4" if i["verdict"] == "bad" else LIGHT)
+        D.text(6.75, y + 0.04, 5.85, 0.68, [(i["question"], 12, True, NAVY, BODY), (i["action"], 11, False, INK, BODY)], anchor="m")
+    D.text(0.6, 6.45, 12.1, 0.4, "Synthetic data, last 30 days. Verdicts follow written rules; targets are illustrative.", 12, color=MUTED)
+
+    # 6 ---------------------------------------------------------------- 30 days
     per = F["period"]
     D.slide("The last 30 days at a glance",
             notes="These are the figures the platform reports for the most recent 30 days, compared with the 30 days before. They come from synthetic data, so read them as an illustration of what leadership will see, not as results. "
@@ -379,7 +402,7 @@ def build() -> None:
             '"$"0.0"M"', title="Revenue by property, last 30 days ($M)")
     D.text(0.6, 6.5, 12.1, 0.4, f"Synthetic data, {per['start']} to {per['end']}. Illustrates the view; not actual results.", 12, color=MUTED)
 
-    # 6 ---------------------------------------------------------------- domains
+    # 7 ---------------------------------------------------------------- domains
     D.slide("Each business domain gets its own working view",
             notes="Beyond the executive page there is a dashboard for each of the seven domains. Four examples: forward bookings against the occupancy forecast for revenue managers; queue times by attraction and hour for park operations; "
                   "menu items ranked by profit for food and beverage; and cost centres against budget for finance.")
@@ -390,7 +413,7 @@ def build() -> None:
         D.pic(shot, x, y, 5.95, 2.22, alt=cap, top=True)
         D.text(x, y + 2.25, 5.95, 0.36, cap, 13, True, NAVY, align="c")
 
-    # 7 ---------------------------------------------------------------- forecasts
+    # 8 ---------------------------------------------------------------- forecasts
     occ = next(r for r in F["fc"] if r[0] == "Hotel Occupancy Forecast")
     D.slide("Forecasts beat the simple baseline in every domain",
             notes=f"Each forecast was tested by hiding the last 90 days, forecasting them, and comparing with what happened. The chart shows the error for each model against a simple method that repeats last year's pattern. "
@@ -406,7 +429,7 @@ def build() -> None:
     D.text(9.4, 4.32, 3.1, 2.35, [("How to read this", 14, True, NAVY, BODY), ("Error is the average miss over a 90-day test. Shorter bars are better.", 14, False, INK, BODY),
                                    ("Measured on synthetic data.", 14, False, MUTED, BODY)])
 
-    # 8 ---------------------------------------------------------------- recommendations
+    # 9 ---------------------------------------------------------------- recommendations
     n, total, urgent = F["recs"]
     D.slide("Forecasts become prioritised, costed actions",
             notes=f"The platform does not stop at prediction. It has produced {n} recommendations with a combined estimated value of {money(total)}; {urgent} are rated critical or high. "
@@ -421,7 +444,7 @@ def build() -> None:
         D.text(8.95, y + 0.1, 3.6, 0.92, title, 14, color=INK, anchor="m")
     D.text(7.2, 6.05, 5.5, 0.75, f"{n} recommendations, {money(total)} estimated in total. Estimates use stated assumptions on synthetic data.", 13, color=MUTED)
 
-    # 9 ---------------------------------------------------------------- energy and assets
+    # 10 ---------------------------------------------------------------- energy and assets
     E = F["energy"]
     ek = {x["label"]: x for x in E["kpis"]}
     D.slide("It also predicts failures, energy waste and contract gaps",
@@ -453,7 +476,7 @@ def build() -> None:
         D.text(8.2, y + 0.03, 4.4, 0.5, a["title"].split(": ", 1)[-1][:1].upper() + a["title"].split(": ", 1)[-1][1:] + f" ({a['property']})", 12, color=INK, anchor="m")
     D.text(0.6, 6.55, 12.1, 0.35, "Synthetic data. Savings are estimates based on stated assumptions; findings are reminders for the engineering team.", 12, color=MUTED)
 
-    # 10 --------------------------------------------------------------- planted problems
+    # 11 --------------------------------------------------------------- planted problems
     D.slide("It found every problem we planted in the data",
             notes="To test whether the platform notices what matters, we deliberately hid four problems in the synthetic data. It found all four without being told where to look, and the automated tests assert this on every build. "
                   "This is the strongest evidence in the prototype that the detection logic works.")
@@ -471,7 +494,7 @@ def build() -> None:
         D.card(6.75, y, 5.95, 1.02, NAVY)
         D.text(6.95, y + 0.06, 5.55, 0.9, b, 15, color=WHITE, anchor="m")
 
-    # 11 --------------------------------------------------------------- control
+    # 12 --------------------------------------------------------------- control
     D.slide("People stay in control of every decision",
             notes="Nothing is executed automatically. A recommendation is reviewed with its evidence, then approved or rejected by an authorised person, and a rejection needs a reason. Once implemented, the realised impact is recorded, "
                   "so over time we can measure whether decisions paid off. Every step is written to an audit trail, and guest data is pseudonymised with marketing consent respected.")
@@ -486,7 +509,7 @@ def build() -> None:
     D.pic("drawer_recommendation", 7.3, 1.62, 5.4, 4.5, alt="Recommendation detail with evidence and approval controls", top=True)
     D.text(7.3, 6.2, 5.4, 0.62, "Every approval, rejection and export is recorded with who and when", 14, True, NAVY, align="c")
 
-    # 12 --------------------------------------------------------------- limits
+    # 13 --------------------------------------------------------------- limits
     D.slide("What this prototype does not yet prove",
             notes="To be clear about the limits. The data is synthetic, so model accuracy must be re-established on real data. Nothing has been deployed to Azure, Fabric or Power BI yet. Sign-in is simulated. "
                   "And data loads in batches, not every few minutes. None of these is a design obstacle, but each is work in the production build.")
@@ -500,7 +523,7 @@ def build() -> None:
         D.text(x + 1.0, y + 0.27, 4.7, 0.6, head, 22, True, NAVY, anchor="m")
         D.text(x + 1.0, y + 0.98, 4.7, 1.1, body, 16, color=INK)
 
-    # 13 --------------------------------------------------------------- roadmap
+    # 14 --------------------------------------------------------------- roadmap
     D.slide("The path from prototype to production",
             notes="These seven phases and durations come from the requirements specification. They are planning estimates, not a committed schedule, and phases can overlap. "
                   "The prototype shortens discovery and design because the data model, KPI definitions, dashboards and model approach already exist and have been tested.")
@@ -521,7 +544,7 @@ def build() -> None:
         D.text(x + 0.25, 5.17, 3.4, 1.3, body, 14, color=INK)
     D.text(0.6, 6.6, 12.1, 0.35, "Durations are planning estimates from the requirements specification, not a committed schedule. Phases may overlap.", 12, color=MUTED)
 
-    # 14 --------------------------------------------------------------- decisions
+    # 15 --------------------------------------------------------------- decisions
     D.slide("Four decisions we need from you", dark=True,
             notes="Four decisions. First, confirm the actual source systems at each property and grant access, because that determines the integration work. Second, adopt the KPI definitions as the enterprise standard. "
                   "Third, name a business owner for each domain who will approve recommendations. Fourth, fund discovery and the platform foundation. With those, the build can start.")

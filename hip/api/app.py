@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import os
 from contextlib import contextmanager
@@ -13,7 +14,7 @@ from datetime import date, timedelta
 import duckdb
 from fastapi import Body, Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from hip.api import tower, workflow
@@ -40,6 +41,9 @@ async def demo_headers(request, call_next):
     response = await call_next(request)
     if PUBLIC_DEMO:                      # a public demo of synthetic data should not be indexed by search engines
         response.headers["X-Robots-Tag"] = "noindex, nofollow"
+    if request.url.path.endswith((".js", ".css")):
+        # Browsers must check for a newer copy on every visit (a cheap ETag check), so a deployment is picked up at once.
+        response.headers["Cache-Control"] = "no-cache"
     return response
 
 
@@ -251,6 +255,20 @@ def hero():
     if not files:
         raise HTTPException(404)
     return FileResponse(files[0], headers={"Cache-Control": "max-age=86400"})
+
+
+ASSETS = ("css/app.css", "js/charts.js", "js/app.js")
+
+
+@app.get("/", include_in_schema=False)
+@app.get("/index.html", include_in_schema=False)
+def index():
+    """The page shell, with each script and stylesheet address stamped with a fingerprint of its content. A changed file
+    gets a new address, so no browser can keep running an old copy after a deployment."""
+    html = (WEB / "index.html").read_text(encoding="utf-8")
+    for rel in ASSETS:
+        html = html.replace(f'"{rel}"', f'"{rel}?v={hashlib.md5((WEB / rel).read_bytes()).hexdigest()[:10]}"')
+    return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
 
 
 app.mount("/", StaticFiles(directory=str(WEB), html=True), name="web")

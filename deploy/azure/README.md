@@ -13,7 +13,7 @@ your machine; Azure only serves the finished results.
 | Web app `<your name>.azurewebsites.net` | on the Free plan | Free |
 
 Nothing else is created: no database, storage account, container registry, Log Analytics, Fabric or Power BI.
-`deploy.ps1` checks that the plan is on the Free tier and stops if it is not.
+`deploy.ps1` creates a new plan on the Free tier and stops if it does not come out Free. If you scale an existing plan up yourself (for example to Basic B1, which removes the limits below and allows Always On), later deployments keep that tier and print a warning that it is billed by the hour. To return to Free, turn Always On off and scale the plan back to F1.
 
 An Azure subscription is still required, and Microsoft asks for a payment card to open one, even though these
 resources are not charged. A subscription allows one Free Linux plan per region.
