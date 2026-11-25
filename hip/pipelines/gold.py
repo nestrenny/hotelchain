@@ -57,6 +57,7 @@ TABLES: list[tuple[str, str]] = [
         SELECT property_id, stay_date AS business_date, room_type, channel, segment, count(*) AS room_nights, sum(revenue_local) AS room_revenue_local, sum(revenue_usd) AS room_revenue_usd
         FROM silver.room_night WHERE is_actual GROUP BY ALL"""),
     ("gold.fact_guest_feedback", "SELECT * FROM silver.guest_feedback"),
+    ("gold.fact_guest_complaints", "SELECT * FROM silver.guest_complaint"),
     # ------------------------------------------------------------------ restaurant facts
     ("gold.fact_restaurant_transactions", "SELECT * FROM silver.restaurant_line"),
     ("gold.fact_restaurant_covers", """
@@ -147,7 +148,7 @@ TABLES: list[tuple[str, str]] = [
 ]
 
 OWNERS = [  # dataset keyword -> (domain, data owner, data steward)
-    (("reservation", "room", "feedback"), ("Hotels", "VP Revenue Management", "Hotel Data Steward")),
+    (("reservation", "room", "feedback", "complaint"), ("Hotels", "VP Revenue Management", "Hotel Data Steward")),
     (("restaurant", "menu", "table_res", "pos_"), ("Restaurants", "VP Food & Beverage", "F&B Data Steward")),
     (("waterpark", "attraction", "park"), ("Waterpark", "VP Leisure Operations", "Leisure Data Steward")),
     (("retail", "inventory", "product"), ("Retail", "Director of Retail", "Retail Data Steward")),

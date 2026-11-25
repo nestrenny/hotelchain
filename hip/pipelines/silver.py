@@ -99,8 +99,14 @@ TABLES: list[tuple[str, str]] = [
                room_revenue_local / nights AS revenue_local, room_revenue_usd / nights AS revenue_usd
         FROM n WHERE stay_date >= {H} AND ((stay_date <= {A} AND status IN ('CHECKED_OUT', 'CHECKED_IN')) OR (stay_date > {A} AND status IN ('CHECKED_IN', 'RESERVED')))"""),
     ("silver.guest_feedback", """
-        SELECT r.reservation_id, r.property_id, r.guest_key, CAST(f.survey_date AS DATE) AS survey_date, CAST(f.nps_score AS INTEGER) AS nps_score
+        SELECT r.reservation_id, r.property_id, r.guest_key, CAST(f.survey_date AS DATE) AS survey_date, CAST(f.nps_score AS INTEGER) AS nps_score,
+               CAST(f.overall_satisfaction AS INTEGER) AS overall_satisfaction
         FROM bronze.crm_guest_feedback f JOIN silver.reservation r ON r.reservation_id = f.reservation_ref"""),
+    ("silver.guest_complaint", """
+        WITH d AS (SELECT *, row_number() OVER (PARTITION BY complaint_id ORDER BY _ingested_at DESC) AS rn FROM bronze.crm_guest_complaints)
+        SELECT d.complaint_id, r.reservation_id, r.property_id, r.guest_key, CAST(d.logged_date AS DATE) AS logged_date, d.category, d.severity,
+               CAST(d.hours_to_resolve AS DOUBLE) AS hours_to_resolve, CAST(d.resolved AS INTEGER) = 1 AS resolved
+        FROM d JOIN silver.reservation r ON r.reservation_id = d.reservation_ref WHERE d.rn = 1"""),
     # ---- restaurants ----
     ("silver.menu_item", "SELECT menu_item_code, outlet_code, item_name, category, CAST(list_price AS DOUBLE) AS list_price_local, currency FROM bronze.pos_menu_items"),
     ("silver.restaurant_line", f"""

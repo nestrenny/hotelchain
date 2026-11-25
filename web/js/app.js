@@ -162,9 +162,9 @@
       h("h2", null, state.meta.chain), h("p", null, `${state.meta.properties.length} properties in view · business date ${longDate(state.meta.as_of)} · reporting currency ${state.meta.reporting_currency}`))));
     root.appendChild(h("div", { class: "ctx" }, h("span", null, h("b", null, `${longDate(pr.start)} – ${longDate(pr.end)}`)), h("span", null, `compared with ${pr.compare_label} (${longDate(pr.compare_start)} – ${longDate(pr.compare_end)})`),
       h("span", null, spec.properties.length === state.meta.properties.length ? "All properties in your scope" : spec.properties.map(propName).join(", ")),
-      h("span", { class: "legend", style: "margin:0" }, h("span", null, h("i", { style: "border-color:var(--s1)" }), "Actual"), h("span", null, h("i", { class: "dash", style: "border-color:var(--ink-2)" }), "Budget"), h("span", null, h("i", { class: "dash", style: "border-color:var(--s2)" }), "Forecast")),
+      !spec.panels.some((x) => x.type === "line") ? null : h("span", { class: "legend", style: "margin:0" }, h("span", null, h("i", { style: "border-color:var(--s1)" }), "Actual"), h("span", null, h("i", { class: "dash", style: "border-color:var(--ink-2)" }), "Budget"), h("span", null, h("i", { class: "dash", style: "border-color:var(--s2)" }), "Forecast")),
       h("span", { class: "spacer" }), canExport && spec.kpis.length ? h("button", { class: "link-btn", onclick: () => exportPanel(name, -1) }, "Export KPIs") : null));
-    root.appendChild(h("div", { class: "kpis" }, spec.kpis.map((k) => kpiTile(k, pr.compare_label))));
+    if (spec.kpis.length) root.appendChild(h("div", { class: "kpis" }, spec.kpis.map((k) => kpiTile(k, pr.compare_label))));
     if (spec.insights.length || spec.recommendations.length || spec.actions) {
       root.appendChild(h("div", { class: "insights" },
         h("div", { class: "ins" }, h("h3", null, "AI-generated insights"), h("ul", null, spec.insights.map((i) => h("li", null, h("span", { class: "sym " + i.tone, "aria-hidden": "true" }, i.tone === "good" ? "▲" : i.tone === "bad" ? "▼" : "●"), h("span", null, i.text),
@@ -178,12 +178,34 @@
     spec.panels.forEach((p, i) => {
       if (p.type === "section") { grid.appendChild(h("div", { class: "span-12", style: "grid-column:span 12;margin-top:10px" }, h("h2", { style: "font-size:17px" }, p.title), h("div", { style: "color:var(--ink-2);font-size:12.5px" }, p.note))); return; }
       const action = canExport ? h("button", { class: "link-btn", onclick: () => exportPanel(name, i) }, "Export") : null;
+      if (p.type === "questions") { grid.appendChild(panel(p.title, 12, questions(p.items, spec.counts, pr.compare_label), { note: p.note, action })); return; }
       let body;
       if (p.type === "table") body = table(p.columns, p.rows, { maxHeight: 420, onRow: p.drill ? (r) => { if (r.property_id) { state.props = [r.property_id]; location.hash = "#/" + p.drill; if (p.drill === name) render(); } } : null });
       else body = chartEl(p.type, Object.assign({ label: p.title }, p));
       grid.appendChild(panel(p.title, p.span, body, { note: p.note, action }));
     });
     root.appendChild(grid);
+  }
+
+  // CxO morning report: one card per management question, with its KPIs, the verdict, the answer and the action
+  function questions(items, counts, cmpLabel) {
+    const cls = { good: "good", watch: "warn", bad: "crit" }, label = { good: "On track", watch: "Watch", bad: "Act now" };
+    const kpiBox = (k) => {
+      const d = delta(k);
+      return h("div", { class: "mq-kpi" },
+        h("div", { class: "l", title: k.definition || "" }, k.label),
+        h("div", { class: "v" }, fmt(k.value, k.fmt)),
+        h("div", { class: "d" }, d ? [h("span", { class: "chg " + d.cls }, d.sym + " " + d.txt), " vs " + (k.prev_label || cmpLabel)] : k.prev == null ? "" : "No change"),
+        k.target ? h("div", { class: "t " + (k.target.met === false ? "miss" : "met") }, `${k.target.met === false ? "Outside" : "Within"} target ${k.target.side === "max" ? "\u2264" : "\u2265"} ${fmt(k.target.value, k.fmt)}`) : null);
+    };
+    return h("div", null,
+      counts ? h("div", { class: "mq-sum" }, ["bad", "watch", "good"].map((v) => h("span", { class: "tag " + cls[v] }, `${counts[v]} ${label[v].toLowerCase()}`))) : null,
+      h("div", { class: "mq" }, items.map((i) => h("article", { class: "mq-card " + i.verdict, "aria-label": `${i.question} ${i.verdict_label}` },
+        h("div", { class: "mq-head" }, h("span", { class: "mq-n", "aria-hidden": "true" }, i.n), h("h4", null, i.question), h("span", { class: "tag " + cls[i.verdict] }, i.verdict_label)),
+        h("div", { class: "mq-kpis" }, i.kpis.map(kpiBox)),
+        h("p", { class: "mq-read" }, i.read),
+        h("div", { class: "mq-act" }, h("b", null, "What to do  "), i.action),
+        h("a", { class: "mq-link", href: i.link }, "Open the detail \u203A")))));
   }
 
   function findingDrawer(a) {
@@ -452,7 +474,7 @@
   }
 
   // ---------------------------------------------------------------- splash screen
-  const BLURB = { executive: "The whole group on one page", hotels: "Occupancy, rate and pickup", restaurants: "Covers, spend and menu profit", waterpark: "Attendance, capacity and queues",
+  const BLURB = { executive: "The whole group on one page", morning: "Thirteen questions, each with an answer and an action", hotels: "Occupancy, rate and pickup", restaurants: "Covers, spend and menu profit", waterpark: "Attendance, capacity and queues",
     retail: "Sales, margin and stock", spa: "Appointments and utilisation", marketing: "Campaigns, loyalty and value", finance: "Revenue, cost and profit",
     tower: "Outlook, exceptions and risk", energy: "Energy, devices and contracts", forecasting: "Forecasts with confidence ranges", recommendations: "Actions awaiting a decision",
     alerts: "Exceptions to resolve", models: "Accuracy, drift and versions", platform: "Sources, quality and lineage", audit: "Who decided what, and when" };
@@ -488,7 +510,7 @@
   }
 
   // ---------------------------------------------------------------- shell, navigation and routing
-  const NAV = [["Performance", [["executive", "Executive"], ["hotels", "Hotels"], ["restaurants", "Restaurants"], ["waterpark", "Waterpark"], ["retail", "Retail"], ["spa", "Spa & Leisure"], ["marketing", "Marketing & Loyalty"], ["finance", "Finance"]]],
+  const NAV = [["Performance", [["executive", "Executive"], ["morning", "CxO Morning Report"], ["hotels", "Hotels"], ["restaurants", "Restaurants"], ["waterpark", "Waterpark"], ["retail", "Retail"], ["spa", "Spa & Leisure"], ["marketing", "Marketing & Loyalty"], ["finance", "Finance"]]],
     ["AI Control Tower", [["tower", "Intelligence Overview"], ["energy", "Energy & Assets"], ["forecasting", "Forecasting Workspace"], ["recommendations", "Recommendations"], ["alerts", "Alert Management"], ["models", "Model Monitoring"]]],
     ["Platform", [["platform", "Data & Governance"], ["audit", "Audit Trail"]]]];
   const PAGES = { tower: towerOverview, forecasting, recommendations, alerts, models, platform, audit };

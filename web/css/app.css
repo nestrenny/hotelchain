@@ -171,3 +171,24 @@ body.splash-on #content { padding: 0; max-width: none; }
   .splash-rail { width: auto; max-height: none; position: static; align-self: stretch; }
 }
 @media (prefers-reduced-motion: reduce) { .splash-panel { animation: none; } }
+
+/* CxO morning report */
+.mq-sum { display: flex; gap: 8px; flex-wrap: wrap; margin: 2px 0 12px; }
+.mq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mq-card { border: 1px solid var(--border); border-left: 4px solid var(--muted); border-radius: 10px; padding: 12px 14px; background: var(--surface); display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.mq-card.good { border-left-color: var(--good); } .mq-card.watch { border-left-color: var(--warning); } .mq-card.bad { border-left-color: var(--critical); }
+.mq-head { display: flex; align-items: flex-start; gap: 10px; }
+.mq-head h4 { font-size: 15px; font-weight: 600; flex: 1; margin: 1px 0 0; line-height: 1.3; }
+.mq-n { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+.mq-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; }
+.mq-kpi { background: var(--surface-2); border-radius: 8px; padding: 7px 10px; min-width: 0; }
+.mq-kpi .l { font-size: 11.5px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mq-kpi .v { font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+.mq-kpi .d { font-size: 11.5px; color: var(--ink-2); }
+.mq-kpi .t { font-size: 11px; margin-top: 2px; font-weight: 600; } .mq-kpi .t.met { color: var(--good-ink); } .mq-kpi .t.miss { color: var(--critical-ink); }
+.mq-read { margin: 0; font-size: 13px; line-height: 1.45; }
+.mq-act { font-size: 13px; line-height: 1.45; background: var(--info-bg); border-radius: 8px; padding: 7px 10px; }
+.mq-act b { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin-right: 4px; }
+.mq-link { font-size: 12.5px; align-self: flex-start; margin-top: auto; }
+@media (max-width: 1100px) { .mq { grid-template-columns: 1fr; } }
+.mq-card:last-child:nth-child(odd) { grid-column: 1 / -1; }

@@ -19,10 +19,12 @@ from fastapi.staticfiles import StaticFiles
 from hip.api import tower, workflow
 from hip.api.dashboards import DASHBOARDS, Ctx
 from hip.api.energy import VERTICAL as ENERGY_VERTICAL, energy as energy_page
+from hip.api.morning import DOMAINS as MORNING_DOMAINS, morning
 from hip.api.security import Scope, clean, get_scope
 from hip.settings import AS_OF, HISTORY_START, IMG, LAKE, WEB, load
 
 DASHBOARDS["energy"] = (energy_page, ENERGY_VERTICAL)      # same page spec and renderer as the dashboards
+DASHBOARDS["morning"] = (morning, None)                   # each question is shown only to roles that can see its domain
 
 app = FastAPI(title="Aurelian Collection - Hospitality Intelligence Platform", docs_url="/api/docs", openapi_url="/api/openapi.json")
 
@@ -75,7 +77,7 @@ def meta(scope: Scope = Depends(get_scope)):
         props = con.execute("SELECT property_id, property_name, short_name, brand_name, region, country, city, currency, timezone, total_rooms, has_waterpark FROM gold.dim_property ORDER BY property_id").df()
         glossary = con.execute("SELECT * FROM ops.kpi_glossary").df()
         last = con.execute("SELECT max(finished_at) FROM ops.ingestion_log").fetchall()[0][0]
-    pages = ["executive"] + [name for name, (_, v) in DASHBOARDS.items() if v and v in scope.verticals]
+    pages = ["executive"] + [name for name, (_, v) in DASHBOARDS.items() if name != "executive" and (v in scope.verticals or (v is None and set(scope.verticals) & MORNING_DOMAINS))]
     return clean({"chain": cfg["chain"], "reporting_currency": cfg["reporting_currency"], "as_of": AS_OF, "history_start": HISTORY_START, "last_refresh": last,
                   "persona": scope.public(), "personas": [{k: p[k] for k in ("id", "name", "title", "scope")} for p in load("personas.json")["personas"]],
                   "properties": props[props["property_id"].isin(scope.properties)], "pages": pages, "glossary": glossary})
@@ -87,6 +89,8 @@ def build_dashboard(name: str, scope: Scope, properties: str | None, start: str 
     builder, vertical = DASHBOARDS[name]
     if vertical:
         scope.need_vertical(vertical)
+    if name == "morning" and not set(scope.verticals) & MORNING_DOMAINS:
+        raise HTTPException(403, f"{scope.persona['title']} has no access to the business domains in the morning report")
     s, e = period(start, end)
     with lake() as con:
         return builder(Ctx(con, scope, scope.props(properties), s, e, compare if compare in ("pp", "ly") else "pp"))
@@ -113,7 +117,10 @@ def export(name: str, panel: int, properties: str | None = None, start: str | No
         title = p["title"]
         if p["type"] == "section":
             raise HTTPException(404, "Section headings cannot be exported")
-        if p["type"] == "table":
+        if p["type"] == "questions":
+            cols = ["#", "Question", "Verdict", "KPI", "Value", "Comparison", "Answer", "Suggested action"]
+            rows = [[i["n"], i["question"], i["verdict_label"], x["label"], x["value"], x["prev"], i["read"], i["action"]] for i in p["items"] for x in i["kpis"]]
+        elif p["type"] == "table":
             cols, rows = [c["label"] for c in p["columns"]], [[r.get(c["key"]) for c in p["columns"]] for r in p["rows"]]
         elif p["type"] == "line":
             cols, rows = ["Date"] + [s["name"] for s in p["series"]], [[x] + [s["data"][i] for s in p["series"]] for i, x in enumerate(p["x"])]

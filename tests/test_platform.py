@@ -269,3 +269,35 @@ def test_energy_page_renders_and_respects_access(client, con):
     assert client.get("/api/dashboard/finance", headers=H("eng")).status_code == 403                     # engineering role cannot see finance
     gm = client.get("/api/dashboard/energy", headers=H("gm_dxb")).json()
     assert gm["properties"] == ["P003"] and all("Dubai Palm" in a["title"] for a in gm["actions"])
+
+
+# ----------------------------------------------------------------------------- CxO morning report
+def test_guest_experience_data_is_loaded(con):
+    n, linked = con.execute("SELECT count(*), count(guest_key) FROM gold.fact_guest_complaints").fetchall()[0]
+    assert n > 1000 and linked == n                           # every complaint is tied to a stay and a guest
+    assert con.execute("SELECT count(*) FILTER (WHERE overall_satisfaction NOT BETWEEN 1 AND 5) FROM gold.fact_guest_feedback").fetchone()[0] == 0
+    recent = dict(con.execute("""SELECT property_id, count(*) FROM gold.fact_guest_complaints WHERE category = 'Wi-Fi and in-room technology'
+                                 AND logged_date > DATE '2026-10-13' GROUP BY 1""").fetchall())
+    assert max(recent, key=recent.get) == "P006"               # the planted Singapore pattern
+
+
+def test_morning_report_answers_every_question_for_the_ceo(client):
+    s = client.get("/api/dashboard/morning", headers=H("ceo")).json()
+    items = s["panels"][0]["items"]
+    assert [i["n"] for i in items] == list(range(1, 14))
+    for i in items:
+        assert i["verdict"] in ("good", "watch", "bad") and i["read"] and i["action"] and i["link"].startswith("#/")
+        assert all(k["value"] is not None for k in i["kpis"]), i["question"]
+    labels = {k["label"] for i in items for k in i["kpis"]}
+    assert {"TRevPAR", "GSS", "Complaints per 100 stays", "ROAS", "CPOR", "Payroll cost %", "Utilities cost %", "Forecast GOP"} <= labels
+    assert sum(s["counts"].values()) == 13
+    guests = next(i for i in items if i["n"] == 9)
+    assert "Singapore" in guests["action"]                    # the planted complaint rise is named
+
+
+def test_morning_report_follows_role_access(client):
+    fb = client.get("/api/dashboard/morning", headers=H("fb_hkt")).json()
+    assert [i["n"] for i in fb["panels"][0]["items"]] == [5] and fb["properties"] == ["P005"]
+    assert client.get("/api/dashboard/morning", headers=H("eng")).status_code == 403
+    assert "morning" not in client.get("/api/meta", headers=H("eng")).json()["pages"]
+    assert "morning" in client.get("/api/meta", headers=H("rev_como")).json()["pages"]

@@ -842,6 +842,8 @@ def main() -> None:
                      round(qty * lp * (1.0 if RNG.random() > 0.01 else 1.08), 2), promised, promised + (int(RNG.integers(1, 9)) if late else 0), ccy[ppid[i]]))
     write(pd.DataFrame(rows, columns=["po_number", "po_date", "company_code", "supplier_id", "category", "item_description", "quantity", "unit_price", "invoice_id",
                                       "invoice_amount", "promised_days", "delivered_days", "currency"]), "erp/purchase_orders.csv")
+    from hip.synth import experience          # own random generator: the extracts above are unchanged
+    experience.main()
     print("Done.")
 
 
